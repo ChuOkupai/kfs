@@ -1,0 +1,9 @@
+version: '3'
+services:
+  alpine-make:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../src:/app/src
+    container_name: kfs
