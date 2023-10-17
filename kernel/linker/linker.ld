@@ -1,4 +1,9 @@
-ENTRY(_start)
+ENTRY(_start);
+SEARCH_DIR("=/usr/local/lib");
+SEARCH_DIR("=/lib");
+SEARCH_DIR("=/usr/lib");
+SEARCH_DIR("./link");
+SEARCH_DIR("./");
 SECTIONS
 {
 	. = 1M;
