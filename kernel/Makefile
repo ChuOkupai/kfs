@@ -1,6 +1,6 @@
 NAME	:= kernel.o
 # i686-elf-gcc
-CC		:= gcc -m32
+CC		?= gcc -m32
 CFLAGS	:= -std=gnu99 -ffreestanding -fno-builtin -fno-stack-protector -nostdlib -nodefaultlibs \
 		   -O2 -Wall -Wextra -I inc -MMD -MP
 SRC_DIR	:= src

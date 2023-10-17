@@ -1,6 +1,6 @@
 FROM debian:buster
 
-RUN apt-get update && apt-get install -y build-essential bison flex libgmp3-dev libmpc-dev libmpfr-dev texinfo wget
+RUN apt-get update && apt-get install -y build-essential bison flex libgmp3-dev libmpc-dev libmpfr-dev texinfo wget nasm
 
 RUN wget https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.gz \
 &&  tar -xzvf binutils-2.39.tar.gz \
