@@ -26,14 +26,41 @@ typedef enum e_vga_color {
 	VGA_COLOR_WHITE
 }	t_vga_color;
 
-inline uint8_t vga_entry_color(t_vga_color fg, t_vga_color bg) {
+typedef uint8_t t_vga_entry_color;
+typedef uint16_t t_vga_entry;
+
+/**
+ * Creates a VGA color entry by combining foreground and background colors.
+ * @param fg Foreground color.
+ * @param bg Background color.
+ * @return A VGA color entry.
+ */
+inline t_vga_entry_color vga_entry_color(t_vga_color fg, t_vga_color bg) {
 	return fg | bg << 4;
 }
 
-inline uint16_t vga_entry(unsigned char c, uint8_t color) {
-	return c | (uint16_t) color << 8;
+/**
+ * Creates a VGA entry by combining a character and a color.
+ * @param c Character.
+ * @param color Color.
+ * @return A VGA entry.
+ */
+inline t_vga_entry vga_entry(unsigned char c, t_vga_entry_color color) {
+	return c | (t_vga_entry) color << 8;
 }
 
-void vga_fill(char c, uint8_t color);
+/**
+ * Fills the VGA buffer with a given character and color.
+ * @param c The character to fill the buffer with.
+ * @param color The color to fill the buffer with.
+ */
+void vga_fill(char c, t_vga_entry_color color);
 
-void vga_put(char c, uint8_t color, size_t x, size_t y);
+/**
+ * Puts a character at a given position in the VGA buffer.
+ * @param c The character to put in the buffer.
+ * @param color The color of the character.
+ * @param x The x position of the character.
+ * @param y The y position of the character.
+ */
+void vga_put(char c, t_vga_entry_color color, size_t x, size_t y);
