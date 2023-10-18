@@ -1,7 +1,7 @@
-#include "terminal.h"
+#include "tty.h"
 #include "vga.h"
 
-void terminal_clear(t_terminal *t) {
+void tty_clear(t_tty *t) {
 	vga_fill(' ', t->screen.color);
 	t->screen.row = 0;
 	t->screen.column = 0;

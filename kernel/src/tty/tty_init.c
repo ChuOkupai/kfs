@@ -1,4 +1,4 @@
-#include "terminal.h"
+#include "tty.h"
 #include "vga.h"
 
 static inline void screen_init(t_screen *s) {
@@ -7,7 +7,7 @@ static inline void screen_init(t_screen *s) {
 	s->color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
 }
 
-void terminal_init(t_terminal *t) {
+void tty_init(t_tty *t) {
 	screen_init(&t->screen);
-	terminal_clear(t);
+	tty_clear(t);
 }

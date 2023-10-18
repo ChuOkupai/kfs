@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include "utils.h"
-#include "terminal.h"
+#include "tty.h"
 
 #if defined(__linux__)
 # error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -12,7 +12,7 @@
 
 void kernel_main()
 {
-	t_terminal buf;
-	terminal_init(&buf);
-	terminal_puts(&buf, "42");
+	t_tty buf;
+	tty_init(&buf);
+	tty_puts(&buf, "42");
 }

@@ -1,4 +1,4 @@
-#include "terminal.h"
+#include "tty.h"
 #include "vga.h"
 
 static inline void screen_putc(t_screen *s, char c) {
@@ -10,6 +10,6 @@ static inline void screen_putc(t_screen *s, char c) {
 	}
 }
 
-void terminal_putc(t_terminal *t, char c) {
+void tty_putc(t_tty *t, char c) {
 	screen_putc(&t->screen, c);
 }
