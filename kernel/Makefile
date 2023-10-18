@@ -1,23 +1,18 @@
 NAME	:= kernel.o
 CC		:= i686-elf-gcc
-LINKER	:= ./link/linker.ld
-CFLAGS	:= -std=gnu99 -m32 -ffreestanding -fno-builtin -fno-stack-protector -nostdlib -nodefaultlibs \
-		   -O2 -Wall -Wextra -I inc -I /usr/include -MMD -MP
+CFLAGS	:= -std=gnu11 -ffreestanding -nostdlib \
+		   -O2 -Wall -Wextra -I inc -MMD -MP
+LD		:= i686-elf-ld
 SRC_DIR	:= src
-LIBC	:= libc
 SRC		:= $(wildcard $(SRC_DIR)/*/*.c) $(wildcard $(SRC_DIR)/*.c)
 DEP		:= $(SRC:%.c=%.d)
 OBJ		:= $(SRC:%.c=%.o)
 
-$(NAME): $(OBJ) $(LIBC)
-	$(MAKE) -C $(LIBC)
-	mv libc/libc.a .
-	$(CC) $(CFLAGS) -c -o crt0.o linker/crt0.c
-	$(CC) -o $(NAME) $(OBJ) -L./ -lc
+$(NAME): $(OBJ)
+	$(LD) -r $^ -o $@
 
 clean:
-	$(RM) crt0.o crt0.d libc.a $(NAME) $(DEP) $(OBJ)
-	$(MAKE) -C $(LIBC) clean
+	$(RM) $(NAME) $(DEP) $(OBJ)
 
 .PHONY: clean
 

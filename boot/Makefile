@@ -1,9 +1,7 @@
-NAME := boot.o
-
-$(NAME): boot.asm
-	nasm -felf32 $< -o $@
+boot.o: boot.s
+	i686-elf-as $< -o $@
 
 clean:
-	$(RM) $(NAME)
+	$(RM) *.o
 
 .PHONY: clean

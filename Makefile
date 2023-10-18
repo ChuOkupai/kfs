@@ -1,26 +1,35 @@
-CC			= i686-elf-gcc
-DOXYGEN_DIR	:= doc/doxygen
+NAME		:= kfs.bin
+DOXYGEN_DIR	:= doc
+BOOT_DIR	:= boot
+BOOT		:= $(BOOT_DIR)/boot.o
+KERNEL_DIR	:= kernel
+KERNEL		:= $(KERNEL_DIR)/kernel.o
+LINKER		:= $(KERNEL_DIR)/linker.ld
+CC			:= i686-elf-gcc
+CFLAGS		:= -std=gnu11 -ffreestanding -nostdlib -O2
 
-all: docker boot kernel
+$(NAME): $(BOOT) $(KERNEL)
+	$(CC) $(CFLAGS) -T $(LINKER) -o $@ $^ -lgcc
 
-boot: force
-	docker exec -it kfs $(MAKE) -C boot CC=$(CC)
-
-doc:
-	mkdir -p $(DOXYGEN_DIR)
-	doxygen
-
-kernel: force
-	docker exec -it kfs $(MAKE) -C kernel CC=$(CC) 
-
-docker:
-	docker-compose -f docker up --build -d
+all: $(NAME)
 
 clean:
-	docker exec -it kfs $(MAKE) -C boot clean 
-	docker exec -it kfs $(MAKE) -C kernel clean 
+	$(MAKE) -C $(BOOT_DIR) clean
+	$(MAKE) -C $(KERNEL_DIR) clean
+	$(RM) $(NAME)
 	$(RM) -r $(DOXYGEN_DIR)
 
-force:
+doc:
+	doxygen
 
-.PHONY: all clean force
+docker:
+	docker-compose up --build -d
+	docker exec -it kfs make
+
+$(BOOT):
+	$(MAKE) -C $(BOOT_DIR)
+
+$(KERNEL):
+	$(MAKE) -C $(KERNEL_DIR)
+
+.PHONY: all clean doc docker

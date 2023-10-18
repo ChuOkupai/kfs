@@ -14,5 +14,5 @@ void kernel_main()
 {
 	t_terminal buf;
 	terminal_init(&buf);
-	terminal_puts(&buf, "Hello, World!\n");
+	terminal_puts(&buf, "42");
 }
