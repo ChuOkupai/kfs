@@ -1,6 +1,6 @@
 #include "tty.h"
 #include "utils.h"
 
-void tty_puts(t_tty *term, const char *s) {
-	tty_write(term, s, strlen(s));
+void tty_puts(const char *s) {
+	tty_write(s, strlen(s));
 }

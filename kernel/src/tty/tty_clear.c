@@ -1,8 +1,7 @@
-#include "tty.h"
-#include "vga.h"
+#include "private/tty.h"
 
-void tty_clear(t_tty *t) {
-	vga_fill(' ', t->screen.color);
-	t->screen.row = 0;
-	t->screen.column = 0;
+void tty_clear() {
+	vga_fill(' ', g_term->screen.color);
+	g_term->screen.row = 0;
+	g_term->screen.column = 0;
 }
