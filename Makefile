@@ -26,10 +26,13 @@ docker:
 	docker-compose up --build -d
 	docker exec -it kfs make
 
+run: docker
+	qemu-system-i386 -kernel $(NAME)
+
 $(BOOT):
 	$(MAKE) -C $(BOOT_DIR)
 
 $(KERNEL):
 	$(MAKE) -C $(KERNEL_DIR)
 
-.PHONY: all clean doc docker
+.PHONY: all clean doc docker run

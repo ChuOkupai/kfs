@@ -14,5 +14,6 @@ void kernel_main()
 {
 	t_tty buf;
 	tty_init(&buf);
+	tty_setcolor(&buf, vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_RED));
 	tty_puts(&buf, "42");
 }
