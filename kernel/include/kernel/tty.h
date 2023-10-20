@@ -13,6 +13,9 @@ typedef struct s_tty {
 	t_screen screen;
 }	t_tty;
 
+/** The global tty used by the kernel. */
+extern t_tty *g_term;
+
 /**
  * Clears the tty, resetting the cursor position to the top left.
  */

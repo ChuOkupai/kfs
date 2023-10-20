@@ -1,4 +1,4 @@
-#include <private/tty.h>
+#include <tty.h>
 
 static inline void screen_putc(t_screen *s, char c) {
 	vga_put(c, s->color, s->column, s->row);

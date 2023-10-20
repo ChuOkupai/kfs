@@ -1,4 +1,4 @@
-#include <private/tty.h>
+#include <tty.h>
 
 t_tty g_term_storage;
 t_tty *g_term = &g_term_storage;
