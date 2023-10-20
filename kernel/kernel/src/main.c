@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "utils.h"
+#include <string.h>
 #include "tty.h"
 
 #if defined(__linux__)

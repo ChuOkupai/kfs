@@ -1,4 +1,4 @@
-NAME		:= kfs.bin
+NAME		:= kfs.kernel
 DOXYGEN_DIR	:= doc
 LIBC_DIR	:= libc
 IFLAGS		:= -I./kernel/include/kernel/private/ -I/usr/include/ -I./kernel/include/kernel/ -I./libc/inc
