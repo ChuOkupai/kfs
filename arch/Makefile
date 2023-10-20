@@ -12,8 +12,8 @@ OBJ		:= $(SRC:%.c=%.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBRARY) $(BFRLIMK)
-	$(LD) -r $^ -o $@
+$(NAME): $(BFRLIMK) $(LIBRARY)
+	$(LD) -r -o $@ $< -L./ -lk
 
 $(LIBRARY):
 	$(MAKE) -C libc $(LIBRARY)
@@ -24,7 +24,7 @@ $(BFRLIMK):
 	mv kernel/kernel.o ./$(BFRLIMK)
 
 clean:
-	$(RM) $(LIBRARY) $(BFRLIMK) $(NAME)
+	$(RM) $(LIBRARY) $(BFRLIMK)
 	$(MAKE) -C kernel clean
 	$(MAKE) -C libc clean
 

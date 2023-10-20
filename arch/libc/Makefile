@@ -5,6 +5,7 @@ CFLAGS 	:= -std=gnu11 -ffreestanding -nostdlib \
 
 SRC_DIR	:= src
 SRC		:= $(wildcard $(SRC_DIR)/*/*.c) $(wildcard $(SRC_DIR)/*.c)
+DEP		:= $(SRC:%.c=%.d)
 OBJ		:= $(SRC:%.c=%.o)
 
 all: $(LIBRARY)
@@ -13,7 +14,7 @@ $(LIBRARY): $(OBJ)
 	ar rcs $@ $^
 
 clean:
-	rm -rf $(OBJ)
+	rm -rf $(OBJ) $(DEP)
 
 fclean: clean
 	rm -rf $(LIBRARY)

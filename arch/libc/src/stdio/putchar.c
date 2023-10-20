@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   putchar.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbondri <jbondri@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/20 18:57:20 by jbondri           #+#    #+#             */
+/*   Updated: 2023/10/20 18:59:18 by jbondri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "stdio.h"
 #include "tty.h"
- 
-int putchar(int ic) {
-	char    c;
 
-    c = (char) ic;
-    tty_write(&c, 1);
-	return ic;
+int	putchar(int ic)
+{
+	char	c;
+
+	c = (char) ic;
+	tty_write(&c, 1);
+	return (ic);
 }
