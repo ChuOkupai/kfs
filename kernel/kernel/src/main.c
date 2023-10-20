@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <string.h>
-#include "tty.h"
+#include <tty.h>
 
 #if defined(__linux__)
 # error "You are not using a cross-compiler, you will most certainly run into trouble"

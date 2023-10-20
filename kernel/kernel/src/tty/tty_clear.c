@@ -1,4 +1,4 @@
-#include "private/tty.h"
+#include <private/tty.h>
 
 void tty_clear() {
 	vga_fill(' ', g_term->screen.color);
