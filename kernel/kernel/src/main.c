@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <string.h>
+#include <keyboard.h>
 #include <tty.h>
 
 #if defined(__linux__)
@@ -13,5 +14,8 @@
 void kernel_main()
 {
 	tty_init();
-	tty_puts("42");
+	init_keyboard();
+	tty_puts("42\n");
+	while (1)
+		handle_keyboard_input();
 }
