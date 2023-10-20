@@ -8,12 +8,19 @@ SRC		:= $(wildcard $(SRC_DIR)/*/*.c) $(wildcard $(SRC_DIR)/*.c)
 DEP		:= $(SRC:%.c=%.d)
 OBJ		:= $(SRC:%.c=%.o)
 
+all: $(NAME)
+
 $(NAME): $(OBJ)
 	$(LD) -r $^ -o $@
 
 clean:
-	$(RM) $(NAME) $(DEP) $(OBJ)
+	$(RM) -rf $(DEP) $(OBJ)
 
-.PHONY: clean
+fclean:
+	$(RM) -rf $(NAME)
+
+re : fclean all
+
+.PHONY: clean fclean all re
 
 -include $(DEP)

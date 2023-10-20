@@ -1,7 +1,7 @@
 LIBRARY = libk.a
 CC		:= i686-elf-gcc
 CFLAGS 	:= -std=gnu11 -ffreestanding -nostdlib \
-		   -O2 -Wall -Wextra -I inc -I/usr/include/ -I../inc -MMD -MP
+		   -O2 -Wall -Wextra -I inc -I/usr/include/ -I../kernel/inc -MMD -MP
 
 SRC_DIR	:= src
 SRC		:= $(wildcard $(SRC_DIR)/*/*.c) $(wildcard $(SRC_DIR)/*.c)
@@ -13,6 +13,11 @@ $(LIBRARY): $(OBJ)
 	ar rcs $@ $^
 
 clean:
-	rm -rf $(OBJ) $(LIBRARY)
+	rm -rf $(OBJ)
 
-.PHONY: all clean
+fclean: clean
+	rm -rf $(LIBRARY)
+
+re : fclean all
+
+.PHONY: clean fclean all re
