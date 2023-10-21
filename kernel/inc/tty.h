@@ -1,7 +1,5 @@
 #pragma once
-#include <stddef.h>
-#include <stdint.h>
-#include "vga.h"
+#include <vga.h>
 
 typedef struct s_screen {
 	size_t row;
@@ -12,6 +10,9 @@ typedef struct s_screen {
 typedef struct s_tty {
 	t_screen screen;
 }	t_tty;
+
+/** The global tty used by the kernel. */
+extern t_tty *g_term;
 
 /**
  * Clears the tty, resetting the cursor position to the top left.
