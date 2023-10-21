@@ -28,6 +28,17 @@ void handle_keyboard_input() {
 		tty_putc('\n');
 	} else if (scancode < 0x80) {
 		// Key pressed
-		tty_puts("Key pressed\n");
+		if (scancode == 0x4B) {
+			tty_prev_workspace();
+			return;
+		} else if (scancode == 0x4D) {
+			tty_next_workspace();
+			return;
+		}
+		tty_puts("Key pressed: 0x");
+		char *b16 = "0123456789ABCDEF";
+		tty_putc(b16[scancode >> 4]);
+		tty_putc(b16[scancode & 0xF]);
+		tty_putc('\n');
 	}
 }

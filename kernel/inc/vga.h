@@ -5,6 +5,7 @@
 #define VGA_MEMORY	((uint16_t*)0xB8000)
 #define VGA_WIDTH	((size_t)80)
 #define VGA_HEIGHT	((size_t)25)
+#define VGA_BUFSIZE	(VGA_WIDTH * VGA_HEIGHT)
 
 /* Hardware text mode color constants. */
 typedef enum e_vga_color {

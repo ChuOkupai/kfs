@@ -1,7 +1,8 @@
 #include <tty.h>
 
 void tty_clear() {
-	vga_fill(' ', g_term->screen.color);
-	g_term->screen.row = 0;
-	g_term->screen.column = 0;
+	t_workspace *w = tty_get_current_workspace();
+	vga_fill(' ', w->color);
+	w->row = 0;
+	w->column = 0;
 }
