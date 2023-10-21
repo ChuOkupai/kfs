@@ -1,19 +1,30 @@
 NAME	:= kernel.o
+BOOT	:= boot.o
 CC		:= i686-elf-gcc
-CFLAGS	:= -std=gnu11 -ffreestanding -nostdlib \
-		   -O2 -Wall -Wextra -I inc -MMD -MP
+IFLAGS	:= -I inc -I../libc/inc -Iinclude/kernel -I/usr/include/
+CFLAGS	:= -std=gnu11 -nostdlib -O2 -Wall -Wextra $(IFLAGS) -MMD -MP
 LD		:= i686-elf-ld
-SRC_DIR	:= src
+SRC_DIR	:= kernel/src
 SRC		:= $(wildcard $(SRC_DIR)/*/*.c) $(wildcard $(SRC_DIR)/*.c)
 DEP		:= $(SRC:%.c=%.d)
 OBJ		:= $(SRC:%.c=%.o)
 
-$(NAME): $(OBJ)
+all: $(NAME)
+
+$(NAME): $(OBJ) $(BOOT)
 	$(LD) -r $^ -o $@
 
-clean:
-	$(RM) $(NAME) $(DEP) $(OBJ)
+$(BOOT): boot/boot.s
+	i686-elf-as $< -o $@
 
-.PHONY: clean
+clean:
+	$(RM) -rf $(DEP) $(OBJ) $(BOOT)
+
+fclean: clean
+	$(RM) -rf $(NAME)
+
+re : fclean all
+
+.PHONY: clean fclean all re
 
 -include $(DEP)

@@ -1,23 +1,28 @@
 NAME		:= kfs.bin
 DOXYGEN_DIR	:= doc
-BOOT_DIR	:= boot
-BOOT		:= $(BOOT_DIR)/boot.o
+LIBC_DIR	:= libc
+IFLAGS		:= -I./kernel/include/kernel/private/ -I/usr/include/ -I./kernel/include/kernel/ -I./libc/inc
+LIBC		:= $(libc)/libk.a
 KERNEL_DIR	:= kernel
 KERNEL		:= $(KERNEL_DIR)/kernel.o
-LINKER		:= $(KERNEL_DIR)/linker.ld
+LINKER		:= $(KERNEL_DIR)/boot/linker.ld
 CC			:= i686-elf-gcc
-CFLAGS		:= -std=gnu11 -ffreestanding -nostdlib -O2
+CFLAGS		:= -std=gnu11 -ffreestanding -nostdlib -O2 $(IFLAGS)
 
-$(NAME): $(BOOT) $(KERNEL)
-	$(CC) $(CFLAGS) -T $(LINKER) -o $@ $^ -lgcc
+$(NAME): $(KERNEL) $(LIBC)
+	$(CC) $(CFLAGS) -T $(LINKER) -o $@ $< -L $(LIBC_DIR) -lk
 
 all: $(NAME)
 
 clean:
-	$(MAKE) -C $(BOOT_DIR) clean
+	$(MAKE) -C $(LIBC_DIR) clean
 	$(MAKE) -C $(KERNEL_DIR) clean
+	$(RM) -r $(DOXYGEN_DIR) $(LIBC)
+
+fclean: clean
+	$(MAKE) -C $(LIBC_DIR) fclean
+	$(MAKE) -C $(KERNEL_DIR) fclean
 	$(RM) $(NAME)
-	$(RM) -r $(DOXYGEN_DIR)
 
 doc:
 	doxygen
@@ -29,10 +34,12 @@ docker:
 run: docker
 	qemu-system-i386 -kernel $(NAME)
 
-$(BOOT):
-	$(MAKE) -C $(BOOT_DIR)
+$(LIBC):
+	$(MAKE) -C $(LIBC_DIR)
 
 $(KERNEL):
 	$(MAKE) -C $(KERNEL_DIR)
 
-.PHONY: all clean doc docker run
+
+
+.PHONY: all clean fclean doc docker run re
