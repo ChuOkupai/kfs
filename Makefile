@@ -1,8 +1,8 @@
 NAME		:= kfs.bin
 DOXYGEN_DIR	:= doc
-LIBC_DIR	:= ./libc
+LIBC_DIR	:= libc
 IFLAGS		:= -I./kernel/include/kernel/private/ -I/usr/include/ -I./kernel/include/kernel/ -I./libc/inc
-LIBC		:= libk.a
+LIBC		:= $(libc)/libk.a
 KERNEL_DIR	:= kernel
 KERNEL		:= $(KERNEL_DIR)/kernel.o
 LINKER		:= $(KERNEL_DIR)/boot/linker.ld
@@ -10,7 +10,7 @@ CC			:= i686-elf-gcc
 CFLAGS		:= -std=gnu11 -ffreestanding -nostdlib -O2 $(IFLAGS)
 
 $(NAME): $(KERNEL) $(LIBC)
-	$(CC) $(CFLAGS) -T $(LINKER) -o $@ $< -L./ -lk
+	$(CC) $(CFLAGS) -T $(LINKER) -o $@ $< -L $(LIBC_DIR) -lk
 
 all: $(NAME)
 
@@ -36,7 +36,6 @@ run: docker
 
 $(LIBC):
 	$(MAKE) -C $(LIBC_DIR)
-	mv $(LIBC_DIR)/libk.a $@
 
 $(KERNEL):
 	$(MAKE) -C $(KERNEL_DIR)
