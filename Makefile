@@ -1,7 +1,7 @@
 NAME		:= kfs.kernel
 DOXYGEN_DIR	:= doc
 LIBC_DIR	:= libc
-IFLAGS		:= -I./kernel/include/kernel/private/ -I/usr/include/ -I./kernel/include/kernel/ -I./libc/inc
+IFLAGS		:= -I libc/inc -I kernel/inc -I /usr/include
 LIBC		:= $(libc)/libk.a
 KERNEL_DIR	:= kernel
 KERNEL		:= $(KERNEL_DIR)/kernel.o
@@ -31,6 +31,8 @@ docker:
 	docker-compose up --build -d
 	docker exec -it kfs make
 
+re: fclean docker
+
 run: docker
 	qemu-system-i386 -kernel $(NAME)
 
@@ -40,6 +42,4 @@ $(LIBC):
 $(KERNEL):
 	$(MAKE) -C $(KERNEL_DIR)
 
-
-
-.PHONY: all clean fclean doc docker run re
+.PHONY: all clean fclean doc docker re run

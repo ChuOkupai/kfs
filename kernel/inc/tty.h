@@ -1,6 +1,4 @@
 #pragma once
-#include <stddef.h>
-#include <stdint.h>
 #include <vga.h>
 
 typedef struct s_screen {

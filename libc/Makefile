@@ -1,6 +1,6 @@
 LIBRARY = libk.a
 CC		:= i686-elf-gcc
-IFLAGS	:= -I inc -I/usr/include/ -I../kernel/include/kernel/
+IFLAGS	:= -I inc -I ../kernel/inc -I /usr/include
 CFLAGS 	:= -std=gnu11 -ffreestanding -nostdlib -O2 -Wall $(IFLAGS) -Wextra -MMD -MP
 
 SRC_DIR	:= src
