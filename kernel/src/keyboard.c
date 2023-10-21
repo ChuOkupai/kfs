@@ -1,6 +1,6 @@
-#include "keyboard.h"
-#include "ps2.h"
-#include "tty.h"
+#include <keyboard.h>
+#include <ps2.h>
+#include <tty.h>
 
 void init_keyboard() {
 	init_ps2();
@@ -10,18 +10,16 @@ void init_keyboard() {
 }
 
 void handle_keyboard_input() {
-	static uint8_t shift_pressed = 0;
 	static uint8_t caps_lock = 0;
 
 	uint8_t scancode = read_ps2_data();
 
 	if (scancode == 0x2A || scancode == 0x36) {
 		// Left or right shift pressed
-		shift_pressed = 1;
 		tty_puts("Shift pressed\n");
 	} else if (scancode == 0xAA || scancode == 0xB6) {
 		// Left or right shift released
-		shift_pressed = 0;
+		tty_puts("Shift released\n");
 	} else if (scancode == 0x3A) {
 		// Caps lock pressed
 		caps_lock = !caps_lock;
