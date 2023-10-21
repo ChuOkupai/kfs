@@ -1,5 +1,6 @@
 #include <string.h>
 #include <bitset.h>
+#include <pit.h>
 #include <tty.h>
 
 t_tty g_term_storage;
@@ -26,10 +27,25 @@ static inline void run_boot_sequence() {
 		0x7ff, 0, 0x7ff0000, 0, 0, 0, 0
 	};
 
+	pit_init(100000);
 	vga_fill(' ', vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_WHITE));
 	for (size_t i = 0; i < VGA_BUFSIZE; ++i)
 		if (bitset_is_set(boot_mask, i))
 			VGA_MEMORY[i] = vga_entry(' ', vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLACK));
+	pit_wait(100000);
+	for (size_t i = 0; i < VGA_BUFSIZE; ++i)
+		if (bitset_is_set(boot_mask, i))
+			VGA_MEMORY[i] = vga_entry(' ', vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_RED));
+	pit_wait(100000);
+	for (size_t i = 0; i < VGA_BUFSIZE; ++i)
+		if (bitset_is_set(boot_mask, i))
+			VGA_MEMORY[i] = vga_entry(' ', vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_GREEN));
+	pit_wait(100000);
+	for (size_t i = 0; i < VGA_BUFSIZE; ++i)
+		if (bitset_is_set(boot_mask, i))
+			VGA_MEMORY[i] = vga_entry(' ', vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_BLUE));
+	pit_wait(100000);
+	tty_clear();
 }
 
 void tty_init() {
