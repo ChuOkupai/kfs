@@ -87,6 +87,9 @@
 #define SCANCODE_F11				0x57
 #define SCANCODE_F12				0x58
 
+#define SCANCODE_ANTI_LEFT_SHIFT	0xAA
+#define SCANCODE_ANTI_RIGHT_SHIFT	0xB6
+
 #define MODIFIER_LEFT_SHIFT			0x01
 #define MODIFIER_RIGHT_SHIFT		0x02
 #define MODIFIER_LEFT_CTRL			0x04
@@ -95,14 +98,48 @@
 #define MODIFIER_RIGHT_ALT			0x20
 #define MODIFIER_CAPS_LOCK			0x40
 #define MODIFIER_NUM_LOCK			0x80
+
+#define SHORTCUTS_SEQUENCE			3
 #include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
+
+extern short	g_maj;
 
 struct	shortcut
 {
-	uint8_t code[3];
+	uint8_t code[SHORTCUTS_SEQUENCE];
 	void (*exec) (void);
 };
 
-void init_keyboard();
-void handle_keyboard_input();
-void shortcut_handler(uint8_t tab[3]);
+struct	keyaction
+{
+	uint8_t code;
+	void (*exec) (void);
+};
+
+enum	keyboardState
+{
+	KEYBOARDSTATE_NUMLOCK,
+	KEYBOARDSTATE_CAPSLOCK,
+	KEYBOARDSTATE_SHIFT,
+};
+
+//Majuscule Management
+void setmaj(int pos, bool value);
+bool getmaj(int pos);
+int compare_keyascii_units(const void *a, const void *b);
+
+//stack keys store
+uint8_t	pop_keys(uint8_t tab[SHORTCUTS_SEQUENCE]);
+uint8_t push_keys(uint8_t tab[SHORTCUTS_SEQUENCE], uint8_t value);
+void	organize_keys(uint8_t tab[SHORTCUTS_SEQUENCE]);
+bool	is_in_keys(uint8_t tab[SHORTCUTS_SEQUENCE], uint8_t value);
+uint8_t delete_stack_keys(uint8_t tab[SHORTCUTS_SEQUENCE], uint8_t value);
+
+bool	keyaction_handler(uint8_t code);
+
+void	init_keyboard();
+void	handle_keyboard_input();
+bool	shortcut_handler(uint8_t tab[SHORTCUTS_SEQUENCE]);
+bool	printable_handler(uint8_t code);

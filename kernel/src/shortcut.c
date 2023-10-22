@@ -5,30 +5,9 @@
 #include <sys/cdefs.h>
 #include <stddef.h>
 
-
-void zeroundeux(void)
-{
-	puts("shrtct 012");
-}
-void abc(void)
-{
-	puts("shrtct abc");
-}
 void ctrl1(void)
 {
 	puts("shrtct ctrl1");
-}
-void alt4(void)
-{
-	puts("shrtct alt4");
-}
-void wqf(void)
-{
-	puts("shrtct wqf");
-}
-void wqv(void)
-{
-	puts("shrtct wqv");
 }
 
 int compare_shortcuts(const void *a, const void *b)
@@ -36,54 +15,44 @@ int compare_shortcuts(const void *a, const void *b)
 	const struct shortcut	*actual = (const struct shortcut	*) a;
 	const struct shortcut	*ref = (const struct shortcut	*) b;
 
-	for (size_t i = 0; i < 3; i++)
+	for (size_t i = 0; i < SHORTCUTS_SEQUENCE; i++)
 	{
 		if (actual->code[i] != ref->code[i])
 			return (actual->code[i] - ref->code[i]);
 	}
 	return (0);
 }
-int aaa(const void *a, const void *b)
-{
-	(void)a;
-	(void)b;
-	return (-1);
-}
 
-void shortcut_handler(uint8_t tab[3])
+// function that handle shortcuts, use the example of ctrl+1, by adding a struct shortcut inside the shortcuts array
+
+bool shortcut_handler(uint8_t tab[SHORTCUTS_SEQUENCE])
 {
-	struct shortcut actual = {.code = {tab[0], tab[1], tab[2]}};
+	static struct shortcut actual = {0};
+	bool					diff = false;
 	struct shortcut *res = NULL;
-	struct shortcut	shortcuts[6] = {
+	struct shortcut	shortcuts[1] = {
 		{
 			.code = {SCANCODE_NULL, SCANCODE_LEFT_CTRL, SCANCODE_1},
 			.exec = ctrl1
 		},
-		{
-			.code = {SCANCODE_NULL, SCANCODE_LEFT_ALT, SCANCODE_4},
-			.exec = alt4
-		},
-		{
-			.code = {SCANCODE_0, SCANCODE_1, SCANCODE_2},
-			.exec = zeroundeux
-		},
-		{
-			.code = {SCANCODE_W, SCANCODE_Q, SCANCODE_F},
-			.exec = wqf
-		},
-		{
-			.code = {SCANCODE_W, SCANCODE_Q, SCANCODE_V},
-			.exec = wqv
-		},
-		{
-			.code = {SCANCODE_A, SCANCODE_B, SCANCODE_C},
-			.exec = abc
-		}
 	};
-	res = bsearch((void*)&actual, (void*)shortcuts, sizeof(shortcuts) / sizeof(shortcuts[0]),
-		sizeof(shortcuts[0]), compare_shortcuts);
+
+	for (int i = 0; i < SHORTCUTS_SEQUENCE; i++)
+	{
+		if (actual.code[i] == tab[i])
+			continue ;
+		diff = true;
+		actual.code[i] = tab[i];
+	}
+	if (!diff)
+		return (false);
+	res = bsearch((void*)&actual, (void*)shortcuts, sizeof(shortcuts) / sizeof(struct shortcut),
+		sizeof(struct shortcut), compare_shortcuts);
 	if (res)
+	{
 		res->exec();
-	return ;
+		return (true);
+	}
+	return (false);
 }
 
