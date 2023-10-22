@@ -1,6 +1,6 @@
 #include <tty.h>
 
-static inline void screen_putc(t_screen *s, char c) {
+static inline void workspace_putc(t_workspace *s, char c) {
 	if (c == '\n') {
 		s->column = 0;
 		if (++s->row == VGA_HEIGHT)
@@ -16,5 +16,5 @@ static inline void screen_putc(t_screen *s, char c) {
 }
 
 void tty_putc(char c) {
-	screen_putc(&g_term->screen, c);
+	workspace_putc(tty_get_current_workspace(), c);
 }
