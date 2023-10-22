@@ -7,11 +7,11 @@ void	init_keyboard() {
 	write_ps2_command(0xAE);
 }
 
-void	print_scancode(uint8_t code)
+void	print_scan_code(uint8_t code)
 {
 	char	hex[] = "0123456789abcdef";
 	
-	printf("scancode => 0x%c%c\n", hex[(code >> 4)], hex[(code & 0xf)]);
+	printf("scan_code => 0x%c%c\n", hex[(code >> 4)], hex[(code & 0xf)]);
 }
 
 void	handle_keyboard_input(void)

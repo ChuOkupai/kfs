@@ -12,8 +12,8 @@ void ctrl1(void)
 
 int compare_shortcuts(const void *a, const void *b)
 {
-	const struct shortcut	*actual = (const struct shortcut	*) a;
-	const struct shortcut	*ref = (const struct shortcut	*) b;
+	const struct s_shortcut	*actual = (const struct s_shortcut	*) a;
+	const struct s_shortcut	*ref = (const struct s_shortcut	*) b;
 
 	for (size_t i = 0; i < SHORTCUTS_SEQUENCE; i++)
 	{
@@ -23,14 +23,14 @@ int compare_shortcuts(const void *a, const void *b)
 	return (0);
 }
 
-// function that handle shortcuts, use the example of ctrl+1, by adding a struct shortcut inside the shortcuts array
+// function that handle shortcuts, use the example of ctrl+1, by adding a struct s_shortcut inside the shortcuts array
 
 bool shortcut_handler(uint8_t tab[SHORTCUTS_SEQUENCE])
 {
-	static struct shortcut actual = {0};
+	static struct s_shortcut actual = {0};
 	bool					diff = false;
-	struct shortcut *res = NULL;
-	struct shortcut	shortcuts[1] = {
+	struct s_shortcut *res = NULL;
+	struct s_shortcut	shortcuts[1] = {
 		{
 			.code = {SCANCODE_NULL, SCANCODE_LEFT_CTRL, SCANCODE_1},
 			.exec = ctrl1
@@ -46,8 +46,8 @@ bool shortcut_handler(uint8_t tab[SHORTCUTS_SEQUENCE])
 	}
 	if (!diff)
 		return (false);
-	res = bsearch((void*)&actual, (void*)shortcuts, sizeof(shortcuts) / sizeof(struct shortcut),
-		sizeof(struct shortcut), compare_shortcuts);
+	res = bsearch((void*)&actual, (void*)shortcuts, sizeof(shortcuts) / sizeof(struct s_shortcut),
+		sizeof(struct s_shortcut), compare_shortcuts);
 	if (res)
 	{
 		res->exec();

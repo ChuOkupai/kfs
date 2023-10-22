@@ -1,19 +1,19 @@
 #include <keyboard.h>
 #include <stdlib.h>
 
-short g_maj = 0;
+short g_modulator = 0;
 
-void setmaj(int pos, bool value)
+void set_modulator(int pos, bool value)
 {
     if (value)
-    	g_maj |= (1 << pos);
+    	g_modulator |= (1 << pos);
     else
-        g_maj &= ~(1 << pos);
+        g_modulator &= ~(1 << pos);
 }
 
-bool getmaj(int pos)
+bool get_modulator(int pos)
 {
-    return (g_maj >> pos) & 1;
+    return (g_modulator >> pos) & 1;
 }
 
 bool	printable_handler(uint8_t code)
@@ -28,9 +28,10 @@ bool	printable_handler(uint8_t code)
 	if (code > 0x53 || all[code] == NULL)
 		return (false);
 	actual = all[code];
-	if ((actual[2] == 'n' && getmaj(KEYBOARDSTATE_NUMLOCK)) ||
-		(actual[2] == 's' && getmaj(KEYBOARDSTATE_SHIFT)) ||
-		(actual[2] == 'c' && (getmaj(KEYBOARDSTATE_SHIFT) ^ getmaj(KEYBOARDSTATE_CAPSLOCK))))
+	if ((actual[2] == 'n' && get_modulator(KEYBOARDSTATE_NUMLOCK)))
+		return (false);
+	if ((actual[2] == 's' && get_modulator(KEYBOARDSTATE_SHIFT)) ||
+		(actual[2] == 'c' && (get_modulator(KEYBOARDSTATE_SHIFT) ^ get_modulator(KEYBOARDSTATE_CAPSLOCK))))
 		putchar(actual[1]);
 	else
 		putchar(actual[0]);

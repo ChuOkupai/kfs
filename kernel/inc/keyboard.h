@@ -104,21 +104,21 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-extern short	g_maj;
+extern short	g_modulator;
 
-struct	shortcut
+struct	s_shortcut
 {
 	uint8_t code[SHORTCUTS_SEQUENCE];
 	void (*exec) (void);
 };
 
-struct	keyaction
+struct	s_key_action
 {
 	uint8_t code;
 	void (*exec) (void);
 };
 
-enum	keyboardState
+enum	e_keyboard_state
 {
 	KEYBOARDSTATE_NUMLOCK,
 	KEYBOARDSTATE_CAPSLOCK,
@@ -126,8 +126,8 @@ enum	keyboardState
 };
 
 //Majuscule Management
-void setmaj(int pos, bool value);
-bool getmaj(int pos);
+void set_modulator(int pos, bool value);
+bool get_modulator(int pos);
 int compare_keyascii_units(const void *a, const void *b);
 
 //stack keys store
@@ -139,7 +139,7 @@ uint8_t delete_stack_keys(uint8_t tab[SHORTCUTS_SEQUENCE], uint8_t value);
 
 bool	keyaction_handler(uint8_t code);
 
-void	init_keyboard();
-void	handle_keyboard_input();
+void	init_keyboard(void);
+void	handle_keyboard_input(void);
 bool	shortcut_handler(uint8_t tab[SHORTCUTS_SEQUENCE]);
 bool	printable_handler(uint8_t code);

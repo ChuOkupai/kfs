@@ -7,27 +7,27 @@
 
 int compare_keyascii_units(const void *a, const void *b)
 {
-	const struct keyaction	*actual = (const struct keyaction	*) a;
-	const struct keyaction	*ref = (const struct keyaction	*) b;
+	const struct s_key_action	*actual = (const struct s_key_action	*) a;
+	const struct s_key_action	*ref = (const struct s_key_action	*) b;
 
 	return (actual->code - ref->code);
 }
 
-void keyboardState_Shift (void)
+void keyboard_state_shift (void)
 {
-	setmaj(KEYBOARDSTATE_SHIFT, !getmaj(KEYBOARDSTATE_SHIFT));
+	set_modulator(KEYBOARDSTATE_SHIFT, !get_modulator(KEYBOARDSTATE_SHIFT));
 	return ;
 }
 
-void keyboardState_Capslock (void)
+void keyboard_state_capslock (void)
 {
-	setmaj(KEYBOARDSTATE_CAPSLOCK, !getmaj(KEYBOARDSTATE_CAPSLOCK));
+	set_modulator(KEYBOARDSTATE_CAPSLOCK, !get_modulator(KEYBOARDSTATE_CAPSLOCK));
 	return ;
 }
 
-void keyboardState_Numslock (void)
+void keyboard_state_numslock (void)
 {
-	setmaj(KEYBOARDSTATE_NUMLOCK, !getmaj(KEYBOARDSTATE_NUMLOCK));
+	set_modulator(KEYBOARDSTATE_NUMLOCK, !get_modulator(KEYBOARDSTATE_NUMLOCK));
 	return ;
 }
 
@@ -43,9 +43,9 @@ void	enter_action(void)
 
 bool	keyaction_handler(uint8_t code)
 {
-	struct keyaction 	actual = {.code = code};
-	struct keyaction	*res;
-	struct keyaction	keyactions[7] = {
+	struct s_key_action 	actual = {.code = code};
+	struct s_key_action	*res;
+	struct s_key_action	keys_actions[8] = {
 		{
 			.code = SCANCODE_BACKSPACE,
 			.exec = backspace_action
@@ -56,28 +56,32 @@ bool	keyaction_handler(uint8_t code)
 		},
 		{
 			.code = SCANCODE_LEFT_SHIFT,
-			.exec = keyboardState_Shift
+			.exec = keyboard_state_shift
 		},
 		{
 			.code = SCANCODE_RIGHT_SHIFT,
-			.exec = keyboardState_Shift
+			.exec = keyboard_state_shift
 		},
 		{
 			.code = SCANCODE_CAPS_LOCK,
-			.exec = keyboardState_Capslock
+			.exec = keyboard_state_capslock
+		},
+		{
+			.code = SCANCODE_NUM_LOCK,
+			.exec = keyboard_state_numslock
 		},
 		{
 			.code = SCANCODE_ANTI_LEFT_SHIFT,
-			.exec = keyboardState_Shift
+			.exec = keyboard_state_shift
 		},
 		{
 			.code = SCANCODE_ANTI_RIGHT_SHIFT,
-			.exec = keyboardState_Shift
+			.exec = keyboard_state_shift
 		}
 	};
 
-	res = bsearch((void*)&actual, (void*)keyactions, sizeof(keyactions) / sizeof(struct keyaction),
-		sizeof(struct keyaction), compare_keyascii_units);
+	res = bsearch((void*)&actual, (void*)keys_actions, sizeof(keys_actions) / sizeof(struct s_key_action),
+		sizeof(struct s_key_action), compare_keyascii_units);
 	if (res)
 	{
 		res->exec();
