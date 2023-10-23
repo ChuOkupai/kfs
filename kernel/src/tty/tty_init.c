@@ -1,6 +1,6 @@
 #include <string.h>
 #include <bitset.h>
-#include <pit.h>
+#include <timer.h>
 #include <tty.h>
 
 t_tty g_term_storage;
@@ -14,7 +14,7 @@ static inline void workspace_init(t_workspace *s) {
 		s->buf[i] = vga_entry(' ', s->color);
 }
 
-static inline void run_boot_sequence() {
+static void run_frame(const t_vga_color c) {
 	// 42 in pixel art
 	const t_bitset boot_mask[BITSET_SIZE(VGA_BUFSIZE)] = {
 		0, 0, 0, 0x87ff8000, 0xfffff, 0xc0000000, 0xfcff81ff, 0xf,
@@ -26,26 +26,20 @@ static inline void run_boot_sequence() {
 		0x7ff0000, 0, 0, 0x7ff, 0, 0x7ff0000, 0, 0,
 		0x7ff, 0, 0x7ff0000, 0, 0, 0, 0
 	};
+	for (size_t i = 0; i < VGA_BUFSIZE; ++i)
+		if (bitset_is_set(boot_mask, i))
+			VGA_MEMORY[i] = vga_entry(' ', vga_entry_color(VGA_COLOR_BLACK, c));
+}
 
-	pit_init(100000);
+static inline void run_boot_sequence() {
+	timer_init();
 	vga_fill(' ', vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_WHITE));
-	for (size_t i = 0; i < VGA_BUFSIZE; ++i)
-		if (bitset_is_set(boot_mask, i))
-			VGA_MEMORY[i] = vga_entry(' ', vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLACK));
-	pit_wait(100000);
-	for (size_t i = 0; i < VGA_BUFSIZE; ++i)
-		if (bitset_is_set(boot_mask, i))
-			VGA_MEMORY[i] = vga_entry(' ', vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_RED));
-	pit_wait(100000);
-	for (size_t i = 0; i < VGA_BUFSIZE; ++i)
-		if (bitset_is_set(boot_mask, i))
-			VGA_MEMORY[i] = vga_entry(' ', vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_GREEN));
-	pit_wait(100000);
-	for (size_t i = 0; i < VGA_BUFSIZE; ++i)
-		if (bitset_is_set(boot_mask, i))
-			VGA_MEMORY[i] = vga_entry(' ', vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_BLUE));
-	pit_wait(100000);
-	tty_clear();
+	run_frame(VGA_COLOR_BLACK);
+	run_frame(VGA_COLOR_RED);
+	run_frame(VGA_COLOR_GREEN);
+	run_frame(VGA_COLOR_BLUE);
+	timer_wait(1000);
+	//tty_clear();
 }
 
 void tty_init() {
