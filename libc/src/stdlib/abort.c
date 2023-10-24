@@ -1,20 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   abort.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jbondri <jbondri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 19:01:34 by jbondri           #+#    #+#             */
-/*   Updated: 2023/10/20 19:05:48 by jbondri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <stdio.h>
 
-#include "stdlib.h"
-#include "stdio.h"
-
-void	abort(void)
-{
+void abort() {
 	printf("kernel: panic: abort()\n");
 	asm volatile ("hlt");
 }
