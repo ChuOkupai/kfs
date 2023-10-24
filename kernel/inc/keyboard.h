@@ -99,17 +99,19 @@
 #define MODIFIER_CAPS_LOCK			0x40
 #define MODIFIER_NUM_LOCK			0x80
 
-#define SHORTCUTS_SEQUENCE			3
+#define SHORTCUTS_MAX_LENGTH			3
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stddef.h>
 
 extern short	g_modulator;
 
 struct	s_shortcut
 {
-	uint8_t code[SHORTCUTS_SEQUENCE];
-	void (*exec) (void);
+	uint8_t *code;
+	size_t	size;
+	void	(*exec) (void);
 };
 
 struct	s_key_action
@@ -131,15 +133,15 @@ bool get_modulator(int pos);
 int compare_keyascii_units(const void *a, const void *b);
 
 //stack keys store
-uint8_t	pop_keys(uint8_t tab[SHORTCUTS_SEQUENCE]);
-uint8_t push_keys(uint8_t tab[SHORTCUTS_SEQUENCE], uint8_t value);
-void	organize_keys(uint8_t tab[SHORTCUTS_SEQUENCE]);
-bool	is_in_keys(uint8_t tab[SHORTCUTS_SEQUENCE], uint8_t value);
-uint8_t delete_stack_keys(uint8_t tab[SHORTCUTS_SEQUENCE], uint8_t value);
+uint8_t	pop_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH]);
+uint8_t push_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value);
+void	organize_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH]);
+bool	is_in_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value);
+uint8_t delete_stack_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value);
 
 bool	keyaction_handler(uint8_t code);
 
 void	init_keyboard(void);
 void	handle_keyboard_input(void);
-bool	shortcut_handler(uint8_t tab[SHORTCUTS_SEQUENCE]);
+bool	shortcut_handler(uint8_t tab[SHORTCUTS_MAX_LENGTH]);
 bool	printable_handler(uint8_t code);

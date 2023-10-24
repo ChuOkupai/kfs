@@ -7,16 +7,9 @@ void	init_keyboard() {
 	write_ps2_command(0xAE);
 }
 
-void	print_scan_code(uint8_t code)
-{
-	char	hex[] = "0123456789abcdef";
-	
-	printf("scan_code => 0x%c%c\n", hex[(code >> 4)], hex[(code & 0xf)]);
-}
-
 void	handle_keyboard_input(void)
 {
-	static uint8_t	on_pressed[SHORTCUTS_SEQUENCE] = {0};
+	static uint8_t	on_pressed[SHORTCUTS_MAX_LENGTH] = {0};
 	uint8_t 		scan_code = read_ps2_data();
 
 	if (scan_code > 0x80)
