@@ -16,5 +16,4 @@ void tty_init() {
 	g_term->current_workspace = 0;
 	for (size_t i = 0; i < MAX_WORKSPACES; ++i)
 		workspace_init(g_term->workspaces + i);
-	tty_clear();
 }
