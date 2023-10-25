@@ -137,21 +137,45 @@ enum	e_keyboard_state
 	KEYBOARDSTATE_SHIFT,
 };
 
-//Majuscule Management
-void set_modulator(int pos, bool value);
+/**
+ * Get the actual set of modulator (Shift, Numlock or Capslock) on the keyboard
+ * @param pos The modulator to check - a element of the e_keyboard_state enum
+*/
 bool get_modulator(int pos);
-int compare_keyascii_units(const void *a, const void *b);
 
-//stack keys store
-t_keyboard_key	pop_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH]);
-t_keyboard_key	push_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH], t_keyboard_key value);
-void			organize_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH]);
-bool			is_in_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH], t_keyboard_key value);
-t_keyboard_key	delete_stack_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH], t_keyboard_key value);
+/**
+ * Set the actual set of modulator (Shift, Numlock or Capslock) on the keyboard
+ * @param pos The modulator to check - a element of the e_keyboard_state enum
+ * @param value The value to be set
+*/
+void set_modulator(int pos, bool value);
 
+
+/**
+ * Initializes the keyboard
+*/
+void	init_keyboard(void);
+
+/**
+ * Manage special key from the keyboard
+ * @param code The last scancode catch
+*/
 bool	keyaction_handler(t_keyboard_key code);
 
-void	init_keyboard(void);
+/**
+ * Manage every keyboard_input
+ * This function is blocking.
+*/
 void	handle_keyboard_input(void);
+
+/**
+ * Manage special key from the keyboard
+ * @param tab The last combination of keys pressed
+*/
 bool	shortcut_handler(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH]);
+
+/**
+ * Manage special key from the keyboard
+ * @param code The last key catched
+*/
 bool	printable_handler(t_keyboard_key code);

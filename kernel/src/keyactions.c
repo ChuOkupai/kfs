@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-int compare_keyascii_units(const void *a, const void *b)
+static int compare_keyascii_units(const void *a, const void *b)
 {
 	const struct s_key_action	*actual = (const struct s_key_action	*) a;
 	const struct s_key_action	*ref = (const struct s_key_action	*) b;
