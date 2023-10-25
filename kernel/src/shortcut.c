@@ -11,7 +11,6 @@ int compare_shortcuts(const void *a, const void *b)
 	const struct s_shortcut	*actual = (const struct s_shortcut	*) a;
 	const struct s_shortcut	*ref = (const struct s_shortcut	*) b;
 
-
 	if (actual->size != ref->size)
 	{
 		if (actual->size < ref->size)
@@ -56,7 +55,6 @@ bool shortcut_handler(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH])
 		actual.code[++i] = tab[index_tab];
 	}
 	actual.size = ++i;
-
 	res = bsearch((void*)&actual, (void*)shortcuts, sizeof(shortcuts) / sizeof(struct s_shortcut),
 		sizeof(struct s_shortcut), compare_shortcuts);
 	if (res)

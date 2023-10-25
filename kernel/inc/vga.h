@@ -65,3 +65,14 @@ void vga_fill(char c, t_vga_entry_color color);
  * @param y The y position of the character.
  */
 void vga_put(char c, t_vga_entry_color color, size_t x, size_t y);
+
+/**
+ * Puts a rectangle of a given character and color at a given position in the VGA buffer.
+ * @param c The character to put in the buffer.
+ * @param color The color of the character.
+ * @param x The x position of the character.
+ * @param y The y position of the character.
+ * @param width The width of the rectangle.
+ * @param height The height of the rectangle.
+ */
+void vga_put_rect(char c, t_vga_entry_color color, size_t x, size_t y, size_t width, size_t height);
