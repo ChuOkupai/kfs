@@ -31,25 +31,16 @@ void keyboard_state_numslock (void)
 	return ;
 }
 
-void	backspace_action(void)
-{
-	printf("\nimplement backspace\n");
-}
-
 void	enter_action(void)
 {
 	putchar('\n');
 }
 
-bool	keyaction_handler(uint8_t code)
+bool	keyaction_handler(t_keyboard_key code)
 {
 	struct s_key_action 	actual = {.code = code};
 	struct s_key_action	*res;
-	struct s_key_action	keys_actions[8] = {
-		{
-			.code = SCANCODE_BACKSPACE,
-			.exec = backspace_action
-		},
+	struct s_key_action	keys_actions[9] = {
 		{
 			.code = SCANCODE_ENTER,
 			.exec = enter_action
@@ -79,7 +70,6 @@ bool	keyaction_handler(uint8_t code)
 			.exec = keyboard_state_shift
 		}
 	};
-
 	res = bsearch((void*)&actual, (void*)keys_actions, sizeof(keys_actions) / sizeof(struct s_key_action),
 		sizeof(struct s_key_action), compare_keyascii_units);
 	if (res)

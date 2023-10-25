@@ -4,11 +4,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-uint8_t pop_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH])
+t_keyboard_key pop_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH])
 {
 	if (SHORTCUTS_MAX_LENGTH < 1)
 		return SCANCODE_NULL;
-	uint8_t value = tab[SHORTCUTS_MAX_LENGTH - 1];
+	t_keyboard_key value = tab[SHORTCUTS_MAX_LENGTH - 1];
 	for(int i = SHORTCUTS_MAX_LENGTH - 1; i >= 0; i--)
 	{
 		if (i == 0)
@@ -19,7 +19,7 @@ uint8_t pop_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH])
 	return (value);
 }
 
-uint8_t push_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value)
+t_keyboard_key push_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH], t_keyboard_key value)
 {
 	if (SHORTCUTS_MAX_LENGTH < 1)
 		return SCANCODE_NULL;
@@ -33,7 +33,7 @@ uint8_t push_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value)
 	return (value);
 }
 
-void organize_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH])
+void organize_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH])
 {
 	for (int i = SHORTCUTS_MAX_LENGTH; i >= 0; i--)
 	{
@@ -45,7 +45,7 @@ void organize_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH])
 	}
 }
 
-bool is_in_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value)
+bool is_in_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH], t_keyboard_key value)
 {
 	for (int i = SHORTCUTS_MAX_LENGTH - 1; i >= 0; i--)
 	{
@@ -55,7 +55,7 @@ bool is_in_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value)
 	return (false);
 }
 
-uint8_t delete_stack_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value)
+t_keyboard_key delete_stack_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH], t_keyboard_key value)
 {
 	for (size_t i = 0; i < SHORTCUTS_MAX_LENGTH; i++)
 	{

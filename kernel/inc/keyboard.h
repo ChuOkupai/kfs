@@ -90,6 +90,14 @@
 #define SCANCODE_ANTI_LEFT_SHIFT	0xAA
 #define SCANCODE_ANTI_RIGHT_SHIFT	0xB6
 
+#define SCANCODE_UP_ARROW			0xFF48
+#define SCANCODE_UP_SCROLL			0xFF49
+#define SCANCODE_RIGHT_ARROW		0xFF4B
+#define SCANCODE_LEFT_ARROW			0xFF4D
+#define SCANCODE_DOWN_ARROW			0xFF50
+#define SCANCODE_DOWN_SCROLL		0xFF51
+
+#define SCANCODE_MODIFIER			0xe0
 #define MODIFIER_LEFT_SHIFT			0x01
 #define MODIFIER_RIGHT_SHIFT		0x02
 #define MODIFIER_LEFT_CTRL			0x04
@@ -105,19 +113,21 @@
 #include <stdio.h>
 #include <stddef.h>
 
+typedef uint16_t t_keyboard_key;
+
 extern short	g_modulator;
 
 struct	s_shortcut
 {
-	uint8_t *code;
-	size_t	size;
-	void	(*exec) (void);
+	t_keyboard_key 		*code;
+	size_t				size;
+	void				(*exec) (void);
 };
 
 struct	s_key_action
 {
-	uint8_t code;
-	void (*exec) (void);
+	t_keyboard_key		code;
+	void				(*exec) (void);
 };
 
 enum	e_keyboard_state
@@ -133,15 +143,15 @@ bool get_modulator(int pos);
 int compare_keyascii_units(const void *a, const void *b);
 
 //stack keys store
-uint8_t	pop_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH]);
-uint8_t push_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value);
-void	organize_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH]);
-bool	is_in_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value);
-uint8_t delete_stack_keys(uint8_t tab[SHORTCUTS_MAX_LENGTH], uint8_t value);
+t_keyboard_key	pop_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH]);
+t_keyboard_key	push_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH], t_keyboard_key value);
+void			organize_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH]);
+bool			is_in_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH], t_keyboard_key value);
+t_keyboard_key	delete_stack_keys(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH], t_keyboard_key value);
 
-bool	keyaction_handler(uint8_t code);
+bool	keyaction_handler(t_keyboard_key code);
 
 void	init_keyboard(void);
 void	handle_keyboard_input(void);
-bool	shortcut_handler(uint8_t tab[SHORTCUTS_MAX_LENGTH]);
-bool	printable_handler(uint8_t code);
+bool	shortcut_handler(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH]);
+bool	printable_handler(t_keyboard_key code);
