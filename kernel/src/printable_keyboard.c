@@ -16,7 +16,7 @@ bool get_modulator(int pos)
     return (g_modulator >> pos) & 1;
 }
 
-bool	printable_handler(uint8_t code)
+bool	printable_handler(t_keyboard_key code)
 {
 	char	*actual;
 	char	*all[85] = {NULL, NULL, "1!s", "2@s", "3#s", "4$s", "5%s", "6^s", "7&s",
