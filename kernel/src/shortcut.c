@@ -30,7 +30,7 @@ bool shortcut_handler(t_keyboard_key tab[SHORTCUTS_MAX_LENGTH])
 	int							index_tab = -1;
 	int							i = -1;
 	struct s_shortcut 			*res = NULL;
-	struct s_shortcut			shortcuts[3] = {
+	struct s_shortcut			shortcuts[] = {
 		{
 			.code = (t_keyboard_key[]) {SCANCODE_LEFT_CTRL, SCANCODE_C},
 			.size = 2,
