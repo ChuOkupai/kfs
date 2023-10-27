@@ -40,7 +40,7 @@ bool	keyaction_handler(t_keyboard_key code)
 {
 	struct s_key_action 	actual = {.code = code};
 	struct s_key_action	*res;
-	struct s_key_action	keys_actions[9] = {
+	struct s_key_action	keys_actions[] = {
 		{
 			.code = SCANCODE_ENTER,
 			.exec = enter_action
