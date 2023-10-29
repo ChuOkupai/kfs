@@ -76,3 +76,10 @@ void vga_put(char c, t_vga_entry_color color, size_t x, size_t y);
  * @param height The height of the rectangle.
  */
 void vga_put_rect(char c, t_vga_entry_color color, size_t x, size_t y, size_t width, size_t height);
+
+/**
+ * compare two vga entries and return the substraction.
+ * @param c1 The first character.
+ * @param c2 The second character.
+ */
+uint16_t vga_entry_cmp(t_vga_entry c1, t_vga_entry c2);
