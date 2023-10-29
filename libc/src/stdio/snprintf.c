@@ -2,11 +2,9 @@
 #include <stdio.h>
 
 int snprintf(char *str, size_t n, const char *format, ...) {
-	va_list	l;
-	int		size;
-
+	va_list l;
 	va_start(l, format);
-	size = vsnprintf(str, n, format, l);
+	int r = vsnprintf(str, n, format, l);
 	va_end(l);
-	return size;
+	return r;
 }

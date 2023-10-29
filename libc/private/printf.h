@@ -29,6 +29,9 @@ typedef enum e_modifier {
 
 typedef struct s_format
 {
+	// Input control
+	va_list		args;
+
 	// Format directives
 	t_flags		flags;
 	int			width;
@@ -43,15 +46,9 @@ typedef struct s_format
 
 int		__parse_format(const char *s, va_list l);
 
-char		*pf_convert(t_format *f, uint64_t n, int base);
-
-void		pf_flush_buffer(t_format *f);
-
 void		pf_padding_prefix(t_format *f);
 
 void		pf_padding_suffix(t_format *f);
-
-void		pf_print(t_format *f, const char *s, const char *hash);
 
 void		pf_putchar(t_format *f, const char c);
 
@@ -60,7 +57,3 @@ void		pf_putpadding(t_format *f);
 void		pf_putchar(t_format *f, const char c);
 
 void		pf_putstr(t_format *f, const char *s);
-
-int64_t		pf_va_arg(t_flags f, va_list l);
-
-uint64_t	pf_va_arg_unsigned(t_flags f, va_list l);

@@ -1,0 +1,25 @@
+Test - no directives
+This is a test
+Test - %%
+|%|
+Test - %c
+|a|
+| b|
+|c  |
+|d   |
+Test - %s
+|(null)|
+|foo|
+|       bar|
+|baz       |
+|qux       |
+||
+|ab|
+|abc|
+| abc|
+|abcde|
+|abcdef|
+|     abc|
+|   abcde|
+|  abcdef|
+|abc       |
