@@ -144,8 +144,7 @@ static inline void print_sign(t_format *f, t_ll n) {
 		pf_putchar(f, ' ');
 }
 
-static inline void print_signed_numeric(t_format *f) {
-	t_ll n = extract_signed_numeric(f->modifier, &f->args);
+static inline void print_signed_numeric(t_format *f, t_ll n) {
 	char *b = num_to_string(n < 0 ? -n : n, 10);
 	int length = strlen(b);
 	int sign = n < 0 || (f->flags & (FLAG_PLUS | FLAG_SPACE));
@@ -185,8 +184,7 @@ static inline t_ull extract_unsigned_numeric(t_modifier m, va_list *l) {
 	return n;
 }
 
-static inline void print_unsigned_numeric(t_format *f, const char c) {
-	t_ull n = extract_unsigned_numeric(f->modifier, &f->args);
+static inline void print_unsigned_numeric(t_format *f, const char c, t_ull n) {
 	const int base = tolower(c) == 'x' ? 16 : (c == 'o' ? 8 : 10);
 	char *b = num_to_string(n, base);
 	int length = strlen(b);
@@ -226,9 +224,14 @@ static inline void print_str(t_format *f, const char *s) {
 }
 
 static inline void print_pointer(t_format *f) {
-	f->flags |= FLAG_HASH;
-	f->modifier |= MODIFIER_L;
-	print_unsigned_numeric(f, 'x');
+	f->modifier = MODIFIER_L;
+	t_ull n = extract_unsigned_numeric(f->modifier, &f->args);
+	if (!n) {
+		print_str(f, "(nil)");
+		return;
+	}
+	f->flags = FLAG_HASH;
+	print_unsigned_numeric(f, 'x', n);
 }
 
 static inline void store_written(t_format *f) {
@@ -249,9 +252,9 @@ int __parse_format(const char *s, va_list l) {
 			if (f.flags & FLAG_PLUS)
 				f.flags &= ~FLAG_SPACE;
 			if (strchr("di", *s))
-				print_signed_numeric(&f);
+				print_signed_numeric(&f, extract_signed_numeric(f.modifier, &f.args));
 			else if (strchr("ouxX", *s))
-				print_unsigned_numeric(&f, *s);
+				print_unsigned_numeric(&f, *s, extract_unsigned_numeric(f.modifier, &f.args));
 			else if (*s == 'c')
 				print_char(&f);
 			else if (*s == 's')

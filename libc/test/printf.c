@@ -163,6 +163,11 @@ int main() {
 	printf(" 15 |%8.7s|\n", "abcdef");
 	printf(" 16 |%-10.3s|\n", "abcdef");
 
+	print_section("%p");
+	printf(" 1 |%p|\n", NULL);
+	printf(" 2 |%p|\n", (void *)0xc0ffee);
+	printf(" 2 |%p|\n", (void *)0xdeadbeef);
+
 	print_section("%%");
 	printf(" 1 |%%|\n");
 }
