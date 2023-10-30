@@ -80,7 +80,7 @@ static inline const char *parse_width(t_format *f, const char *s) {
 	return s;
 }
 
-static inline const char *parse_precision(t_format *f, const char *s) {
+static inline const char *print_pointerrecision(t_format *f, const char *s) {
 	if (*s == '.') {
 		f->precision = 0;
 		++s;
@@ -111,30 +111,9 @@ static inline const char *parse_modifier(t_format *f, const char *s) {
 static inline const char *parse_directives(t_format *f, const char *s) {
 	s = parse_flags(f, s);
 	s = parse_width(f, s);
-	s = parse_precision(f, s);
+	s = print_pointerrecision(f, s);
 	s = parse_modifier(f, s);
 	return s;
-}
-
-static inline void parse_c(t_format *f) {
-	unsigned char c = va_arg(f->args, int);
-	f->width = max_int(f->width - 1, 0);
-	pf_padding_prefix(f);
-	pf_putchar(f, c);
-	pf_padding_suffix(f);
-}
-
-static inline void parse_s(t_format *f, const char *s) {
-	if (!s)
-		s = "(null)";
-	int length = strlen(s);
-	if (f->precision >= 0)
-		length = min_int(length, f->precision);
-	f->width = max_int(f->width - length, 0);
-	pf_padding_prefix(f);
-	while (length--)
-		pf_putchar(f, *s++);
-	pf_padding_suffix(f);
 }
 
 static inline t_ll extract_signed_numeric(t_flags f, va_list *l) {
@@ -158,7 +137,7 @@ static inline t_ll extract_signed_numeric(t_flags f, va_list *l) {
 	return n;
 }
 
-static inline void parse_signed_numeric(t_format *f) {
+static inline void print_signed_numeric(t_format *f) {
 	t_ll n = extract_signed_numeric(f->flags, &f->args);
 	char *b = num_to_string(n < 0 ? -n : n, 10);
 	int sign = n < 0 || (f->flags & (FLAG_PLUS | FLAG_SPACE));
@@ -199,7 +178,7 @@ static inline t_ull extract_unsigned_numeric(t_flags f, va_list *l) {
 	return n;
 }
 
-static inline void parse_unsigned_numeric(t_format *f, const char c) {
+static inline void print_unsigned_numeric(t_format *f, const char c) {
 	t_ull n = extract_unsigned_numeric(f->flags, &f->args);
 	const int base = tolower(c) == 'x' ? 16 : (c == 'o' ? 8 : 10);
 	char *b = num_to_string(n, base);
@@ -216,6 +195,38 @@ static inline void parse_unsigned_numeric(t_format *f, const char c) {
 	pf_padding_suffix(f);
 }
 
+static inline void print_char(t_format *f) {
+	unsigned char c = va_arg(f->args, int);
+	f->width = max_int(f->width - 1, 0);
+	pf_padding_prefix(f);
+	pf_putchar(f, c);
+	pf_padding_suffix(f);
+}
+
+static inline void print_str(t_format *f, const char *s) {
+	if (!s)
+		s = "(null)";
+	int length = strlen(s);
+	if (f->precision >= 0)
+		length = min_int(length, f->precision);
+	f->width = max_int(f->width - length, 0);
+	pf_padding_prefix(f);
+	while (length--)
+		pf_putchar(f, *s++);
+	pf_padding_suffix(f);
+}
+
+static inline void print_pointer(t_format *f) {
+	f->flags |= FLAG_HASH;
+	f->modifier |= MODIFIER_L;
+	print_unsigned_numeric(f, 'x');
+}
+
+static inline void store_written(t_format *f) {
+	int *n = va_arg(f->args, int*);
+	*n = f->size;
+}
+
 int __parse_format(const char *s, va_list l) {
 	t_format f = { 0 };
 	va_copy(f.args, l);
@@ -228,14 +239,18 @@ int __parse_format(const char *s, va_list l) {
 				f.flags &= ~FLAG_ZERO;
 			if (f.flags & FLAG_PLUS)
 				f.flags &= ~FLAG_SPACE;
-			if (*s == 'c')
-				parse_c(&f);
-			else if (*s == 's')
-				parse_s(&f, va_arg(f.args, char*));
-			else if (strchr("di", *s))
-				parse_signed_numeric(&f);
+			if (strchr("di", *s))
+				print_signed_numeric(&f);
 			else if (strchr("ouxX", *s))
-				parse_unsigned_numeric(&f, *s);
+				print_unsigned_numeric(&f, *s);
+			else if (*s == 'c')
+				print_char(&f);
+			else if (*s == 's')
+				print_str(&f, va_arg(f.args, char*));
+			else if (*s == 'p')
+				print_pointer(&f);
+			else if (*s == 'n')
+				store_written(&f);
 			else
 				continue;
 			++s;
