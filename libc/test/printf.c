@@ -14,11 +14,12 @@ int main() {
 	printf("|%*c|\n", -4, 'd');
 
 	puts("Test - %s");
-	printf("|%s|\n", NULL);
 	printf("|%s|\n", "foo");
 	printf("|%10s|\n", "bar");
 	printf("|%-10s|\n", "baz");
 	printf("|%*s|\n", -10, "qux");
+	printf("|%.*s|\n", -10, "qux");
+	printf("|%*.*s|\n", -10, 3, "qux");
 	printf("|%.0s|\n", "foo");
 	printf("|%.3s|\n", "ab");
 	printf("|%.3s|\n", "abcde");

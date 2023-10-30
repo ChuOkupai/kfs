@@ -8,10 +8,11 @@ Test - %c
 |c  |
 |d   |
 Test - %s
-|(null)|
 |foo|
 |       bar|
 |baz       |
+|qux       |
+|qux|
 |qux       |
 ||
 |ab|

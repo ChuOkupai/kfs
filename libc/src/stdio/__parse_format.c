@@ -98,6 +98,7 @@ static inline const char *parse_precision(t_format *f, const char *s) {
 
 static inline const char *parse_modifier(t_format *f, const char *s) {
 	static const char *modifiers[] = { "hh", "h", "l", "ll", "j", "z", "t" };
+	f->modifier = 0;
 	for (size_t i = 0; i < sizeof(modifiers) / sizeof(*modifiers); ++i)
 		if (!strncmp(s, modifiers[i], strlen(modifiers[i]))) {
 			f->modifier |= 1 << i;
@@ -204,7 +205,7 @@ static inline void parse_unsigned_numeric(t_format *f, const char c) {
 
 int __parse_format(const char *s, va_list l) {
 	t_format f = { 0 };
-	f.args = l;
+	va_copy(f.args, l);
 	while (*s && f.size != EOF)
 		if (*s != '%' || *++s == '%')
 			pf_putchar(&f, *s++);
@@ -217,7 +218,7 @@ int __parse_format(const char *s, va_list l) {
 			if (*s == 'c')
 				parse_c(&f);
 			else if (*s == 's')
-				parse_s(&f, va_arg(l, char*));
+				parse_s(&f, va_arg(f.args, char*));
 			else if (strchr("di", *s))
 				parse_signed_numeric(&f);
 			else if (strchr("ouxX", *s))
