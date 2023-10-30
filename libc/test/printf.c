@@ -67,7 +67,7 @@ int main() {
 	printf(" 36 |% 8.6d|\n", -42);
 	printf(" 37 |% 4.6d|\n", -42);
 
-	print_section("%u");
+	print_section("%c");
 	printf(" 1 |%c|\n", 'a');
 	printf(" 2 |%2c|\n", 'b');
 	printf(" 3 |%-3c|\n", 'c');
