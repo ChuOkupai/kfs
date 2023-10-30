@@ -82,9 +82,7 @@ static inline const char *parse_width(t_format *f, const char *s) {
 
 static inline const char *parse_precision(t_format *f, const char *s) {
 	if (*s == '.') {
-		f->precision = 0;
-		++s;
-		if (*s == '*') {
+		if (*(++s) == '*') {
 			f->precision = va_arg(f->args, int);
 			++s;
 			if (f->precision < 0)
@@ -137,20 +135,29 @@ static inline t_ll extract_signed_numeric(t_modifier m, va_list *l) {
 	return n;
 }
 
-static inline void print_signed_numeric(t_format *f) {
-	t_ll n = extract_signed_numeric(f->modifier, &f->args);
-	char *b = num_to_string(n < 0 ? -n : n, 10);
-	int sign = n < 0 || (f->flags & (FLAG_PLUS | FLAG_SPACE));
-	int length = strlen(b);
-	f->precision = max_int(f->precision - length, 0);
-	f->width = max_int(f->width - f->precision - length - sign, 0);
-	pf_padding_prefix(f);
+static inline void print_sign(t_format *f, t_ll n) {
 	if (n < 0)
 		pf_putchar(f, '-');
 	else if (f->flags & FLAG_PLUS)
 		pf_putchar(f, '+');
 	else if (f->flags & FLAG_SPACE)
 		pf_putchar(f, ' ');
+}
+
+static inline void print_signed_numeric(t_format *f) {
+	t_ll n = extract_signed_numeric(f->modifier, &f->args);
+	char *b = num_to_string(n < 0 ? -n : n, 10);
+	int sign = n < 0 || (f->flags & (FLAG_PLUS | FLAG_SPACE));
+	int length = strlen(b);
+	if (!f->precision && !n)
+		b = "";
+	f->precision = max_int(f->precision - length, 0);
+	f->width = max_int(f->width - f->precision - length - sign, 0);
+	if (f->flags & FLAG_ZERO)
+		print_sign(f, n);
+	pf_padding_prefix(f);
+	if (!(f->flags & FLAG_ZERO))
+		print_sign(f, n);
 	while (f->precision--)
 		pf_putchar(f, '0');
 	pf_putstr(f, b);
@@ -187,6 +194,8 @@ static inline void print_unsigned_numeric(t_format *f, const char c) {
 		for (int i = 0; i < length; ++i)
 			b[i] = toupper(b[i]);
 	f->precision = max_int(f->precision - length, 0);
+	if (!f->precision && !n)
+		b = "";
 	f->width = max_int(f->width - f->precision - length, 0);
 	pf_padding_prefix(f);
 	while (f->precision--)
