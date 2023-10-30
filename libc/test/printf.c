@@ -67,6 +67,24 @@ int main() {
 	printf(" 36 |% 8.6d|\n", -42);
 	printf(" 37 |% 4.6d|\n", -42);
 
+	print_section("%u");
+	printf("  1 |%u|\n", 0);
+	printf("  2 |%hhu|\n", (unsigned char)UINT8_MAX);
+	printf("  3 |%hu|\n", (unsigned short)UINT16_MAX);
+	printf("  4 |%u|\n", (unsigned int)UINT32_MAX);
+	printf("  5 |%lu|\n", (unsigned long)UINT32_MAX);
+	printf("  6 |%llu|\n", (unsigned long long)UINT64_MAX);
+	printf("  7 |%5u|\n", 42);
+	printf("  8 |%05u|\n", 42);
+	printf("  9 |%.u|\n", 0);
+	printf(" 10 |%.u|\n", 42);
+	printf(" 11 |%.0u|\n", 0);
+	printf(" 12 |%.0u|\n", 42);
+	printf(" 13 |%.6u|\n", 42);
+	printf(" 14 |%.6u|\n", 42);
+	printf(" 15 |%8.6u|\n", 42);
+	printf(" 16 |%4.6u|\n", 42);
+
 	print_section("%c");
 	printf(" 1 |%c|\n", 'a');
 	printf(" 2 |%2c|\n", 'b');

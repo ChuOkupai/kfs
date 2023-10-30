@@ -147,8 +147,8 @@ static inline void print_sign(t_format *f, t_ll n) {
 static inline void print_signed_numeric(t_format *f) {
 	t_ll n = extract_signed_numeric(f->modifier, &f->args);
 	char *b = num_to_string(n < 0 ? -n : n, 10);
-	int sign = n < 0 || (f->flags & (FLAG_PLUS | FLAG_SPACE));
 	int length = strlen(b);
+	int sign = n < 0 || (f->flags & (FLAG_PLUS | FLAG_SPACE));
 	if (!f->precision && !n)
 		b = "";
 	f->precision = max_int(f->precision - length, 0);
@@ -193,9 +193,9 @@ static inline void print_unsigned_numeric(t_format *f, const char c) {
 	if (c == 'X')
 		for (int i = 0; i < length; ++i)
 			b[i] = toupper(b[i]);
-	f->precision = max_int(f->precision - length, 0);
 	if (!f->precision && !n)
 		b = "";
+	f->precision = max_int(f->precision - length, 0);
 	f->width = max_int(f->width - f->precision - length, 0);
 	pf_padding_prefix(f);
 	while (f->precision--)
