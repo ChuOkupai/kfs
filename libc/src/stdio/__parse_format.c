@@ -1,3 +1,4 @@
+#include <sys/types.h>
 #include <ctype.h>
 #include <printf.h>
 #include <stdio.h>
@@ -146,6 +147,12 @@ static inline t_ll extract_signed_numeric(t_flags f, va_list *l) {
 		n = (char)va_arg(*l, int);
 	else if (f & MODIFIER_H)
 		n = (short)va_arg(*l, int);
+	else if (f & MODIFIER_J)
+		n = va_arg(*l, intmax_t);
+	else if (f & MODIFIER_Z)
+		n = va_arg(*l, ssize_t);
+	else if (f & MODIFIER_T)
+		n = va_arg(*l, ptrdiff_t);
 	else
 		n = va_arg(*l, int);
 	return n;
@@ -181,6 +188,12 @@ static inline t_ull extract_unsigned_numeric(t_flags f, va_list *l) {
 		n = (unsigned char)va_arg(*l, unsigned int);
 	else if (f & MODIFIER_H)
 		n = (unsigned short)va_arg(*l, unsigned int);
+	else if (f & MODIFIER_J)
+		n = va_arg(*l, uintmax_t);
+	else if (f & MODIFIER_Z)
+		n = va_arg(*l, size_t);
+	else if (f & MODIFIER_T)
+		n = va_arg(*l, ptrdiff_t);
 	else
 		n = va_arg(*l, unsigned int);
 	return n;
