@@ -80,7 +80,7 @@ static inline const char *parse_width(t_format *f, const char *s) {
 	return s;
 }
 
-static inline const char *print_pointerrecision(t_format *f, const char *s) {
+static inline const char *parse_precision(t_format *f, const char *s) {
 	if (*s == '.') {
 		f->precision = 0;
 		++s;
@@ -98,11 +98,11 @@ static inline const char *print_pointerrecision(t_format *f, const char *s) {
 }
 
 static inline const char *parse_modifier(t_format *f, const char *s) {
-	static const char *modifiers[] = { "hh", "h", "l", "ll", "j", "z", "t" };
+	static const char *modifiers[] = { "hh", "h", "ll", "l", "j", "z", "t" };
 	f->modifier = 0;
 	for (size_t i = 0; i < sizeof(modifiers) / sizeof(*modifiers); ++i)
 		if (!strncmp(s, modifiers[i], strlen(modifiers[i]))) {
-			f->modifier |= 1 << i;
+			f->modifier = 1 << i;
 			return s + strlen(modifiers[i]);
 		}
 	return s;
@@ -111,26 +111,26 @@ static inline const char *parse_modifier(t_format *f, const char *s) {
 static inline const char *parse_directives(t_format *f, const char *s) {
 	s = parse_flags(f, s);
 	s = parse_width(f, s);
-	s = print_pointerrecision(f, s);
+	s = parse_precision(f, s);
 	s = parse_modifier(f, s);
 	return s;
 }
 
-static inline t_ll extract_signed_numeric(t_flags f, va_list *l) {
+static inline t_ll extract_signed_numeric(t_modifier m, va_list *l) {
 	t_ll n;
-	if (f & MODIFIER_LL)
+	if (m & MODIFIER_LL)
 		n = va_arg(*l, t_ll);
-	else if (f & MODIFIER_L)
+	else if (m & MODIFIER_L)
 		n = va_arg(*l, long);
-	else if (f & MODIFIER_HH)
+	else if (m & MODIFIER_HH)
 		n = (char)va_arg(*l, int);
-	else if (f & MODIFIER_H)
+	else if (m & MODIFIER_H)
 		n = (short)va_arg(*l, int);
-	else if (f & MODIFIER_J)
+	else if (m & MODIFIER_J)
 		n = va_arg(*l, intmax_t);
-	else if (f & MODIFIER_Z)
+	else if (m & MODIFIER_Z)
 		n = va_arg(*l, ssize_t);
-	else if (f & MODIFIER_T)
+	else if (m & MODIFIER_T)
 		n = va_arg(*l, ptrdiff_t);
 	else
 		n = va_arg(*l, int);
@@ -138,7 +138,7 @@ static inline t_ll extract_signed_numeric(t_flags f, va_list *l) {
 }
 
 static inline void print_signed_numeric(t_format *f) {
-	t_ll n = extract_signed_numeric(f->flags, &f->args);
+	t_ll n = extract_signed_numeric(f->modifier, &f->args);
 	char *b = num_to_string(n < 0 ? -n : n, 10);
 	int sign = n < 0 || (f->flags & (FLAG_PLUS | FLAG_SPACE));
 	int length = strlen(b);
@@ -157,21 +157,21 @@ static inline void print_signed_numeric(t_format *f) {
 	pf_padding_suffix(f);
 }
 
-static inline t_ull extract_unsigned_numeric(t_flags f, va_list *l) {
-	t_ll n;
-	if (f & MODIFIER_LL)
+static inline t_ull extract_unsigned_numeric(t_modifier m, va_list *l) {
+	t_ull n;
+	if (m & MODIFIER_LL)
 		n = va_arg(*l, t_ull);
-	else if (f & MODIFIER_L)
+	else if (m & MODIFIER_L)
 		n = va_arg(*l, unsigned long);
-	else if (f & MODIFIER_HH)
+	else if (m & MODIFIER_HH)
 		n = (unsigned char)va_arg(*l, unsigned int);
-	else if (f & MODIFIER_H)
+	else if (m & MODIFIER_H)
 		n = (unsigned short)va_arg(*l, unsigned int);
-	else if (f & MODIFIER_J)
+	else if (m & MODIFIER_J)
 		n = va_arg(*l, uintmax_t);
-	else if (f & MODIFIER_Z)
+	else if (m & MODIFIER_Z)
 		n = va_arg(*l, size_t);
-	else if (f & MODIFIER_T)
+	else if (m & MODIFIER_T)
 		n = va_arg(*l, ptrdiff_t);
 	else
 		n = va_arg(*l, unsigned int);
@@ -179,7 +179,7 @@ static inline t_ull extract_unsigned_numeric(t_flags f, va_list *l) {
 }
 
 static inline void print_unsigned_numeric(t_format *f, const char c) {
-	t_ull n = extract_unsigned_numeric(f->flags, &f->args);
+	t_ull n = extract_unsigned_numeric(f->modifier, &f->args);
 	const int base = tolower(c) == 'x' ? 16 : (c == 'o' ? 8 : 10);
 	char *b = num_to_string(n, base);
 	int length = strlen(b);
