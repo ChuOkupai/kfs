@@ -1,5 +1,4 @@
 
-int isgraph(int c)
-{
+int isgraph(int c) {
 	return c > ' ' && c < 127;
 }

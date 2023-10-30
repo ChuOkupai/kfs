@@ -1,5 +1,4 @@
 
-int isblank(int c)
-{
+int isblank(int c) {
 	return c == ' ' || c == '\t';
 }
