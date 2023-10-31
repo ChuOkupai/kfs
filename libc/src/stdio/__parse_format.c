@@ -11,6 +11,16 @@ static inline void pf_putchar(t_format *f, const char c) {
 		++f->size;
 }
 
+static inline void pf_putstr(t_format *f, const char *s) {
+	while (*s)
+		pf_putchar(f, *s++);
+}
+
+static inline void pf_putpadding(t_format *f) {
+	while (f->width--)
+		pf_putchar(f, f->flags & FLAG_ZERO ? '0' : ' ');
+}
+
 static inline void pf_padding_prefix(t_format *f) {
 	if (!(f->flags & FLAG_MINUS))
 		pf_putpadding(f);
@@ -19,16 +29,6 @@ static inline void pf_padding_prefix(t_format *f) {
 static inline void pf_padding_suffix(t_format *f) {
 	if (f->flags & FLAG_MINUS)
 		pf_putpadding(f);
-}
-
-static inline void pf_putpadding(t_format *f) {
-	while (f->width--)
-		pf_putchar(f, f->flags & FLAG_ZERO ? '0' : ' ');
-}
-
-static inline void pf_putstr(t_format *f, const char *s) {
-	while (*s)
-		pf_putchar(f, *s++);
 }
 
 static inline int max_int(int a, int b) {
@@ -281,8 +281,32 @@ static inline void print_pointer(t_format *f) {
 }
 
 static inline void store_written(t_format *f) {
-	int *n = va_arg(f->args, int*);
-	*n = f->size;
+	const t_modifier m = f->modifier;
+	if (m & MODIFIER_LL) {
+		long long *n = va_arg(f->args, long long*);
+		*n = f->size;
+	} else if (m & MODIFIER_L) {
+		long *n = va_arg(f->args, long*);
+		*n = f->size;
+	} else if (m & MODIFIER_HH) {
+		char *n = va_arg(f->args, char*);
+		*n = f->size;
+	} else if (m & MODIFIER_H) {
+		short *n = va_arg(f->args, short*);
+		*n = f->size;
+	} else if (m & MODIFIER_J) {
+		intmax_t *n = va_arg(f->args, intmax_t*);
+		*n = f->size;
+	} else if (m & MODIFIER_Z) {
+		ssize_t *n = va_arg(f->args, ssize_t*);
+		*n = f->size;
+	} else if (m & MODIFIER_T) {
+		ptrdiff_t *n = va_arg(f->args, ptrdiff_t*);
+		*n = f->size;
+	} else {
+		int *n = va_arg(f->args, int*);
+		*n = f->size;
+	}
 }
 
 int __parse_format(const char *s, va_list l) {
