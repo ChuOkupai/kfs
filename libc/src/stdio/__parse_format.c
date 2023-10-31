@@ -5,10 +5,17 @@
 #include <string.h>
 
 static inline void pf_putchar(t_format *f, const char c) {
-	if (f->size == EOF || putchar(c) == EOF)
+	if (f->size == EOF)
+		return;
+	if (f->output_str) {
+		if (f->has_max_size && (size_t)f->size == f->max_size)
+			return;
+		f->output_str[f->size] = c;
+	} else if (putchar(c) == EOF) {
 		f->size = EOF;
-	else
-		++f->size;
+		return;
+	}
+	++f->size;
 }
 
 static inline void pf_putstr(t_format *f, const char *s) {
@@ -309,33 +316,59 @@ static inline void store_written(t_format *f) {
 	}
 }
 
-int __parse_format(const char *s, va_list l) {
-	t_format f = { 0 };
-	va_copy(f.args, l);
-	while (*s && f.size != EOF)
+static int __parse_format_internal(t_format *f, const char *s) {
+	while (*s && f->size != EOF)
 		if (*s != '%' || *++s == '%')
-			pf_putchar(&f, *s++);
+			pf_putchar(f, *s++);
 		else {
-			s = parse_directives(&f, s);
-			if ((f.flags & FLAG_MINUS) || f.precision >= 0)
-				f.flags &= ~FLAG_ZERO;
-			if (f.flags & FLAG_PLUS)
-				f.flags &= ~FLAG_SPACE;
+			s = parse_directives(f, s);
+			if ((f->flags & FLAG_MINUS) || f->precision >= 0)
+				f->flags &= ~FLAG_ZERO;
+			if (f->flags & FLAG_PLUS)
+				f->flags &= ~FLAG_SPACE;
 			if (strchr("di", *s))
-				print_signed_numeric(&f);
+				print_signed_numeric(f);
 			else if (strchr("ouxX", *s))
-				print_unsigned_numeric(&f, *s, extract_unsigned_numeric(f.modifier, &f.args));
+				print_unsigned_numeric(f, *s, extract_unsigned_numeric(f->modifier, &f->args));
 			else if (*s == 'c')
-				print_char(&f);
+				print_char(f);
 			else if (*s == 's')
-				print_str(&f, va_arg(f.args, char*));
+				print_str(f, va_arg(f->args, char*));
 			else if (*s == 'p')
-				print_pointer(&f);
+				print_pointer(f);
 			else if (*s == 'n')
-				store_written(&f);
+				store_written(f);
 			else
 				continue;
 			++s;
 		}
-	return f.size;
+	return f->size;
+}
+
+int __parse_format(const char *s, va_list l) {
+	t_format f = { 0 };
+	va_copy(f.args, l);
+	return __parse_format_internal(&f, s);
+}
+
+int __parse_format_str(char *dst, const char *s, va_list l) {
+	t_format f = { 0 };
+	va_copy(f.args, l);
+	f.output_str = dst;
+	int size = __parse_format_internal(&f, s);
+	if (size != EOF)
+		dst[size] = '\0';
+	return size;
+}
+
+int __parse_format_nstr(char *dst, size_t n, const char *s, va_list l) {
+	t_format f = { 0 };
+	va_copy(f.args, l);
+	f.output_str = dst;
+	f.has_max_size = 1;
+	f.max_size = n;
+	int size = __parse_format_internal(&f, s);
+	if (size != EOF && (size_t)size < f.max_size)
+		dst[size] = '\0';
+	return size;
 }

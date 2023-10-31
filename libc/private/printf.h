@@ -39,9 +39,14 @@ typedef struct s_format
 	t_modifier	modifier;
 
 	// Output control
-	const char	*output_str;
-	long		output_size;
+	char		*output_str;
+	int			has_max_size;
+	size_t		max_size;
 	int			size;
 }	t_format;
 
 int	__parse_format(const char *s, va_list l);
+
+int	__parse_format_str(char *dst, const char *s, va_list l);
+
+int	__parse_format_nstr(char *dst, size_t n, const char *s, va_list l);
