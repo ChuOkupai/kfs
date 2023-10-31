@@ -4,6 +4,33 @@
 #include <stdio.h>
 #include <string.h>
 
+static inline void pf_putchar(t_format *f, const char c) {
+	if (f->size == EOF || putchar(c) == EOF)
+		f->size = EOF;
+	else
+		++f->size;
+}
+
+static inline void pf_padding_prefix(t_format *f) {
+	if (!(f->flags & FLAG_MINUS))
+		pf_putpadding(f);
+}
+
+static inline void pf_padding_suffix(t_format *f) {
+	if (f->flags & FLAG_MINUS)
+		pf_putpadding(f);
+}
+
+static inline void pf_putpadding(t_format *f) {
+	while (f->width--)
+		pf_putchar(f, f->flags & FLAG_ZERO ? '0' : ' ');
+}
+
+static inline void pf_putstr(t_format *f, const char *s) {
+	while (*s)
+		pf_putchar(f, *s++);
+}
+
 static inline int max_int(int a, int b) {
 	return a > b ? a : b;
 }

@@ -142,9 +142,9 @@ int main() {
 	printf("  6 |%llX|\n", (unsigned long long)UINT64_MAX);
 	printf("  7 |%5X|\n", 42);
 	printf("  8 |%05X|\n", 42);
-	printf("  9 |%.X|\n", 0);//
+	printf("  9 |%.X|\n", 0);
 	printf(" 10 |%.X|\n", 42);
-	printf(" 11 |%.0X|\n", 0);//
+	printf(" 11 |%.0X|\n", 0);
 	printf(" 12 |%.0X|\n", 42);
 	printf(" 13 |%.6X|\n", 42);
 	printf(" 14 |%.6X|\n", 42);
@@ -152,7 +152,7 @@ int main() {
 	printf(" 16 |%4.6X|\n", 42);
 	printf(" 17 |%#X|\n", 0);
 	printf(" 18 |%#X|\n", 42);
-	printf(" 19 |%#.X|\n", 0);//
+	printf(" 19 |%#.X|\n", 0);
 	printf(" 20 |%#.X|\n", 42);
 	printf(" 21 |%#8.6X|\n", 42);
 	printf(" 22 |%#4.6X|\n", 42);

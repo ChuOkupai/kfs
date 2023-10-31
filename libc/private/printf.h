@@ -44,16 +44,4 @@ typedef struct s_format
 	int			size;
 }	t_format;
 
-int		__parse_format(const char *s, va_list l);
-
-void		pf_padding_prefix(t_format *f);
-
-void		pf_padding_suffix(t_format *f);
-
-void		pf_putchar(t_format *f, const char c);
-
-void		pf_putpadding(t_format *f);
-
-void		pf_putchar(t_format *f, const char c);
-
-void		pf_putstr(t_format *f, const char *s);
+int	__parse_format(const char *s, va_list l);
