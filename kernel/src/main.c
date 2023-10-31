@@ -2,6 +2,7 @@
 #include <keyboard.h>
 #include <timer.h>
 #include <tty.h>
+#include <stdio.h>
 
 #if defined(__linux__)
 # error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -52,7 +53,7 @@ void kernel_main()
 	tty_init();
 	run_boot_sequence();
 	init_keyboard();
-	tty_puts("42\n");
+	printf("%d\n", 42);
 	while (1)
 		handle_keyboard_input();
 }
