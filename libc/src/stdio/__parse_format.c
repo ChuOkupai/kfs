@@ -144,12 +144,12 @@ static inline void print_sign(t_format *f, t_ll n) {
 		pf_putchar(f, ' ');
 }
 
-static inline void print_signed_numeric(t_format *f, t_ll n) {
+static inline void print_signed_numeric(t_format *f) {
+	t_ll n = extract_signed_numeric(f->modifier, &f->args);
 	char *b = num_to_string(n < 0 ? -n : n, 10);
 	int length = strlen(b);
 	int sign = n < 0 || (f->flags & (FLAG_PLUS | FLAG_SPACE));
-	if (!f->precision && !n)
-		b = "";
+	int unset_precision = f->precision < 0;
 	f->precision = max_int(f->precision - length, 0);
 	f->width = max_int(f->width - f->precision - length - sign, 0);
 	if (f->flags & FLAG_ZERO)
@@ -157,9 +157,10 @@ static inline void print_signed_numeric(t_format *f, t_ll n) {
 	pf_padding_prefix(f);
 	if (!(f->flags & FLAG_ZERO))
 		print_sign(f, n);
-	while (f->precision--)
+	for (int i = 0; i < f->precision; ++i)
 		pf_putchar(f, '0');
-	pf_putstr(f, b);
+	if (f->precision || n || unset_precision)
+		pf_putstr(f, b);
 	pf_padding_suffix(f);
 }
 
@@ -184,21 +185,39 @@ static inline t_ull extract_unsigned_numeric(t_modifier m, va_list *l) {
 	return n;
 }
 
+static inline const char *get_hash(const char c) {
+	if (c == 'o')
+		return "0";
+	else if (c == 'x')
+		return "0x";
+	else if (c == 'X')
+		return "0X";
+	return NULL;
+}
+
+static inline void str_to_upper(char *s) {
+	while (*s)
+		*s = toupper(*s), ++s;
+}
+
 static inline void print_unsigned_numeric(t_format *f, const char c, t_ull n) {
 	const int base = tolower(c) == 'x' ? 16 : (c == 'o' ? 8 : 10);
+	const char *hash = f->flags & FLAG_HASH ? get_hash(c) : NULL;
+	int hash_length = hash ? strlen(hash) : 0;
 	char *b = num_to_string(n, base);
 	int length = strlen(b);
 	if (c == 'X')
-		for (int i = 0; i < length; ++i)
-			b[i] = toupper(b[i]);
-	if (!f->precision && !n)
-		b = "";
-	f->precision = max_int(f->precision - length, 0);
-	f->width = max_int(f->width - f->precision - length, 0);
+		str_to_upper(b);
+	int unset_precision = f->precision < 0;
+	f->precision = max_int(f->precision - length - (hash_length * (c == 'o')), 0);
+	f->width = max_int(f->width - f->precision - length - hash_length, 0);
 	pf_padding_prefix(f);
-	while (f->precision--)
+	if (hash && (f->precision || n))
+		pf_putstr(f, hash);
+	for (int i = 0; i < f->precision; ++i)
 		pf_putchar(f, '0');
-	pf_putstr(f, b);
+	if (f->precision || n || unset_precision || (hash && c == 'o'))
+		pf_putstr(f, b);
 	pf_padding_suffix(f);
 }
 
@@ -252,7 +271,7 @@ int __parse_format(const char *s, va_list l) {
 			if (f.flags & FLAG_PLUS)
 				f.flags &= ~FLAG_SPACE;
 			if (strchr("di", *s))
-				print_signed_numeric(&f, extract_signed_numeric(f.modifier, &f.args));
+				print_signed_numeric(&f);
 			else if (strchr("ouxX", *s))
 				print_unsigned_numeric(&f, *s, extract_unsigned_numeric(f.modifier, &f.args));
 			else if (*s == 'c')

@@ -102,6 +102,12 @@ int main() {
 	printf(" 14 |%.6o|\n", 42);
 	printf(" 15 |%8.6o|\n", 42);
 	printf(" 16 |%4.6o|\n", 42);
+	printf(" 17 |%#o|\n", 0);
+	printf(" 18 |%#o|\n", 42);
+	printf(" 19 |%#.o|\n", 0);
+	printf(" 20 |%#.o|\n", 42);
+	printf(" 21 |%#8.6o|\n", 42);
+	printf(" 22 |%#4.6o|\n", 42);
 
 	print_section("%x");
 	printf("  1 |%x|\n", 0);
@@ -120,6 +126,12 @@ int main() {
 	printf(" 14 |%.6x|\n", 42);
 	printf(" 15 |%8.6x|\n", 42);
 	printf(" 16 |%4.6x|\n", 42);
+	printf(" 17 |%#x|\n", 0);
+	printf(" 18 |%#x|\n", 42);
+	printf(" 19 |%#.x|\n", 0);
+	printf(" 20 |%#.x|\n", 42);
+	printf(" 21 |%#8.6x|\n", 42);
+	printf(" 22 |%#4.6x|\n", 42);
 
 	print_section("%X");
 	printf("  1 |%X|\n", 0);
@@ -130,14 +142,20 @@ int main() {
 	printf("  6 |%llX|\n", (unsigned long long)UINT64_MAX);
 	printf("  7 |%5X|\n", 42);
 	printf("  8 |%05X|\n", 42);
-	printf("  9 |%.X|\n", 0);
+	printf("  9 |%.X|\n", 0);//
 	printf(" 10 |%.X|\n", 42);
-	printf(" 11 |%.0X|\n", 0);
+	printf(" 11 |%.0X|\n", 0);//
 	printf(" 12 |%.0X|\n", 42);
 	printf(" 13 |%.6X|\n", 42);
 	printf(" 14 |%.6X|\n", 42);
 	printf(" 15 |%8.6X|\n", 42);
 	printf(" 16 |%4.6X|\n", 42);
+	printf(" 17 |%#X|\n", 0);
+	printf(" 18 |%#X|\n", 42);
+	printf(" 19 |%#.X|\n", 0);//
+	printf(" 20 |%#.X|\n", 42);
+	printf(" 21 |%#8.6X|\n", 42);
+	printf(" 22 |%#4.6X|\n", 42);
 
 	print_section("%c");
 	printf(" 1 |%c|\n", 'a');
@@ -167,6 +185,11 @@ int main() {
 	printf(" 1 |%p|\n", NULL);
 	printf(" 2 |%p|\n", (void *)0xc0ffee);
 	printf(" 2 |%p|\n", (void *)0xdeadbeef);
+
+	print_section("%n");
+	int n = -1;
+	printf(" 1 %n", &n);
+	printf(" -> |%d|\n", n);
 
 	print_section("%%");
 	printf(" 1 |%%|\n");
