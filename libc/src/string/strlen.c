@@ -1,23 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   strlen.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jbondri <jbondri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 18:21:01 by jbondri           #+#    #+#             */
-/*   Updated: 2023/10/20 18:22:16 by jbondri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <stddef.h>
 
-#include "string.h"
-
-size_t	strlen(const char *str)
-{
+size_t strlen(const char *s) {
 	size_t	len;
 
 	len = 0;
-	while (str[len])
+	while (s[len])
 		len++;
-	return (len);
+	return len;
 }

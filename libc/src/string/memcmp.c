@@ -1,28 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   memcmp.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jbondri <jbondri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 18:13:00 by jbondri           #+#    #+#             */
-/*   Updated: 2023/10/20 18:15:05 by jbondri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <stddef.h>
 
-#include "string.h"
+int memcmp(const void *dest, const void *src, size_t n) {
+	const unsigned char	*a = (const unsigned char*) dest;
+	const unsigned char	*b = (const unsigned char*) src;
 
-int	memcmp(const void *aptr, const void *bptr, size_t size)
-{
-	const unsigned char	*a = (const unsigned char*) aptr;
-	const unsigned char	*b = (const unsigned char*) bptr;
-
-	for (size_t i = 0; i < size; i++)
-	{
+	for (size_t i = 0; i < n; i++) {
 		if (a[i] < b[i])
-			return (-1);
+			return -1;
 		else if (b[i] < a[i])
-			return (1);
+			return 1;
 	}
-	return (0);
+	return 0;
 }

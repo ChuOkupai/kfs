@@ -1,21 +1,11 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   string.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jbondri <jbondri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 20:26:44 by jbondri           #+#    #+#             */
-/*   Updated: 2023/10/21 00:14:19 by jbondri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
-# include <sys/cdefs.h>
-# include <stddef.h>
+#include <stddef.h>
 
-int		memcmp(const void *aptr, const void *bptr, size_t size);
-void	*memcpy(void *restrict dstptr, const void *restrict srcptr, size_t size);
-void	*memmove(void *dstptr, const void *srcptr, size_t size);
-void	*memset(void *bufptr, int value, size_t size);
-size_t	strlen(const char *str);
+int		memcmp(const void *aptr, const void *bptr, size_t n);
+void	*memcpy(void *dest, const void *src, size_t n);
+void	*memmove(void *dest, const void *src, size_t n);
+void	*memset(void *s, int c, size_t n);
+char	*strchr(const char *s, int c);
+int		strcmp(const char *s1, const char *s2);
+size_t	strlen(const char *s);
+int		strncmp(const char *s1, const char *s2, size_t n);
