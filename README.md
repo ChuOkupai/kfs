@@ -33,9 +33,9 @@ We chose to implement our own kernel in C.
 
 ## 📦 Prerequisites
 
-- [GCC](https://gcc.gnu.org)
-- [GNU Make](https://www.gnu.org/software/make)
 - [Docker Compose](https://docs.docker.com/compose)
+- [GNU Make](https://www.gnu.org/software/make)
+- [QEMU](https://www.qemu.org)
 
 ## 🚀 Usage
 
