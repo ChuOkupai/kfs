@@ -5,4 +5,5 @@ void tty_clear() {
 	vga_fill('\0', w->color);
 	w->row = 0;
 	w->column = 0;
+	tty_cursor_update();
 }

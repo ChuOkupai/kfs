@@ -1,10 +1,14 @@
 #include <tty.h>
 
+static void inc_row(t_workspace *s) {
+	if (++s->row == VGA_HEIGHT)
+		s->row = 0;
+}
+
 static inline void workspace_putc(t_workspace *s, char c) {
 	if (c == '\n') {
 		s->column = 0;
-		if (++s->row == VGA_HEIGHT)
-			s->row = 0;
+		inc_row(s);
 		return;
 	}
 	else if (c == '\a')
@@ -27,11 +31,11 @@ static inline void workspace_putc(t_workspace *s, char c) {
 	vga_put(c, s->color, s->column, s->row);
 	if (++s->column == VGA_WIDTH) {
 		s->column = 0;
-		if (++s->row == VGA_HEIGHT)
-			s->row = 0;
+		inc_row(s);
 	}
 }
 
 void tty_putc(char c) {
 	workspace_putc(tty_get_current_workspace(), c);
+	tty_cursor_update();
 }

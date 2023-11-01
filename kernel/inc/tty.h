@@ -1,7 +1,13 @@
 #pragma once
+#include <stdbool.h>
 #include <vga.h>
 
 #define MAX_WORKSPACES 3
+
+typedef enum e_cursor_type {
+	CURSOR_TYPE_BLOCK,
+	CURSOR_TYPE_UNDERLINE
+}	t_cursor_type;
 
 typedef struct s_workspace {
 	t_vga_entry buf[VGA_BUFSIZE];
@@ -13,6 +19,7 @@ typedef struct s_workspace {
 typedef struct s_tty {
 	t_workspace workspaces[MAX_WORKSPACES];
 	size_t current_workspace;
+	bool cursor_enabled;
 }	t_tty;
 
 /** The global tty used by the kernel. */
@@ -30,6 +37,29 @@ inline t_workspace *tty_get_current_workspace() {
  * Clears the tty, resetting the cursor position to the top left.
  */
 void tty_clear();
+
+/**
+ * Disables the cursor.
+ */
+void tty_cursor_disable();
+
+/**
+ * Enables the cursor.
+ * @param type The type of cursor to use.
+*/
+void tty_cursor_enable(t_cursor_type type);
+
+/**
+ * Sets the cursor position.
+ * @param x The new horizontal position of the cursor.
+ * @param y The new vertical position of the cursor.
+ */
+void tty_cursor_set(size_t x, size_t y);
+
+/**
+ * Updates the cursor position to the current workspace's cursor position.
+ */
+void tty_cursor_update();
 
 /**
  * Initializes the tty.
