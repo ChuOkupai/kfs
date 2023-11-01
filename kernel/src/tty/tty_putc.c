@@ -8,7 +8,6 @@ static inline void workspace_putc(t_workspace *s, char c) {
 	t_vga_entry_color				focus_color = VGA_COLOR_BLACK | VGA_COLOR_WHITE << 4;
 
 	*on_focus |= focus_color << 8;
-	
 }
 
 void tty_putc(char c) {

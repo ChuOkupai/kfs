@@ -1,18 +1,27 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   stdio.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jbondri <jbondri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 20:32:34 by jbondri           #+#    #+#             */
-/*   Updated: 2023/10/21 00:15:05 by jbondri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
-# define EOF (-1)
+#include <stdarg.h>
+#include <stddef.h>
 
-int	printf(const char *format, ...);
-int	putchar(int ci);
-int	puts(const char *str);
+#define EOF (-1)
+
+int	printf(const char *format,
+	...) __attribute__((format(printf,1,2),nonnull(1)));
+
+int	putchar(int c);
+
+int	puts(const char *s);
+
+int	snprintf(char *str, size_t n, const char *format,
+	...) __attribute__((format(printf,3,4),nonnull(3)));
+
+int	sprintf(char *str, const char *format,
+	...) __attribute__((format(printf,2,3),nonnull(2),nonnull(1)));
+
+int	vprintf(const char *format,
+	va_list ap) __attribute__((format(printf,1,0),nonnull(1)));
+
+int	vsnprintf(char *str, size_t n, const char *format,
+	va_list ap) __attribute__((format(printf,3,0),nonnull(3)));
+
+int	vsprintf(char *str, const char *format,
+	va_list ap) __attribute__((format(printf,2,0),nonnull(2),nonnull(1)));

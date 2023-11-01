@@ -1,18 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   puts.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jbondri <jbondri@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 18:59:44 by jbondri           #+#    #+#             */
-/*   Updated: 2023/10/20 19:00:58 by jbondri          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <stdio.h>
 
-#include "stdio.h"
-
-int	puts(const char	*string)
-{
-	return (printf("%s\n", string));
+int puts(const char	*string) {
+	return printf("%s\n", string);
 }
