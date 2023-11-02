@@ -1,12 +1,12 @@
 #pragma once
 #include <vga.h>
+#include <vgaline.h>
 
 #define MAX_WORKSPACES 3
 
 typedef struct s_workspace {
 	t_vga_entry buf[VGA_BUFSIZE];
-	size_t row;
-	size_t column;
+	t_pool_vga_line		pool;
 	t_vga_entry_color color;
 }	t_workspace;
 
