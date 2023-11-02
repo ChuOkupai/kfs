@@ -13,6 +13,7 @@ static inline void workspace_init(t_workspace *s) {
 }
 
 void tty_init() {
+	tty_cursor_disable();
 	g_term->current_workspace = 0;
 	for (size_t i = 0; i < MAX_WORKSPACES; ++i)
 		workspace_init(g_term->workspaces + i);

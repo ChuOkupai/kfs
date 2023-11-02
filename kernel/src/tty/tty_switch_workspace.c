@@ -10,6 +10,7 @@ static void workspace_switch(size_t next) {
 	// Switch to the next workspace
 	memcpy(VGA_MEMORY, next_w->buf, VGA_BUFSIZE * sizeof(t_vga_entry));
 	g_term->current_workspace = next;
+	tty_cursor_update();
 }
 
 void tty_prev_workspace() {

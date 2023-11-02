@@ -52,7 +52,9 @@ void kernel_main()
 	timer_init();
 	tty_init();
 	run_boot_sequence();
+	tty_cursor_enable(CURSOR_TYPE_UNDERLINE);
 	init_keyboard();
+	tty_clear();
 	printf("%d\n", 42);
 	while (1)
 		handle_keyboard_input();
