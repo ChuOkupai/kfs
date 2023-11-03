@@ -5,9 +5,14 @@
 #define MAX_WORKSPACES 3
 
 typedef struct s_workspace {
-	t_vga_entry buf[VGA_BUFSIZE];
+	t_list_vga_line		*top_line;
+	t_list_vga_line		*on_focus_line;
+	t_list_vga_line		*starting_line;
+	size_t				row;
+	size_t				column;
 	t_pool_vga_line		pool;
-	t_vga_entry_color color;
+	t_vga_entry_color	color;
+	int					temp;
 }	t_workspace;
 
 typedef struct s_tty {
@@ -16,14 +21,14 @@ typedef struct s_tty {
 }	t_tty;
 
 /** The global tty used by the kernel. */
-extern t_tty *g_term;
+t_tty *term_storage();
 
 /**
  * Gets the current workspace.
  * @return The current workspace.
  */
 inline t_workspace *tty_get_current_workspace() {
-	return g_term->workspaces + g_term->current_workspace;
+	return term_storage()->workspaces + term_storage()->current_workspace;
 }
 
 /**

@@ -67,12 +67,11 @@ void vga_fill(char c, t_vga_entry_color color);
 void vga_put(char c, t_vga_entry_color color, size_t x, size_t y);
 
 /**
- * Change the color at a given position in the VGA buffer.
- * @param color The color of the character.
- * @param x The x position of the character.
- * @param y The y position of the character.
+ * Puts a whole line at a given position in the VGA buffer.
+ * @param entry The line to be print.
+ * @param row The position on the screen to override.
  */
-void vga_put_color(t_vga_entry_color color,  size_t x, size_t y);
+void vga_put_line(t_vga_entry entry[VGA_WIDTH], size_t row);
 /**
  * Puts a rectangle of a given character and color at a given position in the VGA buffer.
  * @param c The character to put in the buffer.

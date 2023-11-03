@@ -1,21 +1,23 @@
 #include <string.h>
+#include <vgaline.h>
 #include <tty.h>
 
 static void workspace_switch(size_t next) {
-	t_workspace *w = tty_get_current_workspace();
-	t_workspace *next_w = g_term->workspaces + next;
+	t_workspace		*next_w = term_storage()->workspaces + next;
+	t_list_vga_line	*first_line = next_w->top_line;
 
-	// Save the current workspace
-	memcpy(w->buf, VGA_MEMORY, VGA_BUFSIZE * sizeof(t_vga_entry));
-	// Switch to the next workspace
-	memcpy(VGA_MEMORY, next_w->buf, VGA_BUFSIZE * sizeof(t_vga_entry));
-	g_term->current_workspace = next;
+	for (size_t i = 0; i < VGA_HEIGHT && first_line; i++)
+	{
+		memcpy(VGA_MEMORY + i * VGA_WIDTH, first_line->buff, VGA_WIDTH * sizeof(t_vga_entry));
+		first_line = first_line->next;
+	}
+	term_storage()->current_workspace = next;
 }
 
 void tty_prev_workspace() {
-	workspace_switch((g_term->current_workspace + MAX_WORKSPACES - 1) % MAX_WORKSPACES);
+	workspace_switch((term_storage()->current_workspace + MAX_WORKSPACES - 1) % MAX_WORKSPACES);
 }
 
 void tty_next_workspace() {
-	workspace_switch((g_term->current_workspace + 1) % MAX_WORKSPACES);
+	workspace_switch((term_storage()->current_workspace + 1) % MAX_WORKSPACES);
 }
