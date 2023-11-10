@@ -1,6 +1,7 @@
 #pragma once
 #include <stdbool.h>
 #include <vga.h>
+#include <vgaline.h>
 
 #define MAX_WORKSPACES 3
 
@@ -10,10 +11,14 @@ typedef enum e_cursor_type {
 }	t_cursor_type;
 
 typedef struct s_workspace {
-	t_vga_entry buf[VGA_BUFSIZE];
-	size_t row;
-	size_t column;
-	t_vga_entry_color color;
+	t_list_vga_line		*top_line;
+	t_list_vga_line		*on_focus_line;
+	t_list_vga_line		*starting_line;
+	size_t				row;
+	size_t				column;
+	t_pool_vga_line		allocator;
+	t_vga_entry_color	color;
+	int					temp;
 }	t_workspace;
 
 typedef struct s_tty {
@@ -23,14 +28,14 @@ typedef struct s_tty {
 }	t_tty;
 
 /** The global tty used by the kernel. */
-extern t_tty *g_term;
+t_tty *term_storage();
 
 /**
  * Gets the current workspace.
  * @return The current workspace.
  */
 inline t_workspace *tty_get_current_workspace() {
-	return g_term->workspaces + g_term->current_workspace;
+	return term_storage()->workspaces + term_storage()->current_workspace;
 }
 
 /**
@@ -100,3 +105,10 @@ void tty_setcolor(t_vga_entry_color color);
  * @param size The size of the data to write to the tty.
  */
 void tty_write(const char *data, size_t size);
+
+/**
+ * Print a part of the screen.
+ * @param row The starting row.
+ * @param starting The line to print on this row.
+ */
+void	tty_print_partial_screen(size_t row, t_list_vga_line *starting);
