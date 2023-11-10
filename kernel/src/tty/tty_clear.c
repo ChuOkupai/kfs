@@ -17,5 +17,6 @@ void tty_clear() {
 	w->top_line = end;
 	w->row = 0;
 	w->column = 0;
-	print_partial_screen(0, w->top_line);
+	tty_print_partial_screen(0, w->top_line);
+	tty_cursor_update();
 }

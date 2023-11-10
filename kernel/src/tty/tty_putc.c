@@ -3,18 +3,6 @@
 #include <tty.h>
 #include <stdio.h>
 
-void	print_partial_screen(size_t row, t_list_vga_line *starting)
-{
-	for (; starting && row < VGA_HEIGHT; starting = starting->next)
-		vga_put_line(starting->buff, row++);
-	while (row < VGA_HEIGHT)
-	{
-		for (size_t x = 0; x < VGA_WIDTH; x++)
-			vga_put('\0', tty_get_current_workspace()->color, x, row);
-		row++;
-	}
-}
-
 static inline size_t	get_last_char_column(t_list_vga_line *line)
 {
 	size_t		i = VGA_WIDTH - 1;
@@ -42,7 +30,7 @@ static inline void recalibration(t_workspace *s) {
 	while (gap++ < VGA_HEIGHT - 1 && s->top_line && s->top_line->prev)
 		s->top_line = s->top_line->prev;
 	s->row = gap - 1;
-	print_partial_screen(0, s->top_line);
+	tty_print_partial_screen(0, s->top_line);
 }
 
 static inline void deletion_line_switch(t_workspace *s)
@@ -74,7 +62,7 @@ static inline void	delete_char(t_workspace *s)
 	}
 	else
 		delete_line_chars(s->on_focus_line, --s->column, 1);
-	print_partial_screen(0, s->top_line);
+	tty_print_partial_screen(0, s->top_line);
 }
 
 static inline void	newline_management_printing(t_workspace *s)
@@ -91,9 +79,9 @@ static inline void	newline_management_printing(t_workspace *s)
 		s->top_line = s->top_line->next;
 	}
 	if (control_line != s->top_line)
-		print_partial_screen(0, s->top_line);
+		tty_print_partial_screen(0, s->top_line);
 	else
-		print_partial_screen(s->row, s->on_focus_line);
+		tty_print_partial_screen(s->row, s->on_focus_line);
 	return ;
 }
 
@@ -113,4 +101,5 @@ static inline void	workspace_putc(t_workspace *s, char c)
 
 void tty_putc(char c) {
 	workspace_putc(tty_get_current_workspace(), c);
+	tty_cursor_update();
 }

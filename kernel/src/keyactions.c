@@ -26,9 +26,9 @@ void up_scrolling(void)
 		tty_get_current_workspace()->top_line = tty_get_current_workspace()->top_line->prev;
 		if (tty_get_current_workspace()->row < VGA_HEIGHT)
 			tty_get_current_workspace()->row++;
-		print_partial_screen(0, tty_get_current_workspace()->top_line);
+		tty_print_partial_screen(0, tty_get_current_workspace()->top_line);
+		tty_cursor_update();
 	}
-	return ;
 }
 void down_scrolling(void)
 {
@@ -37,9 +37,9 @@ void down_scrolling(void)
 		tty_get_current_workspace()->top_line = tty_get_current_workspace()->top_line->next;
 		if (tty_get_current_workspace()->row > 0)
 			tty_get_current_workspace()->row--;
-		print_partial_screen(0, tty_get_current_workspace()->top_line);
+		tty_print_partial_screen(0, tty_get_current_workspace()->top_line);
+		tty_cursor_update();
 	}
-	return ;
 }
 
 void keyboard_state_capslock (void)
