@@ -10,7 +10,7 @@ t_tty *term_storage(void)
 
 static inline void workspace_init(t_workspace *s) {
 	memset(s, 0, sizeof(t_workspace));
-	s->top_line = alloc_next_line();
+	s->top_line = vgaline_alloc_safely();
 	s->on_focus_line = s->top_line;
 	s->starting_line = s->top_line;
 	s->color = vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_WHITE);

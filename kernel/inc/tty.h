@@ -10,7 +10,7 @@ typedef struct s_workspace {
 	t_list_vga_line		*starting_line;
 	size_t				row;
 	size_t				column;
-	t_pool_vga_line		pool;
+	t_pool_vga_line		allocator;
 	t_vga_entry_color	color;
 	int					temp;
 }	t_workspace;
@@ -75,3 +75,5 @@ void tty_setcolor(t_vga_entry_color color);
  * @param size The size of the data to write to the tty.
  */
 void tty_write(const char *data, size_t size);
+
+void	print_partial_screen(size_t row, t_list_vga_line *starting);

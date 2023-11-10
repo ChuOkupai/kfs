@@ -19,6 +19,29 @@ void keyboard_state_shift (void)
 	return ;
 }
 
+void up_scrolling(void)
+{
+	if (tty_get_current_workspace()->top_line->prev)
+	{
+		tty_get_current_workspace()->top_line = tty_get_current_workspace()->top_line->prev;
+		if (tty_get_current_workspace()->row < VGA_HEIGHT)
+			tty_get_current_workspace()->row++;
+		print_partial_screen(0, tty_get_current_workspace()->top_line);
+	}
+	return ;
+}
+void down_scrolling(void)
+{
+	if (tty_get_current_workspace()->top_line->next)
+	{
+		tty_get_current_workspace()->top_line = tty_get_current_workspace()->top_line->next;
+		if (tty_get_current_workspace()->row > 0)
+			tty_get_current_workspace()->row--;
+		print_partial_screen(0, tty_get_current_workspace()->top_line);
+	}
+	return ;
+}
+
 void keyboard_state_capslock (void)
 {
 	set_modulator(KEYBOARDSTATE_CAPSLOCK, !get_modulator(KEYBOARDSTATE_CAPSLOCK));
@@ -77,7 +100,15 @@ bool	keyaction_handler(t_keyboard_key code)
 		{
 			.code = SCANCODE_ANTI_RIGHT_SHIFT,
 			.exec = keyboard_state_shift
-		}
+		},
+		{
+			.code = SCANCODE_UP_SCROLL,
+			.exec = up_scrolling
+		},
+		{
+			.code = SCANCODE_DOWN_SCROLL,
+			.exec = down_scrolling
+		},
 	};
 	res = bsearch((void*)&actual, (void*)keys_actions, sizeof(keys_actions) / sizeof(struct s_key_action),
 		sizeof(struct s_key_action), compare_keyascii_units);
