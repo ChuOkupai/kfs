@@ -13,7 +13,7 @@ static inline void workspace_init(t_workspace *s) {
 	s->top_line = vgaline_alloc_safely();
 	s->on_focus_line = s->top_line;
 	s->starting_line = s->top_line;
-	s->color = vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_WHITE);
+	s->color = vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLACK);
 }
 
 void tty_init() {
