@@ -2,7 +2,7 @@ FROM debian:buster
 
 RUN apt update \
 	&& apt install -y build-essential \
-		bison flex libgmp3-dev libmpc-dev libmpfr-dev texinfo wget nasm gcc-multilib
+		grub-pc-bin xorriso bison flex libgmp3-dev libmpc-dev libmpfr-dev texinfo wget nasm gcc-multilib grub-common
 
 RUN wget https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.gz \
 &&  tar -xzvf binutils-2.39.tar.gz \
