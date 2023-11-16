@@ -13,8 +13,10 @@ void tty_clear() {
 		vgaline_free(end->next);
 	}
 	vgaline_clear(end);
+	// end->next = NULL;
 	w->on_focus_line = end;
 	w->top_line = end;
+	w->starting_line = end;
 	w->row = 0;
 	w->column = 0;
 	tty_print_partial_screen(0, w->top_line);
