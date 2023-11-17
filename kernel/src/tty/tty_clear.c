@@ -13,7 +13,8 @@ void tty_clear() {
 		vgaline_free(end->next);
 	}
 	vgaline_clear(end);
-	// end->next = NULL;
+	end->prev = NULL;
+	end->next = NULL;
 	w->on_focus_line = end;
 	w->top_line = end;
 	w->starting_line = end;
