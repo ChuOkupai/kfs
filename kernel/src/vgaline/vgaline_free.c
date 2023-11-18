@@ -1,30 +1,31 @@
 #include <vgaline.h>
+#include <stdio.h>
 #include <tty.h>
 
-static inline t_pool_vga_line *get_pool_by_line_adress(void *line)
+static inline t_workspace *get_workspace_by_line_adress(void *line)
 {
-	struct s_pool_vga_line	*pool = NULL;
 	t_workspace *ws = (t_workspace *)((term_storage()->workspaces));
 	for (size_t i = 0; i < MAX_WORKSPACES; i++)
 	{
-		if (line >= (void *)(ws[i].allocator.pool)
-			&& line < (void *)(ws[i].allocator.pool + 1))
+		if (line >= (void *)(ws + i)
+			&& line < (void *)(ws + i + 1))
 		{
-			pool = &(ws[i].allocator);
-			break ;
+			return (ws + i);
 		}
 	}
-	return pool;
+	return NULL;
 }
 
 void	vgaline_free(t_list_vga_line *trash)
 {
-	struct s_pool_vga_line	*pool = NULL;
+	t_workspace	*ws = NULL;
 
-	if (!(pool = get_pool_by_line_adress((void*)trash)))
+	if (!(ws = get_workspace_by_line_adress((void*)trash)))
+	{
 		return ;
+	}
 	vgaline_clear(trash);
-	trash->next = pool->to_alloc;
+	trash->next = ws->allocator.to_alloc;
 	trash->prev = NULL;
-	pool->to_alloc = trash;
+	ws->allocator.to_alloc = trash;
 }
