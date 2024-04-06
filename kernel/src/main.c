@@ -9,7 +9,7 @@
 #endif
 
 #if !defined(__i386__)
-# error "This tutorial needs to be compiled with a ix86-elf compiler"
+# error "This kernel needs to be compiled with a ix86-elf compiler"
 #endif
 
 static inline void run_frame(const t_vga_color c) {
