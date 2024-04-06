@@ -107,7 +107,7 @@
 #define MODIFIER_CAPS_LOCK			0x40
 #define MODIFIER_NUM_LOCK			0x80
 
-#define SHORTCUTS_MAX_LENGTH			3
+#define SHORTCUTS_MAX_LENGTH		3
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>

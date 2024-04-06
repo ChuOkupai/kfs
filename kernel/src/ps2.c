@@ -26,7 +26,8 @@ void init_ps2() {
 	write_ps2_command(0xAA);
 	uint8_t self_test_result = read_ps2_data();
 	if (self_test_result != 0x55) {
-		// Self-test failed
+		// TODO: Add kernel panic when self-test fails
+		return;
 	}
 
 	// Enable the devices

@@ -32,8 +32,8 @@ typedef uint16_t t_vga_entry;
 
 /**
  * Creates a VGA color entry by combining foreground and background colors.
- * @param fg Foreground color.
- * @param bg Background color.
+ * @param fg The foreground color.
+ * @param bg The background color.
  * @return A VGA color entry.
  */
 inline t_vga_entry_color vga_entry_color(t_vga_color fg, t_vga_color bg) {
@@ -42,11 +42,11 @@ inline t_vga_entry_color vga_entry_color(t_vga_color fg, t_vga_color bg) {
 
 /**
  * Creates a VGA entry by combining a character and a color.
- * @param c Character.
- * @param color Color.
+ * @param c The character to display.
+ * @param color The color of the character.
  * @return A VGA entry.
  */
-inline t_vga_entry vga_entry(unsigned char c, t_vga_entry_color color) {
+inline t_vga_entry vga_entry(uint8_t c, t_vga_entry_color color) {
 	return c | (t_vga_entry) color << 8;
 }
 
@@ -64,28 +64,12 @@ void vga_fill(char c, t_vga_entry_color color);
  * @param x The x position of the character.
  * @param y The y position of the character.
  */
-void vga_put(char c, t_vga_entry_color color, size_t x, size_t y);
+void vga_putc(char c, t_vga_entry_color color, size_t x, size_t y);
 
 /**
- * Puts a whole line at a given position in the VGA buffer.
- * @param entry The line to be print.
- * @param row The position on the screen to override.
+ * Writes a whole line to the VGA buffer at a given row.
+ * The line must be at least VGA_WIDTH characters long.
+ * @param entry The line to write to the VGA buffer.
+ * @param y The row to write the line to.
  */
-void vga_put_line(t_vga_entry entry[VGA_WIDTH], size_t row);
-/**
- * Puts a rectangle of a given character and color at a given position in the VGA buffer.
- * @param c The character to put in the buffer.
- * @param color The color of the character.
- * @param x The x position of the character.
- * @param y The y position of the character.
- * @param width The width of the rectangle.
- * @param height The height of the rectangle.
- */
-void vga_put_rect(char c, t_vga_entry_color color, size_t x, size_t y, size_t width, size_t height);
-
-/**
- * compare two vga entries and return the substraction.
- * @param c1 The first character.
- * @param c2 The second character.
- */
-uint16_t vga_entry_cmp(t_vga_entry c1, t_vga_entry c2);
+void vga_write(const t_vga_entry *entry, size_t y);

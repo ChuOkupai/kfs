@@ -2,9 +2,7 @@
 #include <ps2.h>
 #include <tty.h>
 
-
-
-void	init_keyboard() {
+void init_keyboard() {
 	init_ps2();
 	write_ps2_command(0xAE);
 }

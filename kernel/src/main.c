@@ -36,14 +36,14 @@ static inline void run_boot_sequence() {
 		VGA_COLOR_BLUE,
 		VGA_COLOR_BLACK
 	};
-	tty_setcolor(vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_WHITE));
+	tty_set_color(vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_WHITE));
 	tty_clear();
 	for (size_t i = 0; i < SIZEOF_ARRAY(colors_sequence); ++i) {
 		run_frame(colors_sequence[i]);
 		timer_wait(200);
 	}
 	timer_wait(1000);
-	tty_setcolor(vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLACK));
+	tty_set_color(vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLACK));
 	tty_clear();
 }
 
@@ -51,11 +51,12 @@ void kernel_main()
 {
 	timer_init();
 	tty_init();
-	run_boot_sequence();
-	tty_cursor_enable(CURSOR_TYPE_UNDERLINE);
-	init_keyboard();
+	// run_boot_sequence();
+	tty_set_cursor_type(CURSOR_TYPE_UNDERLINE);
+	// init_keyboard();
 	tty_clear();
-	printf("%d\n", 42);
-	while (1)
-		handle_keyboard_input();
+	printf("Welcome to CHOR.ISO!\n");
+	printf("BITSET_SIZE(VGA_BUFSIZE): %lu\n", BITSET_SIZE(VGA_BUFSIZE));
+	// while (1)
+	// 	handle_keyboard_input();
 }
