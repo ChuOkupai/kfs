@@ -1,7 +1,10 @@
 #pragma once
 #include <vga.h>
 
-#define MAX_WORKSPACES 3
+#define MAX_WORKSPACES	3
+#define TTY_WIDTH		VGA_WIDTH
+#define TTY_HEIGHT		(VGA_HEIGHT - 1)
+#define TTY_BUFSIZE		(TTY_WIDTH * TTY_HEIGHT)
 
 typedef enum e_cursor_type {
 	CURSOR_TYPE_NONE,
@@ -10,6 +13,7 @@ typedef enum e_cursor_type {
 }	t_cursor_type;
 
 typedef struct s_workspace {
+	uint16_t			buffer[TTY_BUFSIZE];
 	uint8_t				cursor_x;
 	uint8_t				cursor_y;
 	t_vga_entry_color	color;
@@ -34,6 +38,11 @@ void tty_clear();
  * @return The current workspace.
 */
 t_workspace *tty_current_workspace();
+
+/**
+ * Erases the current line.
+*/
+void tty_erase_line();
 
 /**
  * Initializes the tty.
@@ -63,6 +72,13 @@ void tty_putc(char c);
 void tty_puts(const char *s);
 
 /**
+ * Scrolls the tty up by a given number of lines.
+ * The lines are discarded.
+ * @param lines The number of lines to scroll up.
+ */
+void tty_scroll_down(size_t lines);
+
+/**
  * Sets the color of the tty.
  * @param color The color to set the tty to.
  */
@@ -83,13 +99,7 @@ void tty_set_cursor_pos(uint8_t x, uint8_t y);
 void tty_set_cursor_type(t_cursor_type type);
 
 /**
- * Updates the cursor position.
- */
-void tty_update_cursor();
-
-/**
- * Updates the tty.
- * This function should be called after any changes to the tty.
+ * Flushs all changes to the tty.
  */
 void tty_update();
 

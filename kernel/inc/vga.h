@@ -51,11 +51,28 @@ inline t_vga_entry vga_entry(uint8_t c, t_vga_entry_color color) {
 }
 
 /**
+ * Fills a line in the VGA buffer with a given character and color.
+ * @param c The character to fill the line with.
+ * @param color The color to fill the line with.
+ * @param y The line to fill.
+
+ */
+void vga_fill_line(char c, t_vga_entry_color color, size_t y);
+
+/**
  * Fills the VGA buffer with a given character and color.
  * @param c The character to fill the buffer with.
  * @param color The color to fill the buffer with.
  */
 void vga_fill(char c, t_vga_entry_color color);
+
+/**
+ * Gets a character at a given position in the VGA buffer.
+ * @param x The x position of the character.
+ * @param y The y position of the character.
+ * @return The character at the given position.
+*/
+t_vga_entry vga_getc(size_t x, size_t y);
 
 /**
  * Puts a character at a given position in the VGA buffer.
@@ -65,6 +82,15 @@ void vga_fill(char c, t_vga_entry_color color);
  * @param y The y position of the character.
  */
 void vga_putc(char c, t_vga_entry_color color, size_t x, size_t y);
+
+/**
+ * Puts a string at a given position in the VGA buffer.
+ * @param s The string to put in the buffer.
+ * @param color The color of the string.
+ * @param x The x position of the string.
+ * @param y The y position of the string.
+ */
+void vga_puts(const char *s, t_vga_entry_color color, size_t x, size_t y);
 
 /**
  * Writes a whole line to the VGA buffer at a given row.

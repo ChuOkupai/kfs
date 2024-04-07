@@ -1,8 +1,12 @@
 #include <io.h>
 #include <ps2.h>
 
-#define PS2_DATA_PORT 0x60
-#define PS2_STATUS_PORT 0x64
+static void write_internal(uint16_t port, uint8_t data) {
+	// Wait for input buffer to be empty
+	while (read_ps2_status() & 2)
+		asm("pause");
+	outb(port, data);
+}
 
 void init_ps2() {
 	// Disable the devices
@@ -10,9 +14,8 @@ void init_ps2() {
 	write_ps2_command(0xA7);
 
 	// Flush the output buffer
-	while (read_ps2_status() & 1) {
+	while (read_ps2_status() & 1)
 		read_ps2_data();
-	}
 
 	// Set the controller configuration byte
 	write_ps2_command(0x20);
@@ -36,10 +39,9 @@ void init_ps2() {
 }
 
 uint8_t read_ps2_data() {
-	while (!(read_ps2_status() & 1)) {
-		// Wait for output buffer to be full
-	}
-
+	// Wait for output buffer to be full
+	while (!(read_ps2_status() & 1))
+		asm("pause");
 	return inb(PS2_DATA_PORT);
 }
 
@@ -48,17 +50,9 @@ uint8_t read_ps2_status() {
 }
 
 void write_ps2_command(uint8_t command) {
-	while (read_ps2_status() & 2) {
-		// Wait for input buffer to be empty
-	}
-
-	outb(PS2_STATUS_PORT, command);
+	write_internal(PS2_STATUS_PORT, command);
 }
 
 void write_ps2_data(uint8_t data) {
-	while (read_ps2_status() & 2) {
-		// Wait for input buffer to be empty
-	}
-
-	outb(PS2_DATA_PORT, data);
+	write_internal(PS2_DATA_PORT, data);
 }

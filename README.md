@@ -16,20 +16,23 @@ We chose to implement our own kernel in C.
 
 ### 🎁 Bonus features
 
-- 🔖 Some advanced printing functions like printf
-- 🎬 A bootscreen with an animated 42 logo
+- 🌈 Color support
+- 🎬 A bootscreen with an animated 42 logo!
 - 🖵 Multiscreen support
-- ⌨️ Keyboard support
-- 🖱️ Mouse support with scrolling
+- 📶 On-screen status bar
+- ⌨️ Keyboard support with shortcuts
+- ✏️ A basic line editor
+- 🔖 Some advanced printing functions like printf
 
 ## 🔑 Controls
 ### ⌨️ Keyboard Shortcuts
 
-| Shortcut | Action |
+| Action | Shortcut |
 | --- | --- |
-| Ctrl + C | Clear the screen |
-| Ctrl + Left | Switch to the previous screen |
-| Ctrl + Right | Switch to the next screen |
+| Clear the screen | Ctrl + L |
+| Erase the current line | Ctrl + U |
+| Switch to the next screen | Ctrl + Right |
+| Switch to the previous screen | Ctrl + Left |
 
 ## 📦 Prerequisites
 

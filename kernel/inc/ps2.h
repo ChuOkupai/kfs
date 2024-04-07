@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+#define PS2_DATA_PORT	0x60
+#define PS2_STATUS_PORT	0x64
+
 /**
  * Initializes the PS/2 controller.
 */
