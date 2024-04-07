@@ -1,10 +1,8 @@
-# ☢️ KFS 1
+# ☢️ Kernel From Scratch (KFS)
 
-This project is part of 42 school curriculum.
+The main goal of this project is to implement a 32 bits operating system from scratch!
 
-The main goal is to implement a 32 bits operating system from scratch.
-
-We chose to implement our own kernel in C.
+![](asset/demo.gif)
 
 ## ✨ Features
 ### 💪 Basic (feat)ures
@@ -12,7 +10,7 @@ We chose to implement our own kernel in C.
 - ⚓ An ASM boot code that loads the kernel using GRUB
 - 📚 A minimal libc written in C
 - ⚛️ A kernel written in C
-- 🖵 A basic VGA display with a "42" written on it
+- 🖵 A basic VGA display
 
 ### 🎁 Bonus features
 
@@ -20,8 +18,8 @@ We chose to implement our own kernel in C.
 - 🎬 A bootscreen with an animated 42 logo!
 - 🖵 Multiscreen support
 - 📶 On-screen status bar
-- ⌨️ Keyboard support with shortcuts
-- ✏️ A basic line editor
+- ⌨️ Keyboard support with shortcuts (US layout)
+- ✏️ A minimal line editor
 - 🔖 Some advanced printing functions like printf
 
 ## 🔑 Controls
@@ -31,6 +29,8 @@ We chose to implement our own kernel in C.
 | --- | --- |
 | Clear the screen | Ctrl + L |
 | Erase the current line | Ctrl + U |
+| Scroll down | Down |
+| Scroll page down | Page Down |
 | Switch to the next screen | Ctrl + Right |
 | Switch to the previous screen | Ctrl + Left |
 
@@ -46,6 +46,13 @@ Here is a simple example of how to build and run the project:
 ```sh
 make run
 ```
+
+- ⚠️ **Warning**: The docker image can take a long time to build the first time.
+
+## 🗒️ Documentation
+
+The kernel is documented using Doxygen.
+The documentation is available [here](https://chuokupai.github.io/kfs).
 
 ## ⚖️ License
 
