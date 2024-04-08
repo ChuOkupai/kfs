@@ -16,13 +16,11 @@ static void loop() {
 	while (1) {
 		wait_for_keypress(&key);
 		if (key.state == KEY_PRESSED) {
-			if (key.scancode != key_sequence_last(seq)) {
-				key_sequence_append(seq, key.scancode);
-				if (shortcut_dispatch(seq))
-					continue;
-			}
+			key_sequence_append(seq, key.scancode);
+			if (shortcut_dispatch(seq))
+				continue;
 			char c = scancode_to_ascii(key.scancode);
-			if (c && c != '\t')
+			if (c && c != '\t' && c != 0x7F)
 				tty_putc(c);
 		} else if (key.state == KEY_RELEASED)
 			key_sequence_remove(seq, key.scancode);

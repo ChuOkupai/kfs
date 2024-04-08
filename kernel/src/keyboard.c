@@ -25,7 +25,7 @@ static t_bitset g_key_state[KEYS_BITSET_SIZE] = { 0 };
 static uint8_t g_modifiers = 0;
 
 /** ASCII table for the US keyboard layout with keypad keys. */
-const char g_ascii_table[] = {
+const uint8_t g_ascii_table[] = {
 	0, 0, '1', '2', '3', '4', '5', '6',
 	'7', '8', '9', '0', '-', '=', '\b', '\t',
 	'q', 'w', 'e', 'r', 't', 'y', 'u', 'i',
@@ -34,16 +34,41 @@ const char g_ascii_table[] = {
 	'\'', '`', 0, '\\', 'z', 'x', 'c', 'v',
 	'b', 'n', 'm', ',', '.', '/', 0, '*',
 	0, ' ', 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, '7',
-	'8', '9', '-', '4', '5', '6', '+', '1',
-	'2', '3', '0', '.'
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, '-', 0, 0, 0, '+', 0,
+	0, 0, 0, 0
 };
 
 /** ASCII table for the US keyboard layout when num lock is enabled. */
-const char g_ascii_numlock[] = { 0 };
+const uint8_t g_ascii_numlock[] = {
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, '7',
+	'8', '9', 0, '4', '5', '6', 0, '1',
+	'2', '3', '0', 0
+};
+
 
 /** ASCII table for the US keyboard layout when caps lock is enabled. */
-const char g_ascii_shift[] = { 0 };
+const uint8_t g_ascii_shift[] = {
+	0, 0, '!', '@', '#', '$', '%', '^',
+	'&', '*', '(', ')', '_', '+', '\b', '\t',
+	'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I',
+	'O', 'P', '{', '}', '\n', 0, 'A', 'S',
+	'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
+	'"', '~', 0, '|', 'Z', 'X', 'C', 'V',
+	'B', 'N', 'M', '<', '>', '?', 0, '*',
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, '-', 0, 0, 0, '+', 0,
+	0, 0, 0, '.'
+};
 
 /**
  * Check if any shift key is pressed.
@@ -77,13 +102,14 @@ bool is_key_pressed(uint16_t scancode) {
 
 char scancode_to_ascii(uint16_t scancode) {
 	if (scancode >= SIZEOF_ARRAY(g_ascii_table)) {
+		if (scancode == SCANCODE_KEYPAD_ENTER)
+			return '\n';
 		if (scancode == SCANCODE_KEYPAD_SLASH)
 			return '/';
 		if (scancode == SCANCODE_DELETE)
 			return 0x7F;
 		return 0;
 	}
-	return g_ascii_table[scancode];
 	bool shift_modifier = is_shift_modifier_active();
 	bool caps_lock = g_modifiers & MODIFIER_CAPS_LOCK;
 	bool num_lock = !shift_modifier && (g_modifiers & MODIFIER_NUM_LOCK);
@@ -97,8 +123,7 @@ char scancode_to_ascii(uint16_t scancode) {
 	return c;
 }
 
-void wait_for_keypress(t_key *key)
-{
+void wait_for_keypress(t_key *key) {
 	key->scancode = read_ps2_data();
 	key->state = KEY_RELEASED;
 	if (key->scancode == 0xE0)
@@ -106,8 +131,8 @@ void wait_for_keypress(t_key *key)
 	if (!bitset_is_set(g_defined_keys, key->scancode))
 		key->scancode = SCANCODE_NULL;
 	else if (key->scancode & 0x80) {
-		bitset_unset(g_key_state, key->scancode);
 		key->scancode &= ~0x80;
+		bitset_unset(g_key_state, key->scancode);
 	} else {
 		bitset_set(g_key_state, key->scancode);
 		key->state = KEY_PRESSED;

@@ -2,34 +2,31 @@
 #include <shortcut.h>
 #include <tty.h>
 
-static void scroll_down() {
-	tty_scroll_down(1);
+static void move_cursor_left() {
+	tty_move_cursor(-1);
+}
+
+static void move_cursor_right() {
+	tty_move_cursor(1);
 }
 
 static void page_down() {
 	tty_scroll_down(TTY_HEIGHT);
 }
 
+static void scroll_down() {
+	tty_scroll_down(1);
+}
+
 const t_shortcut g_shortcuts[] = {
-	{
-		.seq = { SCANCODE_LEFT_CTRL, SCANCODE_U },
-		.handler = tty_erase_line
-	}, {
-		.seq = { SCANCODE_LEFT_CTRL, SCANCODE_L },
-		.handler = tty_clear
-	}, {
-		.seq = { SCANCODE_LEFT_CTRL, SCANCODE_ARROW_LEFT },
-		.handler = tty_prev_workspace
-	}, {
-		.seq = { SCANCODE_LEFT_CTRL, SCANCODE_ARROW_RIGHT },
-		.handler = tty_next_workspace
-	}, {
-		.seq = { SCANCODE_ARROW_DOWN },
-		.handler = scroll_down
-	}, {
-		.seq = { SCANCODE_PAGE_DOWN },
-		.handler = page_down
-	}
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_U }, tty_erase_line },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_L }, tty_clear },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_ARROW_LEFT }, tty_prev_workspace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_ARROW_RIGHT }, tty_next_workspace },
+	{ { SCANCODE_ARROW_LEFT }, move_cursor_left },
+	{ { SCANCODE_ARROW_RIGHT }, move_cursor_right },
+	{ { SCANCODE_ARROW_DOWN }, scroll_down },
+	{ { SCANCODE_PAGE_DOWN }, page_down }
 };
 
 bool shortcut_dispatch(t_key_sequence *seq) {

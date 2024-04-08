@@ -50,6 +50,14 @@ void tty_erase_line();
 void tty_init();
 
 /**
+ * Moves the cursor by a given offset.
+ * If the direction is negative, the cursor will move to the left.
+ * If the direction is positive, the cursor will move to the right.
+ * @param direction The direction to move the cursor.
+ */
+void tty_move_cursor(int8_t direction);
+
+/**
  * Switches to the next workspace.
  */
 void tty_next_workspace();
