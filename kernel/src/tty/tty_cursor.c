@@ -20,6 +20,12 @@ void tty_move_cursor(int8_t direction) {
 	}
 }
 
+void tty_set_cursor_pos_from_index(size_t index) {
+	t_workspace *w = tty_current_workspace();
+	w->cursor_x = index % TTY_WIDTH;
+	w->cursor_y = index / TTY_WIDTH;
+}
+
 void tty_set_cursor_pos(uint8_t x, uint8_t y) {
 	t_workspace *w = tty_current_workspace();
 	w->cursor_x = x;
@@ -27,14 +33,12 @@ void tty_set_cursor_pos(uint8_t x, uint8_t y) {
 }
 
 void tty_set_cursor_type(t_cursor_type type) {
-	const uint8_t cursor_types[] = { 0, 14 };
-
 	g_tty->cursor_type = type;
 	outb(0x3D4, 0x0A);
 	if (type == CURSOR_TYPE_NONE)
 		outb(0x3D5, 0x20);
 	else {
-		outb(0x3D5, (inb(0x3D5) & 0xC0) | cursor_types[type - 1]);
+		outb(0x3D5, (inb(0x3D5) & 0xC0) | type);
 		outb(0x3D4, 0x0B);
 		outb(0x3D5, (inb(0x3D5) & 0xE0) | 15);
 	}

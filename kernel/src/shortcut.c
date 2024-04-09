@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <macros.h>
 #include <shortcut.h>
 #include <tty.h>
@@ -11,29 +12,47 @@ static void move_cursor_right() {
 }
 
 static void page_down() {
-	tty_scroll_down(TTY_HEIGHT);
+	tty_scroll_up(TTY_HEIGHT);
 }
 
 static void scroll_down() {
-	tty_scroll_down(1);
+	tty_scroll_up(1);
+}
+
+static void switch_cursor_style() {
+	tty_set_cursor_type(g_tty->cursor_type ^ CURSOR_TYPE_UNDERLINE);
 }
 
 const t_shortcut g_shortcuts[] = {
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_Q }, switch_cursor_style },
 	{ { SCANCODE_LEFT_CTRL, SCANCODE_U }, tty_erase_line },
 	{ { SCANCODE_LEFT_CTRL, SCANCODE_L }, tty_clear },
 	{ { SCANCODE_LEFT_CTRL, SCANCODE_ARROW_LEFT }, tty_prev_workspace },
 	{ { SCANCODE_LEFT_CTRL, SCANCODE_ARROW_RIGHT }, tty_next_workspace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_Q }, switch_cursor_style },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_U }, tty_erase_line },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_L }, tty_clear },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_ARROW_LEFT }, tty_prev_workspace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_ARROW_RIGHT }, tty_next_workspace },
+	{ { SCANCODE_HOME }, tty_move_start_of_line },
 	{ { SCANCODE_ARROW_LEFT }, move_cursor_left },
 	{ { SCANCODE_ARROW_RIGHT }, move_cursor_right },
+	{ { SCANCODE_END }, tty_move_end_of_line },
 	{ { SCANCODE_ARROW_DOWN }, scroll_down },
 	{ { SCANCODE_PAGE_DOWN }, page_down }
 };
 
+static int cmp(const void *a, const void *b) {
+	const t_key_sequence *seq1 = a;
+	const t_shortcut *s2 = b;
+	return key_sequence_compare(seq1, s2->seq);
+}
+
 bool shortcut_dispatch(t_key_sequence *seq) {
-	for (size_t i = 0; i < SIZEOF_ARRAY(g_shortcuts); ++i)
-		if (!key_sequence_compare(seq, g_shortcuts[i].seq)) {
-			g_shortcuts[i].handler();
-			return true;
-		}
-	return false;
+	t_shortcut *shortcut = bsearch(seq, g_shortcuts, SIZEOF_ARRAY(g_shortcuts),
+		sizeof(t_shortcut), cmp);
+	if (!shortcut)
+		return false;
+	shortcut->handler();
+	return true;
 }

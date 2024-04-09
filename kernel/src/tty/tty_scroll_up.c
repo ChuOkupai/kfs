@@ -1,7 +1,7 @@
 #include <string.h>
 #include <tty.h>
 
-void tty_scroll_down(size_t lines) {
+void tty_scroll_up(size_t lines) {
 	t_workspace *w = tty_current_workspace();
 	if (lines > w->cursor_y)
 		lines = w->cursor_y;

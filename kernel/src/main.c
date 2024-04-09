@@ -10,8 +10,6 @@
 # error "This kernel needs to be compiled with a ix86-elf compiler"
 #endif
 
-#include <stdio.h>
-
 static void loop() {
 	t_key_sequence seq[KEY_SEQUENCE_MAX_LENGTH] = { 0 };
 	t_key key;
