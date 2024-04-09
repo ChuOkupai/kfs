@@ -12,5 +12,4 @@ void tty_scroll_down(size_t lines) {
 	for (size_t y = TTY_HEIGHT - lines; y < TTY_HEIGHT; ++y)
 		vga_fill_line(0, w->color, y);
 	w->cursor_y -= lines;
-	tty_update();
 }

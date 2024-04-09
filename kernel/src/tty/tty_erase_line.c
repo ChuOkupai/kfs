@@ -9,5 +9,4 @@ void tty_erase_line() {
 	while (w->cursor_y > 0 && (vga_getc(TTY_WIDTH - 1, w->cursor_y - 1) & 0xFF))
 		vga_fill_line(0, w->color, --w->cursor_y);
 	tty_set_cursor_pos(0, w->cursor_y);
-	tty_update();
 }

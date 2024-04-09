@@ -7,7 +7,6 @@ static void switch_screen(size_t next) {
 	g_tty->workspace_index = next;
 	w = tty_current_workspace();
 	memcpy(VGA_MEMORY, w->buffer, sizeof(w->buffer));
-	tty_update();
 }
 
 t_workspace *tty_current_workspace() {

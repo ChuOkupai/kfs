@@ -18,7 +18,6 @@ void tty_move_cursor(int8_t direction) {
 			++w->cursor_y;
 		}
 	}
-	tty_update();
 }
 
 void tty_set_cursor_pos(uint8_t x, uint8_t y) {
@@ -38,6 +37,5 @@ void tty_set_cursor_type(t_cursor_type type) {
 		outb(0x3D5, (inb(0x3D5) & 0xC0) | cursor_types[type - 1]);
 		outb(0x3D4, 0x0B);
 		outb(0x3D5, (inb(0x3D5) & 0xE0) | 15);
-		tty_update();
 	}
 }

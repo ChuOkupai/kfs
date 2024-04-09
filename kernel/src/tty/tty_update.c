@@ -19,7 +19,7 @@ static inline void update_status_bar(t_workspace *w) {
 	vga_puts(" chor.iso", color, 0, VGA_HEIGHT - 1);
 
 	char buf[32];
-	sprintf(buf, " %2hhu, %2hhu | Workspace %lu ", w->cursor_x, w->cursor_y,
+	sprintf(buf, " %hhu, %hhu | Workspace %d ", w->cursor_x, w->cursor_y,
 		g_tty->workspace_index + 1);
 	color = vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_LIGHT_CYAN);
 	vga_puts(buf, color, VGA_WIDTH - strlen(buf), VGA_HEIGHT - 1);

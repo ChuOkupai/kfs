@@ -1,8 +1,16 @@
 #include <sys/types.h>
 #include <ctype.h>
+#include <limits.h>
 #include <printf.h>
 #include <stdio.h>
 #include <string.h>
+
+static inline void pf_divmod64(t_ull n, t_ull d, t_ull *q, t_ull *r) {
+	*q = 0;
+	while (n >= d)
+		n -= d, ++*q;
+	*r = n;
+}
 
 static inline void pf_putchar(t_format *f, const char c) {
 	if (f->size == EOF)
@@ -46,25 +54,6 @@ static inline int min_int(int a, int b) {
 	return a < b ? a : b;
 }
 
-// Avoid undefined reference to `__udivmoddi4' error with GCC
-static inline void divmod(t_ull n, t_ull d, t_ull *q, t_ull *r) {
-	t_ull qn = 0, qd = 1;
-	while ((t_ll)d >= 0 && d < n) {
-		d <<= 1;
-		qd <<= 1;
-	}
-	while (qd) {
-		if (n >= d) {
-			n -= d;
-			qn += qd;
-		}
-		d >>= 1;
-		qd >>= 1;
-	}
-	*q = qn;
-	*r = n;
-}
-
 static char *num_to_string(t_ull n, int base) {
 	static char	buf[PF_CONVERT_BUFSIZE];
 	const char	*b16 = "0123456789abcdef";
@@ -74,10 +63,18 @@ static char *num_to_string(t_ull n, int base) {
 	*--d = '\0';
 	if (!n)
 		*--d = '0';
-	while (n) {
-		t_ull r;
-		divmod(n, base, &n, &r);
-		*--d = b16[r];
+	if (n > UINT32_MAX)
+		while (n) {
+			t_ull q = 0, r = 0;
+			pf_divmod64(n, base, &q, &r);
+			*--d = b16[r];
+		}
+	else {
+		uint32_t n32 = n;
+		while (n32) {
+			*--d = b16[n32 % base];
+			n32 /= base;
+		}
 	}
 	return d;
 }

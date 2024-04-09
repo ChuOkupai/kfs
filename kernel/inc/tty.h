@@ -21,7 +21,7 @@ typedef struct s_workspace {
 
 typedef struct s_tty {
 	t_workspace		workspaces[MAX_WORKSPACES];
-	size_t			workspace_index;
+	uint8_t			workspace_index;
 	t_cursor_type	cursor_type;
 }	t_tty;
 

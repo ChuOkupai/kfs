@@ -15,6 +15,6 @@ void tty_init() {
 	g_tty->workspace_index = 0;
 	for (size_t i = 0; i < MAX_WORKSPACES; ++i)
 		workspace_init(g_tty->workspaces + i);
+	vga_fill(0, g_tty->workspaces[0].color);
 	tty_set_cursor_type(CURSOR_TYPE_NONE);
-	tty_clear();
 }

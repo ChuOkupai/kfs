@@ -2,9 +2,6 @@
 #include <tty.h>
 
 int putchar(int ic) {
-	char c;
-
-	c = (char)ic;
-	tty_write(&c, 1);
+	tty_putc(ic);
 	return ic;
 }

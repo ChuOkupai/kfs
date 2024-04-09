@@ -10,10 +10,13 @@
 # error "This kernel needs to be compiled with a ix86-elf compiler"
 #endif
 
+#include <stdio.h>
+
 static void loop() {
 	t_key_sequence seq[KEY_SEQUENCE_MAX_LENGTH] = { 0 };
 	t_key key;
 	while (1) {
+		tty_update();
 		wait_for_keypress(&key);
 		if (key.state == KEY_PRESSED) {
 			key_sequence_append(seq, key.scancode);

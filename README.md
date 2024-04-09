@@ -19,7 +19,7 @@ The main goal of this project is to implement a 32 bits operating system from sc
 - 🖵 Multiscreen support
 - 📶 On-screen status bar
 - ⌨️ Keyboard support with shortcuts (US layout)
-- ✏️ A minimal line editor
+- ✏️ A minimal readline implementation
 - 🔖 Some advanced printing functions like printf
 
 ## 🔑 Controls
