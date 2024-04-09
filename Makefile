@@ -42,12 +42,12 @@ clean:
 	$(MAKE) -C $(KERNEL_DIR) clean
 	$(RM) -r $(DOXYGEN_DIR) $(LIBC)
 	$(RM) -r $(ISO_DIR)
-	$(RM) $(KERNEL_FILE)
+	$(RM) $(KERNEL_FILE) $(KERNEL_FILE_BONUS)
 
 fclean: clean
 	$(MAKE) -C $(LIBC_DIR) fclean
 	$(MAKE) -C $(KERNEL_DIR) fclean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(NAME_BONUS)
 
 doc:
 	doxygen
