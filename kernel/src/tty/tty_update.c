@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <bonus.h>
 #include <io.h>
 #include <tty.h>
 
@@ -14,6 +15,9 @@ static inline void update_cursor(t_workspace *w) {
 }
 
 static inline void update_status_bar(t_workspace *w) {
+	if (!BONUS)
+		return;
+
 	t_vga_entry_color color = vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_LIGHT_BLUE);
 	vga_fill_line(0, color, VGA_HEIGHT - 1);
 	vga_puts(" chor.iso", color, 0, VGA_HEIGHT - 1);

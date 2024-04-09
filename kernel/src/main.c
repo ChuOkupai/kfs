@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <bonus.h>
 #include <boot.h>
 #include <shortcut.h>
 #include <tty.h>
@@ -33,5 +35,11 @@ static void loop() {
 
 void kernel_main() {
 	boot();
-	loop();
+	if (BONUS)
+		loop();
+	else {
+		printf("%d\n", 42);
+		tty_update();
+		while (1);
+	}
 }
