@@ -1,0 +1,36 @@
+var vga_8h =
+[
+    [ "VGA_BUFSIZE", "vga_8h.html#ad8701895685117c8c0d1ea5dd66a89e4", null ],
+    [ "VGA_HEIGHT", "vga_8h.html#a1dc3cb2af110f40260e1b2256b6fa214", null ],
+    [ "VGA_MEMORY", "vga_8h.html#a0c512627e30a795d9163128f6e3df1c3", null ],
+    [ "VGA_WIDTH", "vga_8h.html#a7e5abf7be634adf4e3c22e589924ea34", null ],
+    [ "t_vga_color", "vga_8h.html#a3a526b77595cbfd505e7e06be9658fb5", null ],
+    [ "t_vga_entry", "vga_8h.html#a01c5fd1a43ec523eb2aa0fc8eeced01b", null ],
+    [ "t_vga_entry_color", "vga_8h.html#a42b94663010b8c05009256cd659fcf45", null ],
+    [ "e_vga_color", "vga_8h.html#aa42e8404fd521aaa27571cefdece449c", [
+      [ "VGA_COLOR_BLACK", "vga_8h.html#aa42e8404fd521aaa27571cefdece449ca0c4db2001081cecf298a1d4b486b4774", null ],
+      [ "VGA_COLOR_BLUE", "vga_8h.html#aa42e8404fd521aaa27571cefdece449ca663b039a56cc4b0ae428764bd2912805", null ],
+      [ "VGA_COLOR_GREEN", "vga_8h.html#aa42e8404fd521aaa27571cefdece449ca12f823154fcee6a5c8c007d4bb5ab487", null ],
+      [ "VGA_COLOR_CYAN", "vga_8h.html#aa42e8404fd521aaa27571cefdece449caf811c6bc13218b06e6201ad2ecbe18ab", null ],
+      [ "VGA_COLOR_RED", "vga_8h.html#aa42e8404fd521aaa27571cefdece449ca7215ff578d3469daf8bb697a60ad1836", null ],
+      [ "VGA_COLOR_MAGENTA", "vga_8h.html#aa42e8404fd521aaa27571cefdece449ca6a50a13f4692c36dc03904c057f214ee", null ],
+      [ "VGA_COLOR_BROWN", "vga_8h.html#aa42e8404fd521aaa27571cefdece449caa869dc9cc937e8d352256ee9690df7fe", null ],
+      [ "VGA_COLOR_LIGHT_GREY", "vga_8h.html#aa42e8404fd521aaa27571cefdece449ca36e7ce11635728c6d1f64a8e08da191d", null ],
+      [ "VGA_COLOR_DARK_GREY", "vga_8h.html#aa42e8404fd521aaa27571cefdece449cafd7a6c9325375205fced9399bc887e68", null ],
+      [ "VGA_COLOR_LIGHT_BLUE", "vga_8h.html#aa42e8404fd521aaa27571cefdece449cad606acb105ca29c2a9f06e442ea0b282", null ],
+      [ "VGA_COLOR_LIGHT_GREEN", "vga_8h.html#aa42e8404fd521aaa27571cefdece449ca61eadb3e52ca16b9afcc038c7879625f", null ],
+      [ "VGA_COLOR_LIGHT_CYAN", "vga_8h.html#aa42e8404fd521aaa27571cefdece449cad32d8cd20a9c1ea28b62f4b7e24fa21d", null ],
+      [ "VGA_COLOR_LIGHT_RED", "vga_8h.html#aa42e8404fd521aaa27571cefdece449caecca7b3f9042b169a6242b3de521a97d", null ],
+      [ "VGA_COLOR_LIGHT_MAGENTA", "vga_8h.html#aa42e8404fd521aaa27571cefdece449ca38ca76ebc37b2560aac48ad71537ef97", null ],
+      [ "VGA_COLOR_LIGHT_BROWN", "vga_8h.html#aa42e8404fd521aaa27571cefdece449ca87c60d255573db6b4aaf1decb5d9b694", null ],
+      [ "VGA_COLOR_WHITE", "vga_8h.html#aa42e8404fd521aaa27571cefdece449caae9cfca3c12a1185029c7feabd331f7a", null ]
+    ] ],
+    [ "vga_entry", "vga_8h.html#a6cfb75728fbee70938aa60df6d0e9108", null ],
+    [ "vga_entry_color", "vga_8h.html#adcad27d53979d09f0af3ea95f36776d8", null ],
+    [ "vga_fill", "vga_8h.html#a0a5b07a8641dfa4345f034b8247793ce", null ],
+    [ "vga_fill_line", "vga_8h.html#acd0b2b0260c67272008bd200a412bccf", null ],
+    [ "vga_getc", "vga_8h.html#ade485c9a7b6d4c4d9d1021604183facc", null ],
+    [ "vga_putc", "vga_8h.html#a386bfec95fde4e1070e03b11ee329417", null ],
+    [ "vga_puts", "vga_8h.html#a9baef6fd6699ba41d0bdbda54fec4fa0", null ],
+    [ "vga_write", "vga_8h.html#a4a21781fcebde9b5c125ae305bc30b05", null ]
+];

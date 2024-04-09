@@ -1,0 +1,8 @@
+<map id="kernel/src/boot.c" name="kernel/src/boot.c">
+<area shape="rect" id="node3" href="$bitset_8h.html" title="bitset.h" alt="" coords="100,80,171,107"/>
+<area shape="rect" id="node7" href="$keyboard_8h.html" title="keyboard.h" alt="" coords="256,155,351,181"/>
+<area shape="rect" id="node10" href="$timer_8h.html" title="timer.h" alt="" coords="375,155,443,181"/>
+<area shape="rect" id="node11" href="$tty_8h.html" title="tty.h" alt="" coords="195,80,246,107"/>
+<area shape="rect" id="node5" href="$macros_8h.html" title="macros.h" alt="" coords="15,155,98,181"/>
+<area shape="rect" id="node12" href="$vga_8h.html" title="vga.h" alt="" coords="173,155,231,181"/>
+</map>

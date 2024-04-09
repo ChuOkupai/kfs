@@ -1,0 +1,36 @@
+var tty_8h =
+[
+    [ "s_workspace", "structs__workspace.html", "structs__workspace" ],
+    [ "s_tty", "structs__tty.html", "structs__tty" ],
+    [ "MAX_WORKSPACES", "tty_8h.html#a767fd41715fc3e2d9f5d97b99fdf9b76", null ],
+    [ "TTY_BUFSIZE", "tty_8h.html#ae2f48069bc4d1da5838c2ce17d7b7dc5", null ],
+    [ "TTY_HEIGHT", "tty_8h.html#a316aa9eb7f8ac1ee5b9131ed887fb4a2", null ],
+    [ "TTY_WIDTH", "tty_8h.html#af42ee541fd72035283e0e1ffbbe0cdbd", null ],
+    [ "t_cursor_type", "tty_8h.html#ab231578187e0b516dcb50a5bad3f272c", null ],
+    [ "t_tty", "tty_8h.html#ab30299efab4043cd61cb899d0697cbb6", null ],
+    [ "t_workspace", "tty_8h.html#a1f552425a7507642c456b6d0a76b6504", null ],
+    [ "e_cursor_type", "tty_8h.html#a297f162144da99a2db8b636bc2753898", [
+      [ "CURSOR_TYPE_NONE", "tty_8h.html#a297f162144da99a2db8b636bc2753898adafab6369d2b9bacf795a76bb1ac0d49", null ],
+      [ "CURSOR_TYPE_BLOCK", "tty_8h.html#a297f162144da99a2db8b636bc2753898aa4374494d9cb4ae2c12525bfec79b571", null ],
+      [ "CURSOR_TYPE_UNDERLINE", "tty_8h.html#a297f162144da99a2db8b636bc2753898a36edd98bc4353091e0fbf7959b05e429", null ]
+    ] ],
+    [ "tty_clear", "tty_8h.html#aa4067fa969d0d2e92c28075829044f8a", null ],
+    [ "tty_current_workspace", "tty_8h.html#a72c2363d2cae34e561d4506adf6716cb", null ],
+    [ "tty_erase_line", "tty_8h.html#ab9d99dcaac799a6501e45b74f4d7e28b", null ],
+    [ "tty_init", "tty_8h.html#a3bf9faf77dd76addc6deac2722b097e2", null ],
+    [ "tty_move_cursor", "tty_8h.html#a60c4468b4a19121e624bc3c957d70937", null ],
+    [ "tty_move_end_of_line", "tty_8h.html#a4b165ab08656c6a507f3edf3d928637f", null ],
+    [ "tty_move_start_of_line", "tty_8h.html#af842fcaf6e4ca86a5eb30f08b18b4b70", null ],
+    [ "tty_next_workspace", "tty_8h.html#abef7dd9eb87b7cf85dc475e31fb62cc8", null ],
+    [ "tty_prev_workspace", "tty_8h.html#ae1610444c866e599a6c9dc4cbfd552a3", null ],
+    [ "tty_putc", "tty_8h.html#af7fad45e8ce4ed56625e6451e28d51f9", null ],
+    [ "tty_puts", "tty_8h.html#a12606724f2763776a4e9488cae4ffac2", null ],
+    [ "tty_scroll_up", "tty_8h.html#a185592b8f35780545bcd8e94e248177c", null ],
+    [ "tty_set_color", "tty_8h.html#a3fe0832a3f3456e4d83082fa56a1f17f", null ],
+    [ "tty_set_cursor_pos", "tty_8h.html#af35e98560cb9a85128976a9d9fb11e44", null ],
+    [ "tty_set_cursor_pos_from_index", "tty_8h.html#a9cad8124d6e51b3b862df096838807c3", null ],
+    [ "tty_set_cursor_type", "tty_8h.html#a627d1ce99398031f94959cd36e8e464d", null ],
+    [ "tty_update", "tty_8h.html#a2701b20c756c2d7329ab91b4b75d4476", null ],
+    [ "tty_write", "tty_8h.html#a02257a2f2c5a11718e937d7fe0df6ff1", null ],
+    [ "g_tty", "tty_8h.html#a013726396ecea78ea10592ffe86c4c76", null ]
+];
