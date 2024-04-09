@@ -40,8 +40,9 @@ static inline void run_boot_sequence() {
 void boot() {
 	timer_init();
 	tty_init();
-	//run_boot_sequence();
+	run_boot_sequence();
 	tty_set_cursor_type(CURSOR_TYPE_UNDERLINE);
 	init_keyboard();
 	tty_clear();
+	tty_update();
 }
