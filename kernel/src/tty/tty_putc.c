@@ -33,8 +33,11 @@ void tty_putc(char c) {
 		vga_putc(0, w->color, TTY_WIDTH - 1, TTY_HEIGHT - 1);
 	}
 	else {
-		if (vga_getc(w->cursor_x, w->cursor_y) & 0xFF)
+		if (vga_getc(w->cursor_x, w->cursor_y) & 0xFF) {
+			if (vga_getc(TTY_WIDTH - 1, TTY_HEIGHT - 1) & 0xFF)
+				tty_scroll_up(1);
 			move_buf(w, 1, 0);
+		}
 		vga_putc(c, w->color, w->cursor_x, w->cursor_y);
 		if (++w->cursor_x == TTY_WIDTH) {
 			w->cursor_x = 0;
