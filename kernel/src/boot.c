@@ -1,6 +1,7 @@
 #include <string.h>
 #include <bitset.h>
 #include <keyboard.h>
+#include <stack.h>
 #include <timer.h>
 #include <tty.h>
 
@@ -44,5 +45,6 @@ void boot() {
 	tty_set_cursor_type(CURSOR_TYPE_UNDERLINE);
 	init_keyboard();
 	tty_clear();
+	print_stack_info();
 	tty_update();
 }

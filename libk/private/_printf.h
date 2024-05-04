@@ -8,8 +8,7 @@
 typedef long long			t_ll;
 typedef unsigned long long	t_ull;
 
-typedef enum e_flags
-{
+typedef enum e_flags {
 	FLAG_HASH = 0x1,
 	FLAG_ZERO = 0x2,
 	FLAG_MINUS = 0x4,
@@ -27,8 +26,7 @@ typedef enum e_modifier {
 	MODIFIER_T = 0x40
 }	t_modifier;
 
-typedef struct s_format
-{
+typedef struct s_format {
 	// Input control
 	va_list		args;
 
@@ -45,8 +43,8 @@ typedef struct s_format
 	int			size;
 }	t_format;
 
-int	__parse_format(const char *s, va_list l);
+int __parse_format(const char *s, va_list l);
 
-int	__parse_format_str(char *dst, const char *s, va_list l);
+int __parse_format_str(char *dst, const char *s, va_list l);
 
-int	__parse_format_nstr(char *dst, size_t n, const char *s, va_list l);
+int __parse_format_nstr(char *dst, size_t n, const char *s, va_list l);

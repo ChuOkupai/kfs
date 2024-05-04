@@ -48,8 +48,6 @@ Here is a simple example of how to build and run the project:
 make run
 ```
 
-- ⚠️ **Warning**: The docker image can take a long time to build the first time.
-
 ## 🗒️ Documentation
 
 The kernel is documented using Doxygen.

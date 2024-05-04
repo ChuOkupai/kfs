@@ -3,5 +3,9 @@ services:
     container_name: kfs
     build:
       context: .
+    environment:
+      CFLAGS: >-
+        -Wall -Wextra -Werror -ffreestanding -fno-stack-protector
+        -nodefaultlibs -nostdlib -m32 -march=i386 -g3
     volumes:
       - .:/kfs

@@ -36,7 +36,7 @@ typedef uint16_t t_vga_entry;
  * @param bg The background color.
  * @return A VGA color entry.
  */
-inline t_vga_entry_color vga_entry_color(t_vga_color fg, t_vga_color bg) {
+static inline t_vga_entry_color vga_entry_color(t_vga_color fg, t_vga_color bg) {
 	return fg | bg << 4;
 }
 
@@ -46,7 +46,7 @@ inline t_vga_entry_color vga_entry_color(t_vga_color fg, t_vga_color bg) {
  * @param color The color of the character.
  * @return A VGA entry.
  */
-inline t_vga_entry vga_entry(uint8_t c, t_vga_entry_color color) {
+static inline t_vga_entry vga_entry(uint8_t c, t_vga_entry_color color) {
 	return c | (t_vga_entry) color << 8;
 }
 
