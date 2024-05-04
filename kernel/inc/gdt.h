@@ -1,7 +1,9 @@
 #pragma once
 #include <stdint.h>
 
-#define GDT_MEMORY 0x800
+#define GDT_MEMORY	0x800
+#define GDT_ENTRIES	7
+#define GDT_SIZE	(GDT_ENTRIES * sizeof(t_gdtdescriptor))
 
 typedef struct s_gdtr {
 	uint16_t	limite;

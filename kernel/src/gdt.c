@@ -2,7 +2,7 @@
 #include <gdt.h>
 
 t_gdtr g_kgdtr;
-t_gdtdescriptor g_kgdt[7];
+t_gdtdescriptor g_kgdt[GDT_ENTRIES];
 
 extern void flush_gdt(uint32_t);
 

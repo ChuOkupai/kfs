@@ -1,6 +1,9 @@
+#include <stdio.h>
 #include <string.h>
 #include <bitset.h>
+#include <gdt.h>
 #include <keyboard.h>
+#include <memory.h>
 #include <stack.h>
 #include <timer.h>
 #include <tty.h>
@@ -44,7 +47,12 @@ void run_boot_seq() {
 	run_boot_sequence();
 	tty_set_cursor_type(CURSOR_TYPE_UNDERLINE);
 	init_keyboard();
+	init_gdt();
 	tty_clear();
+	printf("GDT memory dump:\n");
+	hexdump((void*)GDT_MEMORY, GDT_SIZE);
+	putchar('\n');
 	print_stack_info();
+	putchar('\n');
 	tty_update();
 }

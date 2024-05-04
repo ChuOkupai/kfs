@@ -13,13 +13,18 @@ clean:
 doc: $(MODULES)
 	doxygen
 
+kernel:
+	$(MAKE) -C kernel
+
+libk:
+	$(MAKE) -C libk
+
 run:
 	qemu-system-i386 -cdrom $(NAME)
 
-.PHONY: all clean doc run
+.PHONY: all clean doc kernel libk run
 
 $(KERNEL_FILE): $(MODULES)
-	$(foreach module, $(MODULES), $(MAKE) -C $(module) -j;)
 	$(CC) $(CFLAGS) -T conf/linker.ld -o $@ kernel/kernel.o -L libk -lk
 
 $(NAME): $(KERNEL_FILE)
