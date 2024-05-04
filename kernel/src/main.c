@@ -28,6 +28,6 @@ static void loop() {
 }
 
 void kernel_main() {
-	boot();
+	run_boot_seq();
 	loop();
 }

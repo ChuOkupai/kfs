@@ -38,7 +38,7 @@ static inline void run_boot_sequence() {
 	timer_wait(1000);
 }
 
-void boot() {
+void run_boot_seq() {
 	timer_init();
 	tty_init();
 	run_boot_sequence();

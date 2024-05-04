@@ -5,7 +5,7 @@ services:
       context: .
     environment:
       CFLAGS: >-
-        -Wall -Wextra -Werror -ffreestanding -fno-stack-protector
-        -nodefaultlibs -nostdlib -m32 -march=i386 -g3
+        -ffreestanding -fno-stack-protector -nodefaultlibs -nostdlib
+        -m32 -march=i386 -Wall -Wextra -Werror -MMD -MP -g3
     volumes:
       - .:/kfs

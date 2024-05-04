@@ -1,40 +1,29 @@
 NAME		:= chor.iso
 ISO_DIR		:= iso
-KERNEL_FILE	:= kfs.kernel
+KERNEL_FILE	:= kfs.elf
+MODULES		:= kernel libk
 CFLAGS		+= $(addprefix -I ,/usr/include kernel/inc libk/inc)
 
-all: run
+all: $(NAME) doc
 
 clean:
-	$(MAKE) -C kernel clean
-	$(MAKE) -C libk clean
-	$(RM) -r doc $(ISO_DIR) $(NAME)
+	$(foreach module, $(MODULES), $(MAKE) -C $(module) clean;)
+	$(RM) -r doc $(ISO_DIR) $(KERNEL_FILE) $(NAME)
 
-doc:
+doc: $(MODULES)
 	doxygen
 
-docker:
-	docker-compose up --build -d
-	docker exec -it kfs make $(NAME)
-
-kernel:
-	$(MAKE) -C $@ -j
-
-libk:
-	$(MAKE) -C $@ -j
-
-re: clean docker
-
-run: docker
+run:
 	qemu-system-i386 -cdrom $(NAME)
 
-.PHONY: all clean doc docker kernel libk re run
+.PHONY: all clean doc run
 
-$(KERNEL_FILE): kernel libk
-	$(CC) $(CFLAGS) -T kernel/conf/linker.ld -o $@ kernel/kernel.o -L libk -lk
+$(KERNEL_FILE): $(MODULES)
+	$(foreach module, $(MODULES), $(MAKE) -C $(module) -j;)
+	$(CC) $(CFLAGS) -T conf/linker.ld -o $@ kernel/kernel.o -L libk -lk
 
 $(NAME): $(KERNEL_FILE)
 	mkdir -p $(ISO_DIR)/boot/grub
-	mv $(KERNEL_FILE) $(ISO_DIR)/boot
-	cp kernel/conf/grub.cfg $(ISO_DIR)/boot/grub
+	cp $(KERNEL_FILE) $(ISO_DIR)/boot
+	cp conf/grub.cfg $(ISO_DIR)/boot/grub
 	grub-mkrescue -o $@ $(ISO_DIR)

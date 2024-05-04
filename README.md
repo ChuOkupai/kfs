@@ -45,7 +45,7 @@ The main goal of this project is to implement a 32 bits operating system from sc
 
 Here is a simple example of how to build and run the project:
 ```sh
-make run
+docker compose run kfs && make run
 ```
 
 ## 🗒️ Documentation

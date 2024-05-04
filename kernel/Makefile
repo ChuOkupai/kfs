@@ -1,8 +1,8 @@
 NAME	:= kernel.o
-SRC_C	:= $(foreach pattern,* */*,$(wildcard src/$(pattern).c))
-DEP		:= $(SRC:.c=.d)
 SRC_ASM	:= $(foreach pattern,* */*,$(wildcard src/$(pattern).s))
-OBJ		:= $(SRC_C:.c=.o) $(SRC_ASM:.s=.s.o)
+SRC_C	:= $(foreach pattern,* */*,$(wildcard src/$(pattern).c))
+DEP		:= $(SRC_C:.c=.d)
+OBJ		:= $(SRC_ASM:.s=.o) $(SRC_C:.c=.o)
 CFLAGS	+= $(addprefix -I ,/usr/include ../libk/inc inc private)
 
 all: $(NAME)
@@ -10,14 +10,12 @@ all: $(NAME)
 clean:
 	$(RM) $(DEP) $(NAME) $(OBJ)
 
-re: clean all
-
-.PHONY: all clean re
+.PHONY: all clean
 
 $(NAME): $(OBJ)
 	$(LD) -m elf_i386 -r $^ -o $@
 
-%.s.o: %.s
+%.o: %.s
 	$(CC) $(CFLAGS) -c $< -o $@
 
 -include $(DEP)

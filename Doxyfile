@@ -1,7 +1,7 @@
 PROJECT_NAME = KFS
 PROJECT_NUMBER = 1.0
 OUTPUT_DIRECTORY = doc
-INPUT = kernel/inc kernel/src
+INPUT = kernel/inc kernel/src libk/inc libk/src
 FILE_PATTERNS = *.c *.h
 
 ALPHABETICAL_INDEX = YES

@@ -9,9 +9,7 @@ all: $(NAME)
 clean:
 	$(RM) $(DEP) $(NAME) $(OBJ)
 
-re: clean all
-
-.PHONY: all clean re
+.PHONY: all clean
 
 $(NAME): $(OBJ)
 	ar rcs $@ $^
