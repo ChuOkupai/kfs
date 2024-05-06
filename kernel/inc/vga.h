@@ -51,13 +51,13 @@ static inline t_vga_entry vga_entry(uint8_t c, t_vga_entry_color color) {
 }
 
 /**
- * Fills a line in the VGA buffer with a given character and color.
+ * Fills n elements of the VGA buffer with a given character and color.
  * @param c The character to fill the line with.
  * @param color The color to fill the line with.
- * @param y The line to fill.
-
+ * @param i The index of the first character to fill.
+ * @param n The number of characters to fill.
  */
-void vga_fill_line(char c, t_vga_entry_color color, size_t y);
+void vga_fill_n(char c, t_vga_entry_color color, size_t i, size_t n);
 
 /**
  * Fills the VGA buffer with a given character and color.
@@ -68,34 +68,23 @@ void vga_fill(char c, t_vga_entry_color color);
 
 /**
  * Gets a character at a given position in the VGA buffer.
- * @param x The x position of the character.
- * @param y The y position of the character.
+ * @param i The index of the character in the buffer.
  * @return The character at the given position.
 */
-t_vga_entry vga_getc(size_t x, size_t y);
+char vga_getc(size_t i);
 
 /**
  * Puts a character at a given position in the VGA buffer.
  * @param c The character to put in the buffer.
  * @param color The color of the character.
- * @param x The x position of the character.
- * @param y The y position of the character.
+ * @param i The index of the character in the buffer.
  */
-void vga_putc(char c, t_vga_entry_color color, size_t x, size_t y);
+void vga_putc(char c, t_vga_entry_color color, size_t i);
 
 /**
  * Puts a string at a given position in the VGA buffer.
  * @param s The string to put in the buffer.
  * @param color The color of the string.
- * @param x The x position of the string.
- * @param y The y position of the string.
+ * @param i The index of the first character in the buffer.
  */
-void vga_puts(const char *s, t_vga_entry_color color, size_t x, size_t y);
-
-/**
- * Writes a whole line to the VGA buffer at a given row.
- * The line must be at least VGA_WIDTH characters long.
- * @param entry The line to write to the VGA buffer.
- * @param y The row to write the line to.
- */
-void vga_write(const t_vga_entry *entry, size_t y);
+void vga_puts(const char *s, t_vga_entry_color color, size_t i);

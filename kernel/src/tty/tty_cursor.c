@@ -3,33 +3,36 @@
 
 void tty_move_cursor(int8_t direction) {
 	t_workspace *w = tty_current_workspace();
+	size_t i = w->cursor_index;
 	if (direction < 0) {
-		if (w->cursor_x > 0)
-			--w->cursor_x;
-		else if (w->cursor_y > 0 && (vga_getc(TTY_WIDTH - 1, w->cursor_y - 1) & 0xFF)) {
-			w->cursor_x = TTY_WIDTH - 1;
-			--w->cursor_y;
+		if (i && ((i % TTY_WIDTH) || vga_getc(i - 1))) {
+			do
+				--i;
+			while (i && !vga_getc(i));
 		}
-	} else if ((vga_getc(w->cursor_x, w->cursor_y) & 0xFF)) {
-		if (w->cursor_x < TTY_WIDTH - 1)
-			++w->cursor_x;
-		else if (w->cursor_y < TTY_HEIGHT - 1) {
-			w->cursor_x = 0;
-			++w->cursor_y;
-		}
+	} else if (vga_getc(i) && i < TTY_BUFSIZE - 1)
+		++i;
+	w->cursor_index = i;
+}
+
+void tty_move_end_of_line() {
+	t_workspace *w = tty_current_workspace();
+	size_t i = w->cursor_index;
+	while (i < TTY_BUFSIZE && (VGA_MEMORY[i] & 0xFF))
+		++i;
+	if (i == TTY_BUFSIZE) {
+		i -= TTY_WIDTH;
+		tty_scroll_up(1);
 	}
+	w->cursor_index = i;
 }
 
-void tty_set_cursor_pos_from_index(size_t index) {
+void tty_move_start_of_line() {
 	t_workspace *w = tty_current_workspace();
-	w->cursor_x = index % TTY_WIDTH;
-	w->cursor_y = index / TTY_WIDTH;
-}
-
-void tty_set_cursor_pos(uint8_t x, uint8_t y) {
-	t_workspace *w = tty_current_workspace();
-	w->cursor_x = x;
-	w->cursor_y = y;
+	size_t i = w->cursor_index;
+	while (i > 0 && vga_getc(i - 1))
+		--i;
+	w->cursor_index = i;
 }
 
 void tty_set_cursor_type(t_cursor_type type) {

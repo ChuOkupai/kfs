@@ -14,8 +14,7 @@ typedef enum e_cursor_type {
 
 typedef struct s_workspace {
 	uint16_t			buffer[TTY_BUFSIZE];
-	uint8_t				cursor_x;
-	uint8_t				cursor_y;
+	uint16_t			cursor_index;
 	t_vga_entry_color	color;
 }	t_workspace;
 
@@ -101,19 +100,6 @@ void tty_scroll_up(size_t lines);
  * @param color The color to set the tty to.
  */
 void tty_set_color(t_vga_entry_color color);
-
-/**
- * Sets the cursor position from an index.
- * @param index The index to set the cursor position from.
-*/
-void tty_set_cursor_pos_from_index(size_t index);
-
-/**
- * Sets the cursor position.
- * @param x The new horizontal position of the cursor.
- * @param y The new vertical position of the cursor.
- */
-void tty_set_cursor_pos(uint8_t x, uint8_t y);
 
 /**
  * Sets the cursor type.

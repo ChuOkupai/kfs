@@ -49,10 +49,10 @@ void run_boot_seq() {
 	init_keyboard();
 	init_gdt();
 	tty_clear();
-	printf("GDT memory dump:\n");
-	hexdump((void*)GDT_MEMORY, GDT_SIZE);
-	putchar('\n');
-	print_stack_info();
-	putchar('\n');
+	//printf("GDT memory dump:\n");
+	//hexdump((void*)GDT_MEMORY, GDT_SIZE);
+	//putchar('\n');
+	//print_stack_info();
+	//putchar('\n');
 	tty_update();
 }
