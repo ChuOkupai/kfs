@@ -10,4 +10,4 @@ RUN apt update && apt install -y \
 
 WORKDIR /kfs
 
-CMD ["make"]
+CMD ["sleep", "infinity"]

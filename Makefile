@@ -1,31 +1,33 @@
 NAME		:= chor.iso
+DOXYGEN_DIR	:= doc
 ISO_DIR		:= iso
 KERNEL_FILE	:= kfs.elf
-MODULES		:= kernel libk
-CFLAGS		+= $(addprefix -I ,/usr/include kernel/inc libk/inc)
+MODULES		:= kernel/kernel.elf libk/libk.a
+CFLAGS		+= $(addprefix -I ,kernel/inc libk/inc)
+LDFLAGS		:= -T conf/linker.ld
 
-all: $(NAME) doc
+all: $(NAME) $(DOXYGEN_DIR)
 
 clean:
-	$(foreach module, $(MODULES), $(MAKE) -C $(module) clean;)
-	$(RM) -r doc $(ISO_DIR) $(KERNEL_FILE) $(NAME)
-
-doc: $(MODULES)
-	doxygen
-
-kernel:
-	$(MAKE) -C kernel
-
-libk:
-	$(MAKE) -C libk
+	$(foreach module,$(MODULES),$(MAKE) -C $(dir $(module)) clean;)
+	$(RM) -r $(DOXYGEN_DIR) $(ISO_DIR) $(KERNEL_FILE) $(NAME)
 
 run:
 	qemu-system-i386 -cdrom $(NAME)
 
-.PHONY: all clean doc kernel libk run
+_force_check:
+	@true
+
+.PHONY: all clean run _force_check
+
+$(DOXYGEN_DIR):
+	doxygen
 
 $(KERNEL_FILE): $(MODULES)
-	$(CC) $(CFLAGS) -T conf/linker.ld -o $@ kernel/kernel.o -L libk -lk
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+
+$(MODULES): _force_check
+	$(MAKE) -C $(dir $@) -j
 
 $(NAME): $(KERNEL_FILE)
 	mkdir -p $(ISO_DIR)/boot/grub

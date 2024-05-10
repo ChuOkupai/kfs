@@ -45,7 +45,8 @@ The main goal of this project is to implement a 32 bits operating system from sc
 
 Here is a simple example of how to build and run the project:
 ```sh
-docker compose run kfs && make run
+docker compose up -d --build
+docker exec kfs make && make run
 ```
 
 ## 🗒️ Documentation

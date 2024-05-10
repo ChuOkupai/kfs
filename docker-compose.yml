@@ -4,6 +4,8 @@ services:
     build:
       context: .
     environment:
+      BUILD_DIR: .build
+      SRC_DIR: src
       CFLAGS: >-
         -ffreestanding -fno-stack-protector -nodefaultlibs -nostdlib
         -m32 -march=i386 -Wall -Wextra -Werror -MMD -MP -g3

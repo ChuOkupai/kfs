@@ -1,21 +1,27 @@
-NAME	:= kernel.o
-SRC_ASM	:= $(foreach pattern,* */*,$(wildcard src/$(pattern).s))
-SRC_C	:= $(foreach pattern,* */*,$(wildcard src/$(pattern).c))
-DEP		:= $(SRC_C:.c=.d)
-OBJ		:= $(SRC_ASM:.s=.o) $(SRC_C:.c=.o)
-CFLAGS	+= $(addprefix -I ,/usr/include ../libk/inc inc private)
+NAME		:= kernel.elf
+SRC_ASM		:= $(shell find $(SRC_DIR) -type f -name '*.s')
+SRC_C		:= $(shell find $(SRC_DIR) -type f -name '*.c')
+DEP			:= $(SRC_C:%.c=$(BUILD_DIR)/%.d)
+OBJ			:= $(SRC_ASM:%.s=$(BUILD_DIR)/%.o) $(DEP:.d=.o)
+CFLAGS		+= $(addprefix -I ,../libk/inc inc)
+LDFLAGS		:= -m elf_i386 -r
 
 all: $(NAME)
 
 clean:
-	$(RM) $(DEP) $(NAME) $(OBJ)
+	$(RM) -r $(BUILD_DIR) $(NAME)
 
 .PHONY: all clean
 
 $(NAME): $(OBJ)
-	$(LD) -m elf_i386 -r $^ -o $@
+	$(LD) $(LDFLAGS) $^ -o $@
 
-%.o: %.s
+$(BUILD_DIR)/%.o: %.s
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/%.o: %.c
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 -include $(DEP)
