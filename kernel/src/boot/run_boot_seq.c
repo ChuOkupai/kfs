@@ -33,7 +33,7 @@ static inline void run_boot_sequence() {
 		VGA_COLOR_BLUE,
 		VGA_COLOR_BLACK
 	};
-	vga_fill(0, vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_WHITE));
+	vga_clear(vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_WHITE));
 	for (size_t i = 0; i < SIZEOF_ARRAY(colors_sequence); ++i) {
 		run_frame(colors_sequence[i]);
 		timer_wait(200);
@@ -42,17 +42,16 @@ static inline void run_boot_sequence() {
 }
 
 void run_boot_seq() {
-	timer_init();
 	tty_init();
+	timer_init();
 	run_boot_sequence();
-	tty_set_cursor_type(CURSOR_TYPE_UNDERLINE);
-	init_keyboard();
 	init_gdt();
 	tty_clear();
-	//printf("GDT memory dump:\n");
-	//hexdump((void*)GDT_MEMORY, GDT_SIZE);
-	//putchar('\n');
-	//print_stack_info();
-	//putchar('\n');
-	tty_update();
+	printf("GDT memory dump:\n");
+	hexdump((void*)GDT_MEMORY, GDT_SIZE);
+	putchar('\n');
+	print_stack_info();
+	putchar('\n');
+	init_keyboard();
+	tty_set_cursor_type(CURSOR_TYPE_UNDERLINE);
 }

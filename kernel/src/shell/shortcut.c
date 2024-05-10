@@ -11,14 +11,6 @@ static void move_cursor_right() {
 	tty_move_cursor(1);
 }
 
-static void page_down() {
-	tty_scroll_up(TTY_HEIGHT);
-}
-
-static void scroll_down() {
-	tty_scroll_up(1);
-}
-
 static void switch_cursor_style() {
 	tty_set_cursor_type(g_tty->cursor_type ^ CURSOR_TYPE_UNDERLINE);
 }
@@ -38,8 +30,7 @@ const t_shortcut g_shortcuts[] = {
 	{ { SCANCODE_ARROW_LEFT }, move_cursor_left },
 	{ { SCANCODE_ARROW_RIGHT }, move_cursor_right },
 	{ { SCANCODE_END }, tty_move_end_of_line },
-	{ { SCANCODE_ARROW_DOWN }, scroll_down },
-	{ { SCANCODE_PAGE_DOWN }, page_down }
+	{ { SCANCODE_ARROW_DOWN }, tty_scroll_up }
 };
 
 static int cmp(const void *a, const void *b) {

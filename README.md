@@ -31,7 +31,6 @@ The main goal of this project is to implement a 32 bits operating system from sc
 | Erase the current line | Ctrl + U |
 | Switch cursor style | Ctrl + Q |
 | Scroll down | Down |
-| Scroll page down | Page Down |
 | Switch to the next screen | Ctrl + Right |
 | Switch to the previous screen | Ctrl + Left |
 

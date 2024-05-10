@@ -2,6 +2,7 @@
 
 void tty_clear() {
 	t_workspace *w = tty_current_workspace();
-	vga_fill(0, w->color);
-	w->cursor_index = 0;
+	vga_clear(w->color);
+	w->rl_cursor = 0;
+	w->rl_start = 0;
 }

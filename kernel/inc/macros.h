@@ -24,6 +24,14 @@
 #define MAX(A, B) ((A) > (B) ? (A) : (B))
 
 /**
+ * Gets the minimum of two values.
+ * @param A The first value.
+ * @param B The second value.
+ * @return The minimum of A and B.
+ */
+#define MIN(A, B) ((A) < (B) ? (A) : (B))
+
+/**
  * Gets the size of a static array.
  * @param A The array.
  * @return The size of the array.

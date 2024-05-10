@@ -14,7 +14,8 @@ typedef enum e_cursor_type {
 
 typedef struct s_workspace {
 	uint16_t			buffer[TTY_BUFSIZE];
-	uint16_t			cursor_index;
+	uint16_t			rl_start;
+	uint16_t			rl_cursor;
 	t_vga_entry_color	color;
 }	t_workspace;
 
@@ -89,11 +90,16 @@ void tty_putc(char c);
 void tty_puts(const char *s);
 
 /**
- * Scrolls the tty up by a given number of lines.
- * The lines are discarded.
- * @param lines The number of lines to scroll up.
+ * Waits for the user to input a line.
+ * @param prompt The prompt to display to the user.
+ * @return The line input by the user.
+*/
+char *tty_readline(const char *prompt);
+
+/**
+ * The Elder Scrolls the tty one line up.
  */
-void tty_scroll_up(size_t lines);
+void tty_scroll_up();
 
 /**
  * Sets the color of the tty.

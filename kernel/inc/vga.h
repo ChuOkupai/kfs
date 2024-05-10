@@ -51,20 +51,20 @@ static inline t_vga_entry vga_entry(uint8_t c, t_vga_entry_color color) {
 }
 
 /**
+ * Clears the VGA buffer with a given color.
+ * The buffer is filled with '\0'.
+ * @param color The color to fill the buffer with.
+ */
+void vga_clear(t_vga_entry_color color);
+
+/**
  * Fills n elements of the VGA buffer with a given character and color.
  * @param c The character to fill the line with.
  * @param color The color to fill the line with.
  * @param i The index of the first character to fill.
  * @param n The number of characters to fill.
  */
-void vga_fill_n(char c, t_vga_entry_color color, size_t i, size_t n);
-
-/**
- * Fills the VGA buffer with a given character and color.
- * @param c The character to fill the buffer with.
- * @param color The color to fill the buffer with.
- */
-void vga_fill(char c, t_vga_entry_color color);
+void vga_fill(char c, t_vga_entry_color color, size_t i, size_t n);
 
 /**
  * Gets a character at a given position in the VGA buffer.
