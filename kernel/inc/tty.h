@@ -45,6 +45,12 @@ t_workspace *tty_current_workspace();
 void tty_erase_line();
 
 /**
+ * Gets the color of the tty.
+ * @return The color of the tty.
+ */
+t_vga_entry_color tty_get_color();
+
+/**
  * Initializes the tty.
  */
 void tty_init();

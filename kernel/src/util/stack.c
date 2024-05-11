@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stack.h>
 
-extern uint32_t stack_bottom;
-extern uint32_t stack_top;
-
 void print_stack_info() {
 	puts(" Stack bottom | Stack top  | Stack size");
 	puts("--------------|------------|------------");

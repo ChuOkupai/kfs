@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+extern uint32_t stack_bottom;
+extern uint32_t stack_top;
+
 typedef struct s_stackframe t_stackframe;
 struct s_stackframe {
 	t_stackframe	*ebp;
