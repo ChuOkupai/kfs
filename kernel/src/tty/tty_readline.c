@@ -39,9 +39,10 @@ static inline void get_user_input(t_workspace *w, const char *prompt) {
 }
 
 static inline void extract_line(char *buf, t_workspace *w) {
-	for (size_t i = w->rl_start; i < w->rl_cursor; ++i)
+	size_t i;
+	for (i = w->rl_start; vga_getc(i); ++i)
 		buf[i - w->rl_start] = vga_getc(i);
-	buf[w->rl_cursor - w->rl_start] = 0;
+	buf[i - w->rl_start] = 0;
 	w->rl_start = 0;
 	tty_putc('\n');
 	tty_update();

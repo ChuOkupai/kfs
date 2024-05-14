@@ -15,6 +15,7 @@ typedef enum e_cursor_type {
 
 typedef struct s_workspace {
 	uint16_t			buffer[TTY_BUFSIZE];
+	char				last_command[TTY_BUFSIZE];
 	uint16_t			rl_start;
 	uint16_t			rl_cursor;
 	t_vga_entry_color	color;
@@ -120,6 +121,18 @@ void tty_set_color(t_vga_entry_color color);
  * @param type The type of cursor to use.
 */
 void tty_set_cursor_type(t_cursor_type type);
+
+/**
+ * Sets the last command of the current workspace.
+ * @param command The command to set as the last command.
+*/
+void tty_set_last_command(const char *command);
+
+/**
+ * Shows the last command of the current workspace.
+ * @note The last command is only shown if the current line is empty.
+*/
+void tty_show_last_command();
 
 /**
  * Flushs all changes to the tty.

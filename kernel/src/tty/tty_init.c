@@ -4,6 +4,7 @@ t_tty g_tty_storage;
 t_tty *g_tty = &g_tty_storage;
 
 static inline void workspace_init(t_workspace *w) {
+	w->last_command[0] = 0;
 	w->rl_start = 0;
 	w->rl_cursor = 0;
 	w->color = TTY_DEFAULT_COLOR;

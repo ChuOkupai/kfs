@@ -47,9 +47,8 @@ void run_boot_seq() {
 	run_boot_sequence();
 	init_gdt();
 	tty_clear();
-	printf("GDT memory dump:\n");
+	puts("GDT memory dump:");
 	hexdump((void*)GDT_MEMORY, GDT_SIZE);
-	putchar('\n');
 	init_keyboard();
 	tty_set_cursor_type(CURSOR_TYPE_UNDERLINE);
 }

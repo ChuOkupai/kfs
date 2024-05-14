@@ -5,6 +5,8 @@
 # error "This kernel needs to be compiled with a ix86-elf compiler"
 #endif
 
+#include <stack.h>
+
 void kernel_main() {
 	run_boot_seq();
 	shell_run();

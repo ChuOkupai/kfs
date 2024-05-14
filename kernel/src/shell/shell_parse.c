@@ -23,16 +23,16 @@ char **shell_parse(char *s) {
 	static char *args[MAX_ARGS + 1];
 
 	for (size_t i = 0; 1; ++i) {
-		s = remove_ws(s);
 		if (i == MAX_ARGS)
 			return NULL;
+		s = remove_ws(s);
 		size_t n = arglen(s);
 		if (!n) {
 			args[i] = NULL;
 			break;
 		}
 		args[i] = s;
-		s += n;
+		s = s + n;
 	}
 	return args;
 }

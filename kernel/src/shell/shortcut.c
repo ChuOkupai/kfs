@@ -27,6 +27,7 @@ const t_shortcut g_shortcuts[] = {
 	{ { SCANCODE_RIGHT_CTRL, SCANCODE_ARROW_LEFT }, tty_prev_workspace },
 	{ { SCANCODE_RIGHT_CTRL, SCANCODE_ARROW_RIGHT }, tty_next_workspace },
 	{ { SCANCODE_HOME }, tty_move_start_of_line },
+	{ { SCANCODE_ARROW_UP }, tty_show_last_command },
 	{ { SCANCODE_ARROW_LEFT }, move_cursor_left },
 	{ { SCANCODE_ARROW_RIGHT }, move_cursor_right },
 	{ { SCANCODE_END }, tty_move_end_of_line },

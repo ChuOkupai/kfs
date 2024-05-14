@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <shell.h>
 #include <tty.h>
 
@@ -9,6 +8,7 @@ void shell_run() {
 		if (args) {
 			if (!*args)
 				continue;
+			tty_set_last_command(buf);
 			if (shell_exec(args) < 0)
 				shell_perror("Command not found");
 		}

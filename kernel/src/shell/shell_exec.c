@@ -72,6 +72,7 @@ const t_builtin g_builtins[] = {
 	{ "halt", halt_handler },
 	{ "help", help_handler },
 	{ "print_stack_info", print_stack_info },
+	{ "print_stack_trace", print_stack_trace },
 	{ "reboot", reboot_handler },
 	{ "set_term_color", set_term_color_handler }
 };
