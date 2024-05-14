@@ -11,7 +11,7 @@
 static const char *g_colors[] = {
 	"blue", "green", "cyan", "red", "magenta", "brown", "light_gray", "dark_gray",
 	"light_blue", "light_green", "light_cyan", "light_red", "light_magenta",
-	"light_brown", "white"
+	"yellow", "white"
 };
 
 static void dump_stack_handler(char **args) {
@@ -49,7 +49,7 @@ static void help_handler() {
 	};
 	puts("Available commands:");
 	for (size_t i = 0; i < SIZEOF_ARRAY(help); ++i) {
-		printf("%-20s", help[i][0]);
+		printf("  %-20s", help[i][0]);
 		t_vga_entry_color old_color = tty_get_color();
 		tty_set_color(vga_entry_color(VGA_COLOR_DARK_GREY, VGA_COLOR_BLACK));
 		puts(help[i][1]);
@@ -67,8 +67,12 @@ static void set_term_color_handler(char **args) {
 		return;
 	} else if (!strcmp(args[1], "help")) {
 		puts("List of available colors:");
-		for (size_t i = 0; i < SIZEOF_ARRAY(g_colors); ++i)
-			printf("%s\n", g_colors[i]);
+		t_vga_entry_color old_color = tty_get_color();
+		for (size_t i = 0; i < SIZEOF_ARRAY(g_colors); ++i) {
+			tty_set_color(vga_entry_color(i + 1, tty_get_color() >> 4));
+			printf("  %s\n", g_colors[i]);
+		}
+		tty_set_color(old_color);
 		return;
 	}
 	for (char *p = (char *) args[1]; *p; ++p)
