@@ -7,7 +7,7 @@ void tty_scroll_up() {
 	if (w->rl_start && w->rl_start < TTY_WIDTH)
 		return;
 	memmove(VGA_MEMORY, VGA_MEMORY + TTY_WIDTH, (TTY_BUFSIZE - TTY_WIDTH) * sizeof(t_vga_entry));
-	vga_fill(0, w->color, TTY_BUFSIZE - TTY_WIDTH, TTY_WIDTH);
+	vga_fill(0, TTY_DEFAULT_COLOR, TTY_BUFSIZE - TTY_WIDTH, TTY_WIDTH);
 	w->rl_cursor -= TTY_WIDTH;
 	if (w->rl_start)
 		w->rl_start -= TTY_WIDTH;

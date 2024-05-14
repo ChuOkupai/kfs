@@ -27,8 +27,13 @@ static void help_handler() {
 		{ "set_term_color", "Sets the terminal color" }
 	};
 	puts("Available commands:");
-	for (size_t i = 0; i < SIZEOF_ARRAY(help); ++i)
-		printf("%-20s%s\n", help[i][0], help[i][1]);
+	for (size_t i = 0; i < SIZEOF_ARRAY(help); ++i) {
+		printf("%-20s", help[i][0]);
+		t_vga_entry_color old_color = tty_get_color();
+		tty_set_color(vga_entry_color(VGA_COLOR_DARK_GREY, VGA_COLOR_BLACK));
+		puts(help[i][1]);
+		tty_set_color(old_color);
+	}
 }
 
 static void reboot_handler() {
@@ -57,6 +62,9 @@ static void set_term_color_handler(char **args) {
 		return;
 	}
 	tty_set_color(vga_entry_color(i + 1, tty_get_color() >> 4));
+	t_cursor_type cursor_type = g_tty->cursor_type;
+	tty_set_cursor_type(CURSOR_TYPE_NONE);
+	tty_set_cursor_type(cursor_type);
 }
 
 const t_builtin g_builtins[] = {

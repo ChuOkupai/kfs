@@ -1,10 +1,11 @@
 #pragma once
 #include <vga.h>
 
-#define MAX_WORKSPACES	3
-#define TTY_WIDTH		VGA_WIDTH
-#define TTY_HEIGHT		(VGA_HEIGHT - 1)
-#define TTY_BUFSIZE		(TTY_WIDTH * TTY_HEIGHT)
+#define MAX_WORKSPACES		3
+#define TTY_WIDTH			VGA_WIDTH
+#define TTY_HEIGHT			(VGA_HEIGHT - 1)
+#define TTY_BUFSIZE			(TTY_WIDTH * TTY_HEIGHT)
+#define TTY_DEFAULT_COLOR	vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK)
 
 typedef enum e_cursor_type {
 	CURSOR_TYPE_NONE = -1,

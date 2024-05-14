@@ -6,7 +6,7 @@ t_tty *g_tty = &g_tty_storage;
 static inline void workspace_init(t_workspace *w) {
 	w->rl_start = 0;
 	w->rl_cursor = 0;
-	w->color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+	w->color = TTY_DEFAULT_COLOR;
 	for (size_t i = 0; i < TTY_BUFSIZE; ++i)
 		w->buffer[i] = vga_entry(0, w->color);
 }
