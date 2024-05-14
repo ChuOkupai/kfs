@@ -2,6 +2,12 @@
 #include <stdint.h>
 
 /**
+ * Reads the current value of the PIT.
+ * @return The current value of the PIT.
+*/
+uint16_t pit_read();
+
+/**
  * Initialize the Programmable Interval Timer (PIT).
  */
 void timer_init();

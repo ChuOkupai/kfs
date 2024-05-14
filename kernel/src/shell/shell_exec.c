@@ -6,7 +6,10 @@
 #include <memory.h>
 #include <shell.h>
 #include <stack.h>
+#include <timer.h>
 #include <tty.h>
+
+int g_remaining_calls_to_bsod = 0;
 
 static const char *g_colors[] = {
 	"blue", "green", "cyan", "red", "magenta", "brown", "light_gray", "dark_gray",
@@ -57,6 +60,20 @@ static void help_handler() {
 	}
 }
 
+/**
+ * LS is an easter egg.
+ * It will trigger a BSOD after a random number of command inputs.
+*/
+static void ls_handler() {
+	shell_perror(
+		"The filesystem is not implemented. Please try again later.\n"
+		"If the problem persists, please contact your system administrator.\n"
+		"Error code: 0x00000042"
+	);
+	srand(4201 * pit_read());
+	g_remaining_calls_to_bsod = rand() % 10 + 1;
+}
+
 static void reboot_handler() {
 	asm volatile("int $0x3");
 }
@@ -97,6 +114,7 @@ const t_builtin g_builtins[] = {
 	{ "dump_stack", dump_stack_handler },
 	{ "halt", halt_handler },
 	{ "help", help_handler },
+	{ "ls", ls_handler },
 	{ "print_stack_info", print_stack_info },
 	{ "print_stack_trace", print_stack_trace },
 	{ "reboot", reboot_handler },

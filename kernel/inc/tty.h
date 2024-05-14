@@ -116,6 +116,12 @@ void tty_scroll_up();
 void tty_set_color(t_vga_entry_color color);
 
 /**
+ * Sets the cursor position.
+ * @param i The index of the cursor position.
+ */
+void tty_set_cursor_position(uint16_t i);
+
+/**
  * Sets the cursor type.
  * If the cursor type is set to CURSOR_TYPE_NONE, the cursor will be hidden.
  * @param type The type of cursor to use.

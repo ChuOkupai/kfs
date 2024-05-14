@@ -3,10 +3,18 @@
 
 #define MAX_ARGS 128
 
+extern int g_remaining_calls_to_bsod;
+
 typedef struct s_builtin {
 	const char	*name;
 	void		(*handler)(char**);
 }	t_builtin;
+
+/**
+ * Why not?
+ * @note This function does not return.
+*/
+void bsod();
 
 /**
  * Dispatches a command to the appropriate builtin command handler.

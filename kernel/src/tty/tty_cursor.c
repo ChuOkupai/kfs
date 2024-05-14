@@ -35,6 +35,11 @@ void tty_move_start_of_line() {
 	w->rl_cursor = i;
 }
 
+void tty_set_cursor_position(uint16_t i) {
+	t_workspace *w = tty_current_workspace();
+	w->rl_cursor = i;
+}
+
 void tty_set_cursor_type(t_cursor_type type) {
 	g_tty->cursor_type = type;
 	outb(0x3D4, 0x0A);

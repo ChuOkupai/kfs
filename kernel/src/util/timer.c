@@ -15,12 +15,6 @@
 /** PIT frequency in Hz */
 #define PIT_MAX_FREQUENCY (PIT_SIGNAL_FREQUENCY / TIMER_FREQUENCY)
 
-static uint16_t pit_read() {
-	uint16_t r = inb(PIT_PORT_CHANNEL_0);
-	r |= inb(PIT_PORT_CHANNEL_0) << 8;
-	return r;
-}
-
 static void pit_write(uint16_t v) {
 	outb(PIT_PORT_CHANNEL_0, v);
 	outb(PIT_PORT_CHANNEL_0, v >> 8);
@@ -42,6 +36,12 @@ static inline void wait_cycles(uint16_t n) {
 			must_dec = 1;
 		prev = cur;
 	}
+}
+
+uint16_t pit_read() {
+	uint16_t r = inb(PIT_PORT_CHANNEL_0);
+	r |= inb(PIT_PORT_CHANNEL_0) << 8;
+	return r;
 }
 
 void timer_init() {
