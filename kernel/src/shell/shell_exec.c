@@ -42,7 +42,7 @@ static void reboot_handler() {
 
 static void set_term_color_handler(char **args) {
 	if (!args[1]) {
-		print_error("usage: set_term_color <color>");
+		shell_perror("usage: set_term_color <color>");
 		return;
 	} else if (!strcmp(args[1], "help")) {
 		puts("List of available colors:");
@@ -58,7 +58,7 @@ static void set_term_color_handler(char **args) {
 			break;
 	}
 	if (i == SIZEOF_ARRAY(g_colors)) {
-		print_error("Invalid color");
+		shell_perror("Invalid color");
 		return;
 	}
 	tty_set_color(vga_entry_color(i + 1, tty_get_color() >> 4));
@@ -82,7 +82,7 @@ static int cmp(const void *a, const void *b) {
 	return strcmp(name, builtin->name);
 }
 
-int builtin_exec(char **args) {
+int shell_exec(char **args) {
 	t_builtin *builtin = bsearch(*args, g_builtins, SIZEOF_ARRAY(g_builtins), sizeof(t_builtin), cmp);
 	if (!builtin)
 		return -1;

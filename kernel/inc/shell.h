@@ -11,20 +11,29 @@ typedef struct s_builtin {
 /**
  * Dispatches a command to the appropriate builtin command handler.
  * @param args The command arguments array.
- * @return 0 on success, -1 otherwise.
+ * @return 0 on success, -1 if the command is not found.
 */
-int builtin_exec(char **args);
+int shell_exec(char **args);
 
 /**
- * Parse a command string into a command structure.
- * @param args The command arguments array to fill, NULL terminated.
+ * Parse a command string into a command arguments array.
+ * @note The command string is modified in place.
+ * @note The command arguments array is static and will be overwritten on the next call.
+ * @note The command arguments array is NULL-terminated.
+ * @note The command arguments array is limited to MAX_ARGS arguments.
  * @param s The command string to parse.
- * @return 0 on success, -1 if too many arguments are provided.
+ * @return The command arguments array or NULL on error if there are too many arguments.
 */
-int parse_command(char *args[MAX_ARGS], char *s);
+char **shell_parse(char *s);
 
 /**
  * Prints an error message to the terminal.
  * @param desc The error message to print.
 */
-void print_error(const char *desc);
+void shell_perror(const char *desc);
+
+/**
+ * Run the interactive shell.
+ * This function does not return.
+ */
+void shell_run();
