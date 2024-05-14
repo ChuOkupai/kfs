@@ -9,3 +9,5 @@ void *bsearch(const void *key, const void *base, size_t nmemb,
 int rand();
 
 void srand(unsigned int seed);
+
+unsigned long strtoul(const char *nptr, char **endptr, int base);

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <macros.h>
+#include <memory.h>
 #include <shell.h>
 #include <stack.h>
 #include <tty.h>
@@ -13,6 +14,24 @@ static const char *g_colors[] = {
 	"light_brown", "white"
 };
 
+static void dump_stack_handler(char **args) {
+	if (!args[1] || !args[2]) {
+		shell_perror("usage: dump_stack <offset> <size>");
+		return;
+	}
+	char *endptr;
+	unsigned long offset = strtoul(args[1], &endptr, 0);
+	if (*endptr || offset >= stack_size()) {
+		shell_perror("Invalid offset");
+		return;
+	}
+	unsigned long size = strtoul(args[2], &endptr, 0);
+	if (*endptr || size > stack_size() - offset)
+		shell_perror("Invalid size");
+	else
+		hexdump((void*)(&stack_bottom) + offset, size);
+}
+
 static void halt_handler() {
 	asm volatile("cli; hlt");
 }
@@ -20,9 +39,11 @@ static void halt_handler() {
 static void help_handler() {
 	const char *help[][2] = {
 		{ "clear", "Clears the terminal" },
+		{ "dump_stack", "Dumps the stack in both hexadecimal and ASCII" },
 		{ "halt", "Halts the system" },
 		{ "help", "Displays this help message" },
 		{ "print_stack_info", "Prints the stack information" },
+		{ "print_stack_trace", "Prints the stack trace" },
 		{ "reboot", "Reboots the system" },
 		{ "set_term_color", "Sets the terminal color" }
 	};
@@ -42,7 +63,7 @@ static void reboot_handler() {
 
 static void set_term_color_handler(char **args) {
 	if (!args[1]) {
-		shell_perror("usage: set_term_color <color>");
+		shell_perror("usage: set_term_color (<color>|help)");
 		return;
 	} else if (!strcmp(args[1], "help")) {
 		puts("List of available colors:");
@@ -69,6 +90,7 @@ static void set_term_color_handler(char **args) {
 
 const t_builtin g_builtins[] = {
 	{ "clear", tty_clear },
+	{ "dump_stack", dump_stack_handler },
 	{ "halt", halt_handler },
 	{ "help", help_handler },
 	{ "print_stack_info", print_stack_info },

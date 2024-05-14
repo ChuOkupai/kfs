@@ -1,14 +1,15 @@
+#include <stdio.h>
 #include <shell.h>
 #include <tty.h>
 
 void shell_run() {
 	while (1) {
 		char *buf = tty_readline("> ");
+		tty_set_last_command(buf);
 		char **args = shell_parse(buf);
 		if (args) {
 			if (!*args)
 				continue;
-			tty_set_last_command(buf);
 			if (shell_exec(args) < 0)
 				shell_perror("Command not found");
 		}
