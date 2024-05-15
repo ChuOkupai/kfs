@@ -45,6 +45,7 @@ static void help_handler() {
 		{ "dump_stack", "Dumps the stack in both hexadecimal and ASCII" },
 		{ "halt", "Halts the system" },
 		{ "help", "Displays this help message" },
+		{ "ls", "???" },
 		{ "print_stack_info", "Prints the stack information" },
 		{ "print_stack_trace", "Prints the stack trace" },
 		{ "reboot", "Reboots the system" },
