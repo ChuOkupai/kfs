@@ -20,3 +20,11 @@ static inline uint8_t inb(uint16_t port) {
 static inline void outb(uint16_t port, uint8_t data) {
 	asm volatile ("outb %0, %1" : : "a" (data), "dN" (port));
 }
+
+/**
+ * Wait for a very small amount of time (1 I/O cycle).
+ * Uses port 0x80 which is typically used for I/O delay.
+ */
+static inline void io_wait(void) {
+	outb(0x80, 0);
+}

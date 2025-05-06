@@ -20,8 +20,11 @@ void init_ps2() {
 	// Set the controller configuration byte
 	write_ps2_command(0x20);
 	uint8_t config = read_ps2_data();
+	
+	// Clear bits 0-1 to enable interrupts (they are actually inverted - 0 means enabled)
 	config &= ~(1 << 0); // Enable IRQ1 (keyboard)
 	config &= ~(1 << 1); // Enable IRQ12 (mouse)
+	
 	write_ps2_command(0x60);
 	write_ps2_data(config);
 
@@ -34,8 +37,25 @@ void init_ps2() {
 	}
 
 	// Enable the devices
-	write_ps2_command(0xAE);
-	write_ps2_command(0xA8);
+	write_ps2_command(0xAE); // Enable first PS/2 port (keyboard)
+	
+	// Reset the keyboard
+	write_ps2_data(0xFF);
+	if (read_ps2_data() != 0xFA) { // ACK
+		return; // Keyboard not responding
+	}
+	
+	// Wait for self-test result
+	while (!(read_ps2_status() & 1)); // Wait for data
+	if (read_ps2_data() != 0xAA) { // Self-test passed
+		return; // Keyboard self-test failed
+	}
+	
+	// Enable scanning
+	write_ps2_data(0xF4);
+	if (read_ps2_data() != 0xFA) { // ACK
+		return; // Failed to enable scanning
+	}
 }
 
 uint8_t read_ps2_data() {

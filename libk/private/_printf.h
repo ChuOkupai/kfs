@@ -43,8 +43,30 @@ typedef struct s_format {
 	int			size;
 }	t_format;
 
+/**
+ * Internal printf format parser.
+ * @param s The format string to parse.
+ * @param l The va_list containing arguments to format.
+ * @return The number of characters printed, or a negative value if an error occurred.
+ */
 int __parse_format(const char *s, va_list l);
 
+/**
+ * Internal printf format parser that writes to a string.
+ * @param dst The destination buffer.
+ * @param s The format string to parse.
+ * @param l The va_list containing arguments to format.
+ * @return The number of characters written, or a negative value if an error occurred.
+ */
 int __parse_format_str(char *dst, const char *s, va_list l);
 
+/**
+ * Internal printf format parser that writes to a sized buffer.
+ * @param dst The destination buffer.
+ * @param n The size of the destination buffer.
+ * @param s The format string to parse.
+ * @param l The va_list containing arguments to format.
+ * @return The number of characters that would have been written if n had been sufficiently large,
+ *         or a negative value if an error occurred.
+ */
 int __parse_format_nstr(char *dst, size_t n, const char *s, va_list l);

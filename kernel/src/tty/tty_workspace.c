@@ -17,6 +17,12 @@ void tty_prev_workspace() {
 	switch_screen((g_tty->workspace_index + MAX_WORKSPACES - 1) % MAX_WORKSPACES);
 
 }
+void tty_switch_workspace(uint8_t workspace) {
+	if (workspace >= MAX_WORKSPACES) {
+		return;
+	}
+	switch_screen(workspace);
+}
 
 void tty_next_workspace() {
 	switch_screen((g_tty->workspace_index + 1) % MAX_WORKSPACES);

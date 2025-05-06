@@ -170,9 +170,7 @@ char scancode_to_ascii(uint16_t scancode);
 
 /**
  * Waits for a keypress.
- * Stores the key that was pressed in the key parameter.
- * @note This function is blocking.
  * @param key The key that was pressed.
  * @note This function is blocking.
-*/
+ */
 void wait_for_keypress(t_key *key);

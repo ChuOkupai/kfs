@@ -1,10 +1,12 @@
-#include <stdio.h>
-#include <string.h>
 #include <bitset.h>
 #include <gdt.h>
+#include <idt.h>
+#include <irq.h>
 #include <keyboard.h>
 #include <memory.h>
 #include <stack.h>
+#include <stdio.h>
+#include <string.h>
 #include <timer.h>
 #include <tty.h>
 
@@ -43,12 +45,24 @@ static inline void run_boot_sequence() {
 
 void run_boot_seq() {
 	tty_init();
-	timer_init();
-	run_boot_sequence();
+
 	init_gdt();
-	tty_clear();
-	puts("GDT memory dump:");
-	hexdump((void*)GDT_MEMORY, GDT_SIZE);
+	printf("GDT initialized at 0x%x\n", GDT_MEMORY);
+
+	init_idt();
+	printf("IDT initialized at 0x%x\n", IDT_MEMORY);
+
+	init_irq();
+	printf("IRQ initialized\n");
+
+	timer_init();
+	printf("Timer initialized\n");
+
 	init_keyboard();
+	printf("Keyboard initialized\n");
+
+	asm volatile("sti");
+	printf("Interrupts enabled\n");
+
 	tty_set_cursor_type(CURSOR_TYPE_UNDERLINE);
 }

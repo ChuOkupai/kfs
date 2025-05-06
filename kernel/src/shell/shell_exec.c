@@ -8,6 +8,7 @@
 #include <stack.h>
 #include <timer.h>
 #include <tty.h>
+#include <panic_utils.h>
 
 int g_remaining_calls_to_bsod = 0;
 
@@ -36,7 +37,7 @@ static void dump_stack_handler(char **args) {
 }
 
 static void halt_handler() {
-	asm volatile("cli; hlt");
+	halt_cpu();
 }
 
 static void help_handler() {
@@ -45,6 +46,7 @@ static void help_handler() {
 		{ "dump_stack", "Dumps the stack in both hexadecimal and ASCII" },
 		{ "halt", "Halts the system" },
 		{ "help", "Displays this help message" },
+		{ "int", "Trigger an interrupt by number (int <number>)" },
 		{ "ls", "???" },
 		{ "print_stack_info", "Prints the stack information" },
 		{ "print_stack_trace", "Prints the stack trace" },
@@ -110,11 +112,43 @@ static void set_term_color_handler(char **args) {
 	tty_set_cursor_type(cursor_type);
 }
 
+static void int_handler(char **args) {
+	if (!args[1]) {
+		shell_perror("usage: int <interrupt_num>");
+		return;
+	}
+	
+	char *endptr;
+	unsigned long int_num = strtoul(args[1], &endptr, 0);
+	
+	if (*endptr || int_num > 255) {
+		shell_perror("Invalid interrupt number (0-255)");
+		return;
+	}
+
+	printf("Triggering interrupt %lu (0x%02lx)...\n", int_num, int_num);
+	
+	// Using a different approach for variable interrupt numbers
+	// We'll generate the interrupt using specific opcodes
+	uint8_t int_instruction[2] = {0xCD, (uint8_t)int_num}; // 0xCD is the opcode for INT
+	typedef void (*int_fn_t)(void);
+	int_fn_t int_fn = (int_fn_t)int_instruction;
+	
+	// Make sure the memory is executable (this might not be needed depending on your memory setup)
+	asm volatile("" : : : "memory");
+	
+	// Call the function pointer to execute the INT instruction
+	int_fn();
+	
+	printf("Returned from interrupt %lu\n", int_num);
+}
+
 const t_builtin g_builtins[] = {
 	{ "clear", tty_clear },
 	{ "dump_stack", dump_stack_handler },
 	{ "halt", halt_handler },
 	{ "help", help_handler },
+	{ "int", int_handler },
 	{ "ls", ls_handler },
 	{ "print_stack_info", print_stack_info },
 	{ "print_stack_trace", print_stack_trace },

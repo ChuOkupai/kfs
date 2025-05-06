@@ -18,7 +18,7 @@ static inline void update_status_bar(t_workspace *w) {
 	t_vga_entry_color color = vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_LIGHT_BLUE);
 	vga_fill(0, color, TTY_BUFSIZE, VGA_WIDTH);
 	vga_puts(" chor.iso", color, TTY_BUFSIZE);
-	sprintf(buf, " %zu, %zu | Workspace %d ", x, y, g_tty->workspace_index + 1);
+	sprintf(buf, " %zu, %zu | Workspace %d ", x, y, (g_tty->workspace_index + 1) % 10);
 	color = vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_LIGHT_CYAN);
 	vga_puts(buf, color, VGA_BUFSIZE - strlen(buf));
 }

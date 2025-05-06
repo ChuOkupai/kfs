@@ -4,7 +4,7 @@
 /**
  * Reads the current value of the PIT.
  * @return The current value of the PIT.
-*/
+ */
 uint16_t pit_read();
 
 /**

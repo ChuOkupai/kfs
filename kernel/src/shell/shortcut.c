@@ -3,6 +3,8 @@
 #include <shortcut.h>
 #include <tty.h>
 
+static t_key_sequence *g_last_key_sequence = NULL;
+
 static void move_cursor_left() {
 	tty_move_cursor(-1);
 }
@@ -15,12 +17,37 @@ static void switch_cursor_style() {
 	tty_set_cursor_type(g_tty->cursor_type ^ CURSOR_TYPE_UNDERLINE);
 }
 
+static void switch_worskpace()
+{
+	tty_switch_workspace(g_last_key_sequence[1] - SCANCODE_1);
+}
+
 const t_shortcut g_shortcuts[] = {
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_1 }, switch_worskpace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_2 }, switch_worskpace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_3 }, switch_worskpace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_4 }, switch_worskpace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_5 }, switch_worskpace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_6 }, switch_worskpace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_7 }, switch_worskpace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_8 }, switch_worskpace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_9 }, switch_worskpace },
+	{ { SCANCODE_LEFT_CTRL, SCANCODE_0 }, switch_worskpace },
 	{ { SCANCODE_LEFT_CTRL, SCANCODE_Q }, switch_cursor_style },
 	{ { SCANCODE_LEFT_CTRL, SCANCODE_U }, tty_erase_line },
 	{ { SCANCODE_LEFT_CTRL, SCANCODE_L }, tty_clear },
 	{ { SCANCODE_LEFT_CTRL, SCANCODE_ARROW_LEFT }, tty_prev_workspace },
 	{ { SCANCODE_LEFT_CTRL, SCANCODE_ARROW_RIGHT }, tty_next_workspace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_1 }, switch_worskpace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_2 }, switch_worskpace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_3 }, switch_worskpace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_4 }, switch_worskpace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_5 }, switch_worskpace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_6 }, switch_worskpace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_7 }, switch_worskpace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_8 }, switch_worskpace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_9 }, switch_worskpace },
+	{ { SCANCODE_RIGHT_CTRL, SCANCODE_0 }, switch_worskpace },
 	{ { SCANCODE_RIGHT_CTRL, SCANCODE_Q }, switch_cursor_style },
 	{ { SCANCODE_RIGHT_CTRL, SCANCODE_U }, tty_erase_line },
 	{ { SCANCODE_RIGHT_CTRL, SCANCODE_L }, tty_clear },
@@ -45,6 +72,7 @@ bool shortcut_dispatch(t_key_sequence *seq) {
 		sizeof(t_shortcut), cmp);
 	if (!shortcut)
 		return false;
+	g_last_key_sequence = seq;
 	shortcut->handler();
 	return true;
 }

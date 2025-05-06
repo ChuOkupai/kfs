@@ -1,7 +1,7 @@
 #pragma once
 #include <vga.h>
 
-#define MAX_WORKSPACES		3
+#define MAX_WORKSPACES		10
 #define TTY_WIDTH			VGA_WIDTH
 #define TTY_HEIGHT			(VGA_HEIGHT - 1)
 #define TTY_BUFSIZE			(TTY_WIDTH * TTY_HEIGHT)
@@ -11,7 +11,7 @@ typedef enum e_cursor_type {
 	CURSOR_TYPE_NONE = -1,
 	CURSOR_TYPE_BLOCK = 0,
 	CURSOR_TYPE_UNDERLINE = 14
-}	t_cursor_type;
+} t_cursor_type;
 
 typedef struct s_workspace {
 	uint16_t			buffer[TTY_BUFSIZE];
@@ -19,13 +19,13 @@ typedef struct s_workspace {
 	uint16_t			rl_start;
 	uint16_t			rl_cursor;
 	t_vga_entry_color	color;
-}	t_workspace;
+} t_workspace;
 
 typedef struct s_tty {
 	t_workspace		workspaces[MAX_WORKSPACES];
 	uint8_t			workspace_index;
 	t_cursor_type	cursor_type;
-}	t_tty;
+} t_tty;
 
 /** The global tty used by the kernel. */
 extern t_tty *g_tty;
@@ -38,12 +38,12 @@ void tty_clear();
 /**
  * Gets the current workspace.
  * @return The current workspace.
-*/
+ */
 t_workspace *tty_current_workspace();
 
 /**
  * Erases the current line.
-*/
+ */
 void tty_erase_line();
 
 /**
@@ -86,6 +86,12 @@ void tty_next_workspace();
 void tty_prev_workspace();
 
 /**
+ * Switches to a given workspace.
+ * @param workspace The workspace to switch to.
+ */
+void tty_switch_workspace(uint8_t workspace);
+
+/**
  * Puts a character on the tty.
  * @param c The character to put on the tty.
  */
@@ -101,7 +107,7 @@ void tty_puts(const char *s);
  * Waits for the user to input a line.
  * @param prompt The prompt to display to the user.
  * @return The line input by the user.
-*/
+ */
 char *tty_readline(const char *prompt);
 
 /**
@@ -125,23 +131,23 @@ void tty_set_cursor_position(uint16_t i);
  * Sets the cursor type.
  * If the cursor type is set to CURSOR_TYPE_NONE, the cursor will be hidden.
  * @param type The type of cursor to use.
-*/
+ */
 void tty_set_cursor_type(t_cursor_type type);
 
 /**
  * Sets the last command of the current workspace.
  * @param command The command to set as the last command.
-*/
+ */
 void tty_set_last_command(const char *command);
 
 /**
  * Shows the last command of the current workspace.
  * @note The last command is only shown if the current line is empty.
-*/
+ */
 void tty_show_last_command();
 
 /**
- * Flushs all changes to the tty.
+ * Flushes all changes to the tty.
  * This function should be called after all changes have been made to the tty.
  */
 void tty_update();

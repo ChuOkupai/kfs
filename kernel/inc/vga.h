@@ -25,7 +25,7 @@ typedef enum e_vga_color {
 	VGA_COLOR_LIGHT_MAGENTA,
 	VGA_COLOR_YELLOW,
 	VGA_COLOR_WHITE
-}	t_vga_color;
+} t_vga_color;
 
 typedef uint8_t t_vga_entry_color;
 typedef uint16_t t_vga_entry;
@@ -70,7 +70,7 @@ void vga_fill(char c, t_vga_entry_color color, size_t i, size_t n);
  * Gets a character at a given position in the VGA buffer.
  * @param i The index of the character in the buffer.
  * @return The character at the given position.
-*/
+ */
 char vga_getc(size_t i);
 
 /**
